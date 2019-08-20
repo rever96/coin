@@ -1,8 +1,7 @@
-import React from "react";
+import React from 'react';
 import PropTypes from 'prop-types';
-import Glide from '@glidejs/glide'
-import { getDirection } from "../../helpers/Utils";
-import "@glidejs/glide/dist/css/glide.core.min.css";
+import Glide from '@glidejs/glide';
+import '@glidejs/glide/dist/css/glide.core.min.css';
 
 let resizeTimeOut = -1;
 let mountTimeOut = -1;
@@ -48,13 +47,16 @@ export default class GlideComponent extends React.Component {
   }
 
   componentDidMount() {
-    this.glideCarousel = new Glide(this.carousel, {...this.props.settings, direction: getDirection().direction});
+    this.glideCarousel = new Glide(this.carousel, {
+      ...this.props.settings,
+      direction: 'ltr'
+    });
     this.glideCarousel.mount();
     mountTimeOut = setTimeout(() => {
-      var event = document.createEvent("HTMLEvents");
-      event.initEvent("resize", false, false);
+      var event = document.createEvent('HTMLEvents');
+      event.initEvent('resize', false, false);
       window.dispatchEvent(event);
-      this.glideCarousel.on("resize", this.onResize);
+      this.glideCarousel.on('resize', this.onResize);
     }, 500);
   }
 
@@ -76,7 +78,11 @@ export default class GlideComponent extends React.Component {
     let dots = [];
     for (let i = 0; i < this.state.total; i++) {
       dots.push(
-        <button className="glide__bullet slider-dot" key={i} data-glide-dir={"="+i}></button>
+        <button
+          className="glide__bullet slider-dot"
+          key={i}
+          data-glide-dir={'=' + i}
+        />
       );
     }
     return dots;
@@ -85,31 +91,36 @@ export default class GlideComponent extends React.Component {
   render() {
     return (
       <div>
-        <div className="glide" ref={node => this.carousel = node}>
+        <div className="glide" ref={node => (this.carousel = node)}>
           <div data-glide-el="track" className="glide__track">
-            <div className="glide__slides">
-              {this.props.children}
-            </div>
+            <div className="glide__slides">{this.props.children}</div>
           </div>
-          {
-            !this.props.settings.hideNav &&  (
-              <div className="glide__arrows slider-nav" data-glide-el="controls">
-              <button className="glide__arrow glide__arrow--left left-arrow btn btn-link" data-glide-dir="<">
-                <i className="simple-icon-arrow-left"></i>
+          {!this.props.settings.hideNav && (
+            <div className="glide__arrows slider-nav" data-glide-el="controls">
+              <button
+                className="glide__arrow glide__arrow--left left-arrow btn btn-link"
+                data-glide-dir="<"
+              >
+                <i className="simple-icon-arrow-left" />
               </button>
-  
-              <div className="glide__bullets slider-dot-container" data-glide-el="controls[nav]">
+
+              <div
+                className="glide__bullets slider-dot-container"
+                data-glide-el="controls[nav]"
+              >
                 {this.renderDots()}
               </div>
-              
-              <button className="glide__arrow glide__arrow--right right-arrow btn btn-link" data-glide-dir=">">
-                <i className="simple-icon-arrow-right"></i>
+
+              <button
+                className="glide__arrow glide__arrow--right right-arrow btn btn-link"
+                data-glide-dir=">"
+              >
+                <i className="simple-icon-arrow-right" />
               </button>
             </div>
-            )
-          }
+          )}
         </div>
       </div>
-    )
+    );
   }
 }

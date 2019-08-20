@@ -1,5 +1,5 @@
-import React, { Component } from "react";
-import { injectIntl } from "react-intl";
+import React, { Component } from 'react';
+import { injectIntl } from 'react-intl';
 
 import {
   UncontrolledDropdown,
@@ -7,52 +7,43 @@ import {
   DropdownToggle,
   DropdownMenu,
   Input
-} from "reactstrap";
+} from 'reactstrap';
 
-import { NavLink } from "react-router-dom";
-import { connect } from "react-redux";
+import { NavLink } from 'react-router-dom';
+import { connect } from 'react-redux';
 
-import IntlMessages from "../../helpers/IntlMessages";
+import IntlMessages from '../../helpers/IntlMessages';
 import {
   setContainerClassnames,
   clickOnMobileMenu,
   logoutUser,
   changeLocale
-} from "../../redux/actions";
+} from '../../redux/actions';
 
 import {
   menuHiddenBreakpoint,
   searchPath,
   localeOptions,
   isDarkSwitchActive
-} from "../../constants/defaultValues";
+} from '../../constants/defaultValues';
 
-import { MobileMenuIcon, MenuIcon } from "../../components/svg";
-import TopnavEasyAccess from "./Topnav.EasyAccess";
-import TopnavNotifications from "./Topnav.Notifications";
-import TopnavDarkSwitch from "./Topnav.DarkSwitch";
+import { MobileMenuIcon, MenuIcon } from '../../components/svg';
+import TopnavEasyAccess from './Topnav.EasyAccess';
+import TopnavNotifications from './Topnav.Notifications';
+import TopnavDarkSwitch from './Topnav.DarkSwitch';
 
-import { getDirection, setDirection } from "../../helpers/Utils";
 class TopNav extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
       isInFullScreen: false,
-      searchKeyword: ""
+      searchKeyword: ''
     };
   }
 
-  handleChangeLocale = (locale, direction) => {
+  handleChangeLocale = locale => {
     this.props.changeLocale(locale);
-
-    const currentDirection = getDirection().direction;
-    if (direction !== currentDirection) {
-      setDirection(direction);
-      setTimeout(() => {
-        window.location.reload();
-      }, 500);
-    }
   };
   isInFullScreen = () => {
     return (
@@ -67,22 +58,22 @@ class TopNav extends Component {
   handleSearchIconClick = e => {
     if (window.innerWidth < menuHiddenBreakpoint) {
       let elem = e.target;
-      if (!e.target.classList.contains("search")) {
-        if (e.target.parentElement.classList.contains("search")) {
+      if (!e.target.classList.contains('search')) {
+        if (e.target.parentElement.classList.contains('search')) {
           elem = e.target.parentElement;
         } else if (
-          e.target.parentElement.parentElement.classList.contains("search")
+          e.target.parentElement.parentElement.classList.contains('search')
         ) {
           elem = e.target.parentElement.parentElement;
         }
       }
 
-      if (elem.classList.contains("mobile-view")) {
+      if (elem.classList.contains('mobile-view')) {
         this.search();
-        elem.classList.remove("mobile-view");
+        elem.classList.remove('mobile-view');
         this.removeEventsSearch();
       } else {
-        elem.classList.add("mobile-view");
+        elem.classList.add('mobile-view');
         this.addEventsSearch();
       }
     } else {
@@ -90,10 +81,10 @@ class TopNav extends Component {
     }
   };
   addEventsSearch = () => {
-    document.addEventListener("click", this.handleDocumentClickSearch, true);
+    document.addEventListener('click', this.handleDocumentClickSearch, true);
   };
   removeEventsSearch = () => {
-    document.removeEventListener("click", this.handleDocumentClickSearch, true);
+    document.removeEventListener('click', this.handleDocumentClickSearch, true);
   };
 
   handleDocumentClickSearch = e => {
@@ -101,27 +92,27 @@ class TopNav extends Component {
     if (
       e.target &&
       e.target.classList &&
-      (e.target.classList.contains("navbar") ||
-        e.target.classList.contains("simple-icon-magnifier"))
+      (e.target.classList.contains('navbar') ||
+        e.target.classList.contains('simple-icon-magnifier'))
     ) {
       isSearchClick = true;
-      if (e.target.classList.contains("simple-icon-magnifier")) {
+      if (e.target.classList.contains('simple-icon-magnifier')) {
         this.search();
       }
     } else if (
       e.target.parentElement &&
       e.target.parentElement.classList &&
-      e.target.parentElement.classList.contains("search")
+      e.target.parentElement.classList.contains('search')
     ) {
       isSearchClick = true;
     }
 
     if (!isSearchClick) {
-      const input = document.querySelector(".mobile-view");
-      if (input && input.classList) input.classList.remove("mobile-view");
+      const input = document.querySelector('.mobile-view');
+      if (input && input.classList) input.classList.remove('mobile-view');
       this.removeEventsSearch();
       this.setState({
-        searchKeyword: ""
+        searchKeyword: ''
       });
     }
   };
@@ -131,15 +122,15 @@ class TopNav extends Component {
     });
   };
   handleSearchInputKeyPress = e => {
-    if (e.key === "Enter") {
+    if (e.key === 'Enter') {
       this.search();
     }
   };
 
   search = () => {
-    this.props.history.push(searchPath + "/" + this.state.searchKeyword);
+    this.props.history.push(searchPath + '/' + this.state.searchKeyword);
     this.setState({
-      searchKeyword: ""
+      searchKeyword: ''
     });
   };
 
@@ -181,8 +172,8 @@ class TopNav extends Component {
     e.preventDefault();
 
     setTimeout(() => {
-      var event = document.createEvent("HTMLEvents");
-      event.initEvent("resize", false, false);
+      var event = document.createEvent('HTMLEvents');
+      event.initEvent('resize', false, false);
       window.dispatchEvent(event);
     }, 350);
     this.props.setContainerClassnames(
@@ -223,7 +214,7 @@ class TopNav extends Component {
             <Input
               name="searchKeyword"
               id="searchKeyword"
-              placeholder={messages["menu.search"]}
+              placeholder={messages['menu.search']}
               value={this.state.searchKeyword}
               onChange={e => this.handleSearchInputChange(e)}
               onKeyPress={e => this.handleSearchInputKeyPress(e)}
@@ -242,14 +233,15 @@ class TopNav extends Component {
                 caret
                 color="light"
                 size="sm"
-                className="language-button">
+                className="language-button"
+              >
                 <span className="name">{locale.toUpperCase()}</span>
               </DropdownToggle>
               <DropdownMenu className="mt-3" right>
                 {localeOptions.map(l => {
                   return (
                     <DropdownItem
-                      onClick={() => this.handleChangeLocale(l.id, l.direction)}
+                      onClick={() => this.handleChangeLocale(l.id)}
                       key={l.id}
                     >
                       {l.name}
@@ -275,7 +267,7 @@ class TopNav extends Component {
         </a>
 
         <div className="navbar-right">
-          {isDarkSwitchActive && <TopnavDarkSwitch/>}
+          {isDarkSwitchActive && <TopnavDarkSwitch />}
           <div className="header-icons d-inline-block align-middle">
             <TopnavEasyAccess />
             <TopnavNotifications />

@@ -1,13 +1,11 @@
-import React from "react";
-import { Card, CardBody, CardTitle } from "reactstrap";
-import BigCalendar from "react-big-calendar";
-import moment from "moment";
+import React from 'react';
+import { Card, CardBody, CardTitle } from 'reactstrap';
+import BigCalendar from 'react-big-calendar';
+import moment from 'moment';
 
-import { CalendarToolbar } from "../../components/CalendarToolbar";
-import IntlMessages from "../../helpers/IntlMessages";
-import data from "../../data/events";
-
-import { getDirection } from "../../helpers/Utils";
+import { CalendarToolbar } from '../../components/CalendarToolbar';
+import IntlMessages from '../../helpers/IntlMessages';
+import data from '../../data/events';
 
 BigCalendar.momentLocalizer(moment);
 
@@ -21,10 +19,10 @@ const Calendar = () => {
         </CardTitle>
         <BigCalendar
           localizer={localizer}
-          style={{ minHeight: "500px" }}
+          style={{ minHeight: '500px' }}
           events={data}
-          rtl={getDirection().isRtl}
-          views={["month"]}
+          rtl={false}
+          views={['month']}
           components={{
             toolbar: CalendarToolbar
           }}

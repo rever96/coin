@@ -12,7 +12,6 @@ import AppLocale from './lang';
 import ColorSwitcher from './components/common/ColorSwitcher';
 import NotificationContainer from './components/common/react-notifications/NotificationContainer';
 import { isMultiColorActive, isDemo } from './constants/defaultValues';
-import { getDirection } from './helpers/Utils';
 
 const ViewMain = React.lazy(() =>
   import(/* webpackChunkName: "views" */ './views')
@@ -46,17 +45,6 @@ const AuthRoute = ({ component: Component, authUser, ...rest }) => (
 );
 
 class App extends Component {
-  componentWillMount() {
-    const direction = getDirection();
-    if (direction.isRtl) {
-      document.body.classList.add('rtl');
-      document.body.classList.remove('ltr');
-    } else {
-      document.body.classList.add('ltr');
-      document.body.classList.remove('rtl');
-    }
-  }
-
   render() {
     const { locale, loginUser } = this.props;
     const currentAppLocale = AppLocale[locale];
