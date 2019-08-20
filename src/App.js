@@ -47,6 +47,7 @@ const AuthRoute = ({ component: Component, authUser, ...rest }) => (
 class App extends Component {
   render() {
     const { locale, loginUser } = this.props;
+    console.log(this.props);
     const currentAppLocale = AppLocale[locale];
 
     return (
