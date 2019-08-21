@@ -9,6 +9,13 @@ defmodule BackendWeb.Router do
     plug(:put_secure_browser_headers)
   end
 
+  scope "/", BackendWeb do
+    # Use the default browser stack
+    pipe_through(:browser)
+    get("/", PageController, :index)
+    get("/hello/:data", HelloController, :message)
+  end
+
   pipeline :api do
     plug(:accepts, ["json"])
   end
