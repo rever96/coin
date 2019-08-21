@@ -21,6 +21,7 @@ import ProductCategoriesPolarArea from '../../../containers/dashboards/ProductCa
 import WebsiteVisitsChartCard from '../../../containers/dashboards/WebsiteVisitsChartCard';
 import ConversionRatesChartCard from '../../../containers/dashboards/ConversionRatesChartCard';
 import TopRatedItems from '../../../containers/dashboards/TopRatedItems';
+import CustomUI from '../ui/components/custom';
 
 class DefaultDashboard extends Component {
   render() {
@@ -31,6 +32,11 @@ class DefaultDashboard extends Component {
           <Colxx xxs="12">
             <Breadcrumb heading="menu.default" match={this.props.match} />
             <Separator className="mb-5" />
+          </Colxx>
+        </Row>
+        <Row>
+          <Colxx xxs="12">
+            <CustomUI />
           </Colxx>
         </Row>
         <Row>
