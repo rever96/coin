@@ -7,7 +7,6 @@ import Sidebar from '../containers/navs/Sidebar';
 
 class AppLayout extends Component {
   render() {
-    console.log(this.props);
     const { containerClassnames } = this.props;
     return (
       <div id="app-container" className={containerClassnames}>

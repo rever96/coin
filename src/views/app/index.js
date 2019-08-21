@@ -21,7 +21,6 @@ const BlankPage = React.lazy(() =>
 
 class App extends Component {
   render() {
-    console.log(this.props);
     const { match } = this.props;
 
     return (

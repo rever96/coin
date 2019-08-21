@@ -32,7 +32,6 @@ class Notification extends React.Component {
 
   componentDidMount = () => {
     const { timeOut } = this.props;
-    console.log(this.props);
     if (timeOut !== 0) {
       this.timer = setTimeout(this.requestHide, timeOut);
     }

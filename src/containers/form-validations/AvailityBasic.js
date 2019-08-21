@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component } from 'react';
 
 import {
   AvForm,
@@ -10,8 +10,8 @@ import {
   AvRadio,
   AvCheckboxGroup,
   AvCheckbox
-} from "availity-reactstrap-validation";
-import { Button, Label, Card, CardBody } from "reactstrap";
+} from 'availity-reactstrap-validation';
+import { Button, Label, Card, CardBody } from 'reactstrap';
 
 class AvailityBasic extends Component {
   constructor(props) {
@@ -20,8 +20,6 @@ class AvailityBasic extends Component {
   }
 
   handleSubmit(event, errors, values) {
-    console.log(errors);
-    console.log(values);
     if (errors.length === 0) {
       //submit
     }
