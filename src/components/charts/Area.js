@@ -4,7 +4,7 @@ import ChartComponent, { Chart } from 'react-chartjs-2';
 import { areaChartOptions } from './config';
 
 export default class Area extends React.Component {
-  componentDidMount() {
+  componentWillMount() {
     if (this.props.shadow) {
       Chart.defaults.lineWithShadow = Chart.defaults.line;
       Chart.controllers.lineWithShadow = Chart.controllers.line.extend({
