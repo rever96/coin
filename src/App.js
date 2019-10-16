@@ -13,6 +13,8 @@ import ColorSwitcher from './components/common/ColorSwitcher';
 import NotificationContainer from './components/common/react-notifications/NotificationContainer';
 import { isMultiColorActive, isDemo } from './constants/defaultValues';
 
+const axios = require('axios');
+
 const ViewMain = React.lazy(() =>
   import(/* webpackChunkName: "views" */ './views')
 );
@@ -45,6 +47,12 @@ const AuthRoute = ({ component: Component, authUser, ...rest }) => (
 );
 
 class App extends Component {
+  componentDidMount() {
+    axios.post('http://localhost:8080/prova', {
+      chiave: 'valore'
+    });
+  }
+
   render() {
     const { locale, loginUser } = this.props;
     const currentAppLocale = AppLocale[locale];
