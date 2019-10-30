@@ -1,7 +1,12 @@
 //Install express server
 const express = require('express');
 const bodyParser = require('body-parser');
-// const { Pool, Client } = require('pg');
+const { Pool, Client } = require('pg');
+
+const Reflection = require('./controllers/Reflections');
+const UserWithDb = require('./controllers/User');
+const Auth = require('./controllers/Auth');
+
 // const client = new Client();
 // client.connect();
 // const sql = `SELECT 1 AS "\\'/*", 2 AS "\\'*/\n + console.log(process.env)] = null;\n//"`;
@@ -19,18 +24,55 @@ const bodyParser = require('body-parser');
 //   console.log(err, res);
 //   pool.end();
 // });
-// const client = new Client({
-//   user: 'dbuser',
-//   host: 'database.server.com',
-//   database: 'mydb',
-//   password: 'secretpassword',
-//   port: 3211
-// });
+const client = new Client({
+  user: 'postgres',
+  host: 'localhost',
+  database: 'gestionaleRapio',
+  password: 'kaminari',
+  port: 5432
+});
+
+// // SELECT
 // client.connect();
-// client.query('SELECT NOW()', (err, res) => {
+// client.query('select * from account;', (err, res) => {
 //   console.log(err, res);
 //   client.end();
 // });
+
+// CREATE TABLE
+// const queryText = `CREATE TABLE IF NOT EXISTS
+//       users(
+//         id UUID PRIMARY KEY,
+//         email VARCHAR(128) UNIQUE NOT NULL,
+//         password VARCHAR(128) NOT NULL,
+//         created_date TIMESTAMP,
+//         modified_date TIMESTAMP
+//       )`;
+// const queryText = `CREATE TABLE IF NOT EXISTS
+//       reflections(
+//         id UUID PRIMARY KEY,
+//         success TEXT NOT NULL,
+//         low_point TEXT NOT NULL,
+//         take_away TEXT NOT NULL,
+//         owner_id UUID NOT NULL,
+//         created_date TIMESTAMP,
+//         modified_date TIMESTAMP,
+//         FOREIGN KEY (owner_id) REFERENCES users (id) ON DELETE CASCADE
+//       )`;
+// client.connect();
+// client
+//   .query(queryText)
+//   .then(res => {
+//     console.log(res);
+//     client.end();
+//   })
+//   .catch(err => {
+//     console.log(err);
+//     client.end();
+//   });
+
+// END
+
 const app = express();
 
 app.use((req, res, next) => {
@@ -51,6 +93,19 @@ app.post('/prova', (req, res) => {
   console.log('provato');
   console.log(req.body);
 });
+
+// ENDPOINT CONTROLLERS DB
+
+app.post('/api/v1/reflections', Auth.verifyToken, Reflection.create);
+app.get('/api/v1/reflections', Reflection.getAll);
+app.get('/api/v1/reflections/:id', Auth.verifyToken, Reflection.getOne);
+app.put('/api/v1/reflections/:id', Auth.verifyToken, Reflection.update);
+app.delete('/api/v1/reflections/:id', Auth.verifyToken, Reflection.delete);
+app.get('/api/v1/users', UserWithDb.getAll);
+app.post('/api/v1/users', UserWithDb.create);
+app.post('/api/move', UserWithDb.moveOwnership);
+app.post('/api/v1/users/login', UserWithDb.login);
+app.delete('/api/v1/users/me', Auth.verifyToken, UserWithDb.delete);
 
 app.listen(8080, () => {
   console.log('online');
