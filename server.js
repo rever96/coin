@@ -7,6 +7,8 @@ const Reflection = require('./controllers/Reflections');
 const UserWithDb = require('./controllers/User');
 const Auth = require('./controllers/Auth');
 
+const Struttura = require('./controllers/Struttura');
+
 // const client = new Client();
 // client.connect();
 // const sql = `SELECT 1 AS "\\'/*", 2 AS "\\'*/\n + console.log(process.env)] = null;\n//"`;
@@ -103,9 +105,12 @@ app.put('/api/v1/reflections/:id', Auth.verifyToken, Reflection.update);
 app.delete('/api/v1/reflections/:id', Auth.verifyToken, Reflection.delete);
 app.get('/api/v1/users', UserWithDb.getAll);
 app.post('/api/v1/users', UserWithDb.create);
-app.post('/api/move', UserWithDb.moveOwnership);
+app.post('/api/v1/move', UserWithDb.moveOwnership);
 app.post('/api/v1/users/login', UserWithDb.login);
 app.delete('/api/v1/users/me', Auth.verifyToken, UserWithDb.delete);
+
+app.post('/api/v2/createDB', Struttura.create);
+app.post('/api/v2/alterDB', Struttura.alter);
 
 app.listen(8080, () => {
   console.log('online');
