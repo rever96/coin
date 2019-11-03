@@ -1,0 +1,35 @@
+{
+  "name": "coin-server",
+  "version": "4.1.0",
+  "description": "Coin gestionale rapio server",
+  "private": true,
+  "dependencies": {
+    "axios": "^0.18.1",
+    "bcrypt": "^3.0.6",
+    "chart.js": "^2.7.2",
+    "express": "^4.17.1",
+    "formik": "^1.5.1",
+    "jsonwebtoken": "^8.5.1",
+    "moment": "2.22.2",
+    "pg": "^7.12.1",
+    "stripe": "^7.10.0"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
+  ],
+  "devDependencies": {
+    "node-sass": "^4.11.0"
+  }
+}
