@@ -27,10 +27,10 @@ const Struttura = require('./controllers/Struttura');
 //   pool.end();
 // });
 const client = new Client({
-  user: 'postgres',
-  host: 'localhost',
-  database: 'gestionaleRapio',
-  password: 'kaminari',
+  user: 'root',
+  host: 'db-rapio-coin.cvxuglljpzf9.us-east-1.rds.amazonaws.com',
+  database: 'coindb',
+  password: 'msnzkfhE0rm9OqqF4anB',
   port: 5432
 });
 
