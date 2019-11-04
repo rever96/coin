@@ -4,43 +4,88 @@ import { navigateTo } from '../../../history';
 import PageHeader from '../../../components/PageHeader';
 import './styles.css';
 
-const SelectAllFromTable = ({ match }) => {
-  const {
-    params: { tableName }
-  } = match;
-  const options = {
-    method: 'post',
-    headers: {
-      Accept: 'application/json, text/plain, */*',
-      'Content-Type': 'application/json'
-    },
-    body: tableName
-  };
+class SelectAllFromTable extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      rows: []
+    };
+  }
+  componentDidMount() {
+    fetch('http://localhost:8080/api/v3/query')
+      .then(response => response.json())
+      .then(data => this.setState({ rows: data }));
+  }
 
-  fetch('http://localhost:8080/api/v3/query')
-    .then(res => {
-      console.log(res);
-    })
-    .catch(err => console.log(err));
-
-  return (
-    <>
-      <div className="react-rainbow-admin-orders_header-container">
-        <Breadcrumbs>
-          <Breadcrumb label="Pages" onClick={() => navigateTo('/pages')} />
-          <Breadcrumb label="Vista tabella" />
-        </Breadcrumbs>
-        <PageHeader
-          className="react-rainbow-admin-orders_header"
-          title={tableName}
-          description="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
-        />
-      </div>
-    </>
-  );
-};
-
+  render() {
+    const { rows } = this.state;
+    console.log(rows);
+    const { tableName } = this.props.match.params;
+    return (
+      <>
+        <div className="react-rainbow-admin-orders_header-container">
+          <Breadcrumbs>
+            <Breadcrumb label="Pages" onClick={() => navigateTo('/pages')} />
+            <Breadcrumb label="Vista tabella" />
+          </Breadcrumbs>
+          <PageHeader
+            className="react-rainbow-admin-orders_header"
+            title={tableName}
+            description="descrizione pagina tabella"
+          />
+        </div>
+        <ul>
+          {rows.map(row => (
+            <li key={row.id}>
+              <p>{row.intestazione_legale}</p>
+            </li>
+          ))}
+        </ul>
+      </>
+    );
+  }
+}
 export default SelectAllFromTable;
+
+// const SelectAllFromTable = ({ match }) => {
+//   const {
+//     params: { tableName }
+//   } = match;
+//   // const options = {
+//   //   method: 'post',
+//   //   headers: {
+//   //     Accept: 'application/json, text/plain, */*',
+//   //     'Content-Type': 'application/json'
+//   //   },
+//   //   body: tableName
+//   // };
+//   let rows = null;
+//   fetch('http://localhost:8080/api/v3/query')
+//     .then(res => res.json())
+//     .then(data => {
+//       console.log(data);
+//       rows = data;
+//     })
+//     .catch(err => console.log(err));
+
+//   return (
+//     <>
+//       <div className="react-rainbow-admin-orders_header-container">
+//         <Breadcrumbs>
+//           <Breadcrumb label="Pages" onClick={() => navigateTo('/pages')} />
+//           <Breadcrumb label="Vista tabella" />
+//         </Breadcrumbs>
+//         <PageHeader
+//           className="react-rainbow-admin-orders_header"
+//           title={tableName}
+//           description={rows}
+//         />
+//       </div>
+//     </>
+//   );
+// };
+
+// export default SelectAllFromTable;
 
 // class SelectAllFromTable extends Component {
 //   componentDidMount() {

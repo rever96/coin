@@ -3,8 +3,8 @@ const db = require('./db');
 exports.select = async function(req, res) {
   const query = `SELECT * FROM ` + req.body.table;
   try {
-    await db.query(query).then(res => {
-      return res.status(201).send(res);
+    await db.query(query).then(result => {
+      return res.status(201).send(result);
     });
   } catch (error) {
     return res.status(400).send(error);
@@ -19,8 +19,8 @@ exports.query = async function(req, res) {
   WHERE vendite.fk_ordine = ordini."id"
   AND clienti."id"=ordini.fk_cliente AND veicoli."id" = DDV.fk_veicolo`;
   try {
-    await db.query(query).then(res => {
-      return res.status(201).send(res);
+    await db.query(query).then(result => {
+      return res.status(201).json(result.rows);
     });
   } catch (error) {
     return res.status(400).send(error);
