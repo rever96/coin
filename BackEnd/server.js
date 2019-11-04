@@ -8,6 +8,7 @@ const UserWithDb = require('./controllers/User');
 const Auth = require('./controllers/Auth');
 
 const Struttura = require('./controllers/Struttura');
+const Dati = require('./controllers/Dati');
 
 // const client = new Client();
 // client.connect();
@@ -111,6 +112,8 @@ app.delete('/api/v1/users/me', Auth.verifyToken, UserWithDb.delete);
 
 app.post('/api/v2/createDB', Struttura.create);
 app.post('/api/v2/alterDB', Struttura.alter);
+app.post('/api/v3/select', Dati.select);
+app.get('/api/v3/query', Dati.query);
 
 app.listen(8080, () => {
   console.log('online');

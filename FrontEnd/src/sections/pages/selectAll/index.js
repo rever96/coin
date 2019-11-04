@@ -8,6 +8,20 @@ const SelectAllFromTable = ({ match }) => {
   const {
     params: { tableName }
   } = match;
+  const options = {
+    method: 'post',
+    headers: {
+      Accept: 'application/json, text/plain, */*',
+      'Content-Type': 'application/json'
+    },
+    body: tableName
+  };
+
+  fetch('http://localhost:8080/api/v3/query')
+    .then(res => {
+      console.log(res);
+    })
+    .catch(err => console.log(err));
 
   return (
     <>
