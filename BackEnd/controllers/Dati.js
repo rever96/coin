@@ -4,7 +4,7 @@ exports.select = async function(req, res) {
   const query = `SELECT * FROM ` + req.body.table;
   try {
     await db.query(query).then(result => {
-      return res.status(201).send(result);
+      return res.status(201).json(result.rows);
     });
   } catch (error) {
     return res.status(400).send(error);
