@@ -25,6 +25,11 @@ class SelectAllFromTable extends React.Component {
     fetch('http://localhost:8080/api/v3/select', options)
       .then(response => response.json())
       .then(data => this.setState({ rows: data }));
+    fetch('http://localhost:8080/api/v3/selectStruttura', options)
+      .then(response => response.json())
+      .then(data => {
+        console.log(data);
+      });
   }
 
   render() {

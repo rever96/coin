@@ -394,3 +394,18 @@ exports.alter = async function(req, res) {
     return res.status(400).send(error);
   }
 };
+
+exports.select = async function(req, res) {
+  const query =
+    `select column_name, data_type, COLUMNS.is_nullable
+    from INFORMATION_SCHEMA.COLUMNS where table_name ='` +
+    req.body.table +
+    `'`;
+  try {
+    await db.query(query).then(result => {
+      return res.status(201).json(result);
+    });
+  } catch (error) {
+    return res.status(400).send(error);
+  }
+};
