@@ -3,6 +3,7 @@ import { Breadcrumb, Breadcrumbs } from 'react-rainbow-components';
 import { navigateTo } from '../../../history';
 import PageHeader from '../../../components/PageHeader';
 import RenderTable from '../../../components/RenderTable';
+import InsertRow from '../../../components/InsertRow';
 import './styles.css';
 
 class SelectAllFromTable extends React.Component {
@@ -28,9 +29,11 @@ class SelectAllFromTable extends React.Component {
 
   render() {
     const { rows, tableName } = this.state;
-    let tabella;
+    let tabella = <p>Loading...</p>;
+    let form;
     if (rows.length > 0) {
       tabella = <RenderTable data={rows}></RenderTable>;
+      form = <InsertRow fields={Object.keys(rows[0])}></InsertRow>;
     }
     return (
       <>
@@ -45,13 +48,7 @@ class SelectAllFromTable extends React.Component {
             description="descrizione pagina tabella"
           />
         </div>
-        <ul>
-          {rows.map(row => (
-            <li key={row.id}>
-              <p>{row.intestazione_legale}</p>
-            </li>
-          ))}
-        </ul>
+        {form}
         {tabella}
       </>
     );
