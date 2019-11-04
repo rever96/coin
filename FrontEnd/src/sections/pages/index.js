@@ -8,7 +8,19 @@ import {
   UsersIcon,
   TimelineIcon,
   GalleryIcon,
-  PricingIcon
+  PricingIcon,
+  BellIcon,
+  ApplicationIcon,
+  Attach,
+  ChartsIcon,
+  Company,
+  CompletedTasksIcon,
+  CreditCard,
+  Emoji,
+  GithubIcon,
+  LikeIcon,
+  Lock,
+  Map
 } from '../../components/icons';
 import PageHeader from '../../components/PageHeader';
 import './styles.css';
@@ -22,19 +34,19 @@ const pages = [
   { name: 'TipologieCommerciali', icon: <GalleryIcon /> },
   { name: 'Veicoli', icon: <CalendarIcon /> },
   { name: 'Depositi', icon: <PricingIcon /> },
-  { name: 'Merci', icon: <PricingIcon /> },
-  { name: 'Lavorazioni', icon: <PricingIcon /> },
-  { name: 'Ordini', icon: <PricingIcon /> },
-  { name: 'OrdiniMerci', icon: <PricingIcon /> },
-  { name: 'Spedizioni', icon: <PricingIcon /> },
-  { name: 'Settimane', icon: <PricingIcon /> },
-  { name: 'StoricoContatti', icon: <PricingIcon /> },
-  { name: 'Vendite', icon: <PricingIcon /> },
-  { name: 'ViaggioClienti', icon: <PricingIcon /> },
-  { name: 'ClientiCategorie', icon: <PricingIcon /> },
-  { name: 'LavorazioniStaff', icon: <PricingIcon /> },
-  { name: 'StoricoMerceUscita', icon: <PricingIcon /> },
-  { name: 'RegistroCariparma', icon: <PricingIcon /> }
+  { name: 'Merci', icon: <BellIcon /> },
+  { name: 'Lavorazioni', icon: <ApplicationIcon /> },
+  { name: 'Ordini', icon: <Attach /> },
+  { name: 'OrdiniMerci', icon: <ChartsIcon /> },
+  { name: 'Spedizioni', icon: <Company /> },
+  { name: 'Settimane', icon: <CompletedTasksIcon /> },
+  { name: 'StoricoContatti', icon: <CreditCard /> },
+  { name: 'Vendite', icon: <Emoji /> },
+  { name: 'ViaggioClienti', icon: <FollowerIcon /> },
+  { name: 'ClientiCategorie', icon: <GithubIcon /> },
+  { name: 'LavorazioniStaff', icon: <LikeIcon /> },
+  { name: 'StoricoMerceUscita', icon: <Lock /> },
+  { name: 'RegistroCariparma', icon: <Map /> }
 ];
 
 function Cards() {
