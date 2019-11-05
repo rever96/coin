@@ -4,7 +4,6 @@ import { Card } from 'react-rainbow-components';
 import {
   CalendarIcon,
   FollowerIcon,
-  OrderIcon,
   UsersIcon,
   TimelineIcon,
   GalleryIcon,
@@ -27,26 +26,25 @@ import './styles.css';
 
 const href = '/selectAllFromTable';
 const pages = [
-  { name: 'Ordini', icon: <OrderIcon /> },
-  { name: 'Clienti', icon: <UsersIcon /> },
-  { name: 'Persone', icon: <FollowerIcon /> },
-  { name: 'DDV', icon: <TimelineIcon /> },
-  { name: 'TipologieCommerciali', icon: <GalleryIcon /> },
-  { name: 'Veicoli', icon: <CalendarIcon /> },
-  { name: 'Depositi', icon: <PricingIcon /> },
-  { name: 'Merci', icon: <BellIcon /> },
-  { name: 'Lavorazioni', icon: <ApplicationIcon /> },
-  { name: 'Ordini', icon: <Attach /> },
-  { name: 'OrdiniMerci', icon: <ChartsIcon /> },
-  { name: 'Spedizioni', icon: <Company /> },
-  { name: 'Settimane', icon: <CompletedTasksIcon /> },
-  { name: 'StoricoContatti', icon: <CreditCard /> },
-  { name: 'Vendite', icon: <Emoji /> },
-  { name: 'ViaggioClienti', icon: <FollowerIcon /> },
-  { name: 'ClientiCategorie', icon: <GithubIcon /> },
-  { name: 'LavorazioniStaff', icon: <LikeIcon /> },
-  { name: 'StoricoMerceUscita', icon: <Lock /> },
-  { name: 'RegistroCariparma', icon: <Map /> }
+  { name: 'clienti', icon: <UsersIcon /> },
+  { name: 'persone', icon: <FollowerIcon /> },
+  { name: 'ddv', icon: <TimelineIcon /> },
+  { name: 'tipologiecommerciali', icon: <GalleryIcon /> },
+  { name: 'veicoli', icon: <CalendarIcon /> },
+  { name: 'depositi', icon: <PricingIcon /> },
+  { name: 'merci', icon: <BellIcon /> },
+  { name: 'lavorazioni', icon: <ApplicationIcon /> },
+  { name: 'ordini', icon: <Attach /> },
+  { name: 'ordinimerci', icon: <ChartsIcon /> },
+  { name: 'spedizioni', icon: <Company /> },
+  { name: 'settimane', icon: <CompletedTasksIcon /> },
+  { name: 'storicocontatti', icon: <CreditCard /> },
+  { name: 'vendite', icon: <Emoji /> },
+  { name: 'viaggioclienti', icon: <FollowerIcon /> },
+  { name: 'clienticategorie', icon: <GithubIcon /> },
+  { name: 'lavorazionistaff', icon: <LikeIcon /> },
+  { name: 'storicomerceuscita', icon: <Lock /> },
+  { name: 'registrocariparma', icon: <Map /> }
 ];
 
 function Cards() {

@@ -12,7 +12,8 @@ class SelectAllFromTable extends React.Component {
     const tableName = this.props.match.params.tableName;
     this.state = {
       rows: [],
-      tableName
+      tableName,
+      columns: []
     };
   }
 
@@ -27,18 +28,30 @@ class SelectAllFromTable extends React.Component {
       .then(data => this.setState({ rows: data }));
     fetch('http://localhost:8080/api/v3/selectStruttura', options)
       .then(response => response.json())
-      .then(data => {
-        console.log(data);
-      });
+      .then(data => this.setState({ columns: data }));
   }
 
   render() {
-    const { rows, tableName } = this.state;
+    const { rows, tableName, columns } = this.state;
+    console.log(columns);
     let tabella = <p>Loading...</p>;
     let form;
-    if (rows.length > 0) {
-      tabella = <RenderTable data={rows}></RenderTable>;
-      form = <InsertRow fields={Object.keys(rows[0])}></InsertRow>;
+    if (rows.length > 0 && columns.length > 0) {
+      tabella = (
+        <RenderTable
+          values={rows}
+          headers={columns.filter(
+            c => c.column_name !== 'id' && !c.column_name.includes('fk_')
+          )}
+        ></RenderTable>
+      );
+      form = (
+        <InsertRow
+          fields={columns.filter(
+            c => c.column_name !== 'id' && !c.column_name.includes('fk_')
+          )}
+        ></InsertRow>
+      );
     }
     return (
       <>

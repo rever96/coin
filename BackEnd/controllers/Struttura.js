@@ -403,7 +403,7 @@ exports.select = async function(req, res) {
     `'`;
   try {
     await db.query(query).then(result => {
-      return res.status(201).json(result);
+      return res.status(201).json(result.rows);
     });
   } catch (error) {
     return res.status(400).send(error);

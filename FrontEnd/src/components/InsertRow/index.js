@@ -24,8 +24,8 @@ function InsertRow(props) {
               key={key}
               className="rainbow-m-top_small"
               component={Input}
-              name={field}
-              label={field}
+              name={field.column_name}
+              label={field.column_name}
               type="text"
             />
           ))}

@@ -4,9 +4,13 @@ import { Table, Column, MenuItem } from 'react-rainbow-components';
 function RenderTable(props) {
   return (
     <div className="rainbow-p-bottom_xx-large">
-      <Table keyField="id" data={props.data}>
-        {Object.keys(props.data[0]).map((column, key) => (
-          <Column key={key} header={column} field={column} />
+      <Table keyField="id" data={props.values}>
+        {props.headers.map((column, key) => (
+          <Column
+            key={key}
+            header={column.column_name}
+            field={column.column_name}
+          />
         ))}
         <Column type="action">
           <MenuItem
