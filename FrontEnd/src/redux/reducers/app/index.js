@@ -1,7 +1,7 @@
 import { APP_TOOGLE_SIDEBAR } from '../../actions/app';
 
 const initialState = {
-  isSidebarHidden: false
+  isSidebarHidden: true
 };
 
 function toogleSidebar(state) {
