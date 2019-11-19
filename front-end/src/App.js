@@ -1,11 +1,11 @@
 import React from "react";
 import "./App.css";
-import { DataTableDemo } from "./components/data_table";
+import { MyLayout } from "./Layout";
 
 function App() {
   return (
     <div className="App">
-      <DataTableDemo></DataTableDemo>
+      <MyLayout></MyLayout>
     </div>
   );
 }
