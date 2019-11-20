@@ -1,17 +1,23 @@
 import React from 'react';
 import { Table } from 'antd';
+import history from '../history';
+import { withRouter } from 'react-router-dom';
 
-export class DataTableDemo extends React.Component {
-  constructor() {
-    super();
+class ViewTable extends React.Component {
+  constructor(props) {
+    super(props);
+    console.log(props);
+    const path = history.location.pathname.split('/');
     this.state = {
       rows: [],
-      tableName: 'veicoli',
+      tableName: path[path.length - 1] || 'dashboard',
       columns: []
     };
+    console.log(this.state.tableName);
   }
 
   componentDidMount() {
+    console.log(this.state.tableName);
     const options = {
       method: 'post',
       headers: { 'Content-Type': 'application/json' },
@@ -20,7 +26,6 @@ export class DataTableDemo extends React.Component {
     fetch('http://localhost:8080/api/v3/select', options)
       .then(response => response.json())
       .then(data => {
-        console.log(data);
         this.setState({
           rows: data.map((r, key) => {
             r.key = key;
@@ -31,7 +36,7 @@ export class DataTableDemo extends React.Component {
       });
     fetch('http://localhost:8080/api/v3/selectStruttura', options)
       .then(response => response.json())
-      .then(data =>
+      .then(data => {
         this.setState({
           columns: data
             .filter(
@@ -62,8 +67,8 @@ export class DataTableDemo extends React.Component {
               }
               return colonna;
             })
-        })
-      );
+        });
+      });
   }
 
   render() {
@@ -80,3 +85,5 @@ export class DataTableDemo extends React.Component {
     );
   }
 }
+
+export default withRouter(ViewTable);
