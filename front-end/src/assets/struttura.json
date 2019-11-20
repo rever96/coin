@@ -1,0 +1,83 @@
+[
+  {
+    "nome": "clienti",
+    "colonne": [
+      {
+        "nome": "email"
+      },
+      {
+        "nome": "indirizzo"
+      },
+      {
+        "nome": "data_inserimento"
+      },
+      {
+        "nome": "n_coperti"
+      },
+      {
+        "nome": "intestazione_legale"
+      },
+      {
+        "nome": "attivita_fruitrice"
+      },
+      {
+        "nome": "partita_iva"
+      },
+      {
+        "nome": "codice_univoco"
+      },
+      {
+        "nome": "accessibilita_consegne"
+      },
+      {
+        "nome": "tipo_cliente"
+      },
+      {
+        "nome": "data_contatto_futuro"
+      },
+      {
+        "nome": "note"
+      }
+    ]
+  },
+  {
+    "nome": "persone",
+    "colonne": [
+      {
+        "nome": "nome"
+      },
+      {
+        "nome": "cognome"
+      },
+      {
+        "nome": "data_nascita"
+      },
+      {
+        "nome": "telefono"
+      },
+      {
+        "nome": "email"
+      },
+      {
+        "nome": "note"
+      },
+      {
+        "nome": "ruolo"
+      }
+    ]
+  },
+  {
+    "nome": "veicoli",
+    "colonne": [
+      {
+        "nome": "targa"
+      },
+      {
+        "nome": "km_litro"
+      },
+      {
+        "nome": "note"
+      }
+    ]
+  }
+]

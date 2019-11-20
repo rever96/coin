@@ -1,6 +1,7 @@
 import React from "react";
 import { Layout, Menu, Breadcrumb, Icon } from "antd";
 import { DataTableDemo } from "./components/data_table";
+import struttura from "./assets/struttura.json";
 
 const { Header, Content, Footer, Sider } = Layout;
 const { SubMenu } = Menu;
@@ -11,7 +12,6 @@ export class MyLayout extends React.Component {
   };
 
   onCollapse = collapsed => {
-    console.log(collapsed);
     this.setState({ collapsed });
   };
 
@@ -38,13 +38,13 @@ export class MyLayout extends React.Component {
               title={
                 <span>
                   <Icon type="user" />
-                  <span>User</span>
+                  <span>Tabelle</span>
                 </span>
               }
             >
-              <Menu.Item key="3">Tom</Menu.Item>
-              <Menu.Item key="4">Bill</Menu.Item>
-              <Menu.Item key="5">Alex</Menu.Item>
+              {struttura.map((tabellla, key) => (
+                <Menu.Item key={"tabella_" + key}>{tabellla.nome}</Menu.Item>
+              ))}
             </SubMenu>
             <SubMenu
               key="sub2"
