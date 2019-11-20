@@ -1,23 +1,21 @@
 import React from 'react';
-import { Table } from 'antd';
 import history from '../history';
-import { withRouter } from 'react-router-dom';
+import { DataTableDemo } from '../components/data_table';
 
 class ViewTable extends React.Component {
-  constructor(props) {
-    super(props);
-    console.log(props);
+  constructor() {
+    super();
     const path = history.location.pathname.split('/');
     this.state = {
       rows: [],
-      tableName: path[path.length - 1] || 'dashboard',
+      tableName: path[path.length - 1],
       columns: []
     };
-    console.log(this.state.tableName);
+    console.log('pagina Tabella "costruttore"');
   }
 
   componentDidMount() {
-    console.log(this.state.tableName);
+    console.log('pagina Tabella "DidMount"');
     const options = {
       method: 'post',
       headers: { 'Content-Type': 'application/json' },
@@ -71,19 +69,35 @@ class ViewTable extends React.Component {
       });
   }
 
+  componentDidUpdate() {
+    console.log('pagina Tabella "update"');
+    let path = history.location.pathname.split('/');
+    path = path[path.length - 1];
+    if (path !== this.state.tableName) {
+      this.setState(
+        {
+          rows: [],
+          tableName: path,
+          columns: []
+        },
+        () => {
+          this.componentDidMount();
+        }
+      );
+    }
+  }
+
   render() {
     return (
       <>
-        <h1>tabella {this.state.tableName}</h1>
-        <Table
-          size="small"
-          scroll={{ x: 1900 }}
-          columns={this.state.columns}
-          dataSource={this.state.rows}
-        ></Table>
+        <DataTableDemo
+          titolo={this.state.tableName}
+          colonne={this.state.columns}
+          righe={this.state.rows}
+        />
       </>
     );
   }
 }
 
-export default withRouter(ViewTable);
+export default ViewTable;

@@ -8,12 +8,7 @@ export default function Routes() {
     <Router history={history}>
       <Switch>
         <Redirect from="/" exact to="/dashboard" />
-        {/* <Route exact path="/tabella/:tableName" component={ViewTable} /> */}
-        <Route
-          exact
-          path="/tabella/:tableName"
-          render={match => <ViewTable match={match} />}
-        />
+        <Route exact path="/tabella/:tableName" component={ViewTable} />
       </Switch>
     </Router>
   );
