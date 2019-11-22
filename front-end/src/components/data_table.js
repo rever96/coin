@@ -1,5 +1,5 @@
 import React from 'react';
-// import './data_table.css';
+import './data_table.css';
 import { Table, Input, Button, Popconfirm, Form } from 'antd';
 
 const EditableContext = React.createContext();
@@ -124,12 +124,17 @@ export class DataTableDemo extends React.Component {
 
   handleAdd = () => {
     const { count, dataSource } = this.state;
-    let newData = { ...dataSource[0] };
-    newData.key = count;
+    let emptyRow = {};
+    this.props.colonne.forEach(c => {
+      emptyRow[c.title] = 'a';
+    });
+    emptyRow.key = count;
     this.setState({
-      dataSource: [...dataSource, newData],
+      dataSource: [emptyRow, ...dataSource],
       count: count + 1
     });
+    console.log(this.state.dataSource);
+    console.log([emptyRow, ...dataSource]);
   };
 
   handleSave = row => {
@@ -177,6 +182,7 @@ export class DataTableDemo extends React.Component {
           Aggiungi riga
         </Button>
         <Table
+          scroll={{ x: 1900 }}
           components={components}
           rowClassName={() => 'editable-row'}
           bordered

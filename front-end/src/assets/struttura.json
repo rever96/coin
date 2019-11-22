@@ -13,7 +13,8 @@
         "nome": "data_inserimento"
       },
       {
-        "nome": "n_coperti"
+        "nome": "n_coperti",
+        "larghezza": 80
       },
       {
         "nome": "intestazione_legale"
