@@ -3,14 +3,6 @@ import history from '../history';
 import { DataTableDemo } from '../components/data_table';
 import struttura from '../assets/struttura.json';
 
-// case 'indirizzo':
-// colonna.render = v => (
-//   <a target="_blank" rel="noopener noreferrer" href={v.value}>
-//     {v.name}
-//   </a>
-// );
-// break;
-
 class ViewTable extends React.Component {
   constructor() {
     super();
@@ -53,7 +45,11 @@ class ViewTable extends React.Component {
           };
           console.log(c.render);
           if (c.render) {
-            colonna.render = new Function('v', c.render);
+            colonna.render = v => (
+              <a target="_blank" rel="noopener noreferrer" href={v.value}>
+                {v.name}
+              </a>
+            );
           }
           return colonna;
         })
