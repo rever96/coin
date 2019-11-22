@@ -1,6 +1,15 @@
 import React from 'react';
 import history from '../history';
 import { DataTableDemo } from '../components/data_table';
+import struttura from '../assets/struttura.json';
+
+// case 'indirizzo':
+// colonna.render = v => (
+//   <a target="_blank" rel="noopener noreferrer" href={v.value}>
+//     {v.name}
+//   </a>
+// );
+// break;
 
 class ViewTable extends React.Component {
   constructor() {
@@ -32,41 +41,23 @@ class ViewTable extends React.Component {
           })
         });
       });
-    fetch('http://localhost:8080/api/v3/selectStruttura', options)
-      .then(response => response.json())
-      .then(data => {
-        this.setState({
-          columns: data
-            .filter(
-              c =>
-                c.column_name !== 'id' &&
-                !c.column_name.includes('fk_') &&
-                c.column_name !== 'gmap'
-            )
-            .map(c => {
-              let colonna = {
-                title: c.column_name,
-                key: c.column_name,
-                dataIndex: c.column_name
-              };
-              switch (c.column_name.toLowerCase()) {
-                case 'indirizzo':
-                  colonna.render = v => (
-                    <a target="_blank" rel="noopener noreferrer" href={v.value}>
-                      {v.name}
-                    </a>
-                  );
-                  break;
-                case 'n_coperti':
-                  colonna.width = 80;
-                  break;
-                default:
-                  break;
-              }
-              return colonna;
-            })
-        });
-      });
+    this.setState({
+      columns: struttura
+        .find(tabella => tabella.nome === this.state.tableName)
+        .colonne.map(c => {
+          let colonna = {
+            title: c.nome,
+            key: c.nome,
+            dataIndex: c.nome,
+            editable: true
+          };
+          console.log(c.render);
+          if (c.render) {
+            colonna.render = new Function('v', c.render);
+          }
+          return colonna;
+        })
+    });
   }
 
   componentDidUpdate() {

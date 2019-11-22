@@ -6,7 +6,9 @@
         "nome": "email"
       },
       {
-        "nome": "indirizzo"
+        "nome": "indirizzo",
+        "render": "alert('hello ' + v.name);",
+        "render2": "return (<a target='_blank' rel='noopener noreferrer' href={v.value}>{v.name}</a>);"
       },
       {
         "nome": "data_inserimento"
