@@ -82,7 +82,8 @@ export class MyLayout extends React.Component {
             <Routes></Routes>
           </Content>
           <Footer style={{ textAlign: 'center' }}>
-            Ant Design ©2018 Created by Ant UED
+            ©2019 Created by Marius e Loris per il matrimonio di Francesco (con
+            Mara)
           </Footer>
         </Layout>
       </Layout>

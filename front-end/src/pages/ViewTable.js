@@ -88,15 +88,17 @@ class ViewTable extends React.Component {
   }
 
   render() {
-    return (
-      <>
+    let tabella = <>caricamento..</>;
+    if (this.state.columns.length > 0 && this.state.rows.length > 0) {
+      tabella = (
         <DataTableDemo
           titolo={this.state.tableName}
           colonne={this.state.columns}
           righe={this.state.rows}
         />
-      </>
-    );
+      );
+    }
+    return <>{tabella}</>;
   }
 }
 
