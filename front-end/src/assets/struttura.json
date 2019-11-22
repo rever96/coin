@@ -3,42 +3,57 @@
     "nome": "clienti",
     "colonne": [
       {
-        "nome": "email"
+        "nome": "email",
+        "editable": true
       },
       {
         "nome": "indirizzo",
-        "render": "a"
+        "render": "indirizzo",
+        "editable": true
       },
       {
-        "nome": "data_inserimento"
+        "nome": "data_inserimento",
+        "editable": false,
+        "render": "data"
       },
       {
         "nome": "n_coperti",
-        "larghezza": 80
+        "width": 100,
+        "editable": true
       },
       {
-        "nome": "intestazione_legale"
+        "nome": "intestazione_legale",
+        "editable": true
       },
       {
-        "nome": "attivita_fruitrice"
+        "nome": "attivita_fruitrice",
+        "editable": true
       },
       {
-        "nome": "partita_iva"
+        "nome": "partita_iva",
+        "editable": true
       },
       {
-        "nome": "codice_univoco"
+        "nome": "codice_univoco",
+        "editable": true
       },
       {
-        "nome": "accessibilita_consegne"
+        "nome": "accessibilita_consegne",
+        "editable": true,
+        "width": 180
       },
       {
-        "nome": "tipo_cliente"
+        "nome": "tipo_cliente",
+        "editable": true
       },
       {
-        "nome": "data_contatto_futuro"
+        "nome": "data_contatto_futuro",
+        "editable": false,
+        "render": "data"
       },
       {
-        "nome": "note"
+        "nome": "note",
+        "editable": true
       }
     ]
   },
@@ -46,25 +61,32 @@
     "nome": "persone",
     "colonne": [
       {
-        "nome": "nome"
+        "nome": "nome",
+        "editable": true
       },
       {
-        "nome": "cognome"
+        "nome": "cognome",
+        "editable": true
       },
       {
-        "nome": "data_nascita"
+        "nome": "data_nascita",
+        "editable": true
       },
       {
-        "nome": "telefono"
+        "nome": "telefono",
+        "editable": true
       },
       {
-        "nome": "email"
+        "nome": "email",
+        "editable": true
       },
       {
-        "nome": "note"
+        "nome": "note",
+        "editable": true
       },
       {
-        "nome": "ruolo"
+        "nome": "ruolo",
+        "editable": true
       }
     ]
   },
@@ -72,13 +94,16 @@
     "nome": "veicoli",
     "colonne": [
       {
-        "nome": "targa"
+        "nome": "targa",
+        "editable": true
       },
       {
-        "nome": "km_litro"
+        "nome": "km_litro",
+        "editable": true
       },
       {
-        "nome": "note"
+        "nome": "note",
+        "editable": true
       }
     ]
   }

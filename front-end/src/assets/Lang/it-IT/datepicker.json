@@ -1,0 +1,42 @@
+{
+  "lang": {
+    "placeholder": "Select date",
+    "rangePlaceholder": [
+      "Start date",
+      "End date"
+    ],
+    "today": "Oggi",
+    "now": "Oggi",
+    "backToToday": "Torna a oggi",
+    "ok": "Ok",
+    "clear": "Pulisci",
+    "month": "Mese",
+    "year": "Anno",
+    "timeSelect": "Select time",
+    "dateSelect": "Select date",
+    "monthSelect": "Scegli mese",
+    "yearSelect": "Scegli anno",
+    "decadeSelect": "Choose a decade",
+    "yearFormat": "YYYY",
+    "dateFormat": "M/D/YYYY",
+    "dayFormat": "D",
+    "dateTimeFormat": "M/D/YYYY HH:mm:ss",
+    "monthFormat": "MMMM",
+    "monthBeforeYear": true,
+    "previousMonth": "Mese precedente",
+    "nextMonth": "Mese successivo",
+    "previousYear": "Anno precedente",
+    "nextYear": "Anno successivo",
+    "previousDecade": "Last decade",
+    "nextDecade": "Next decade",
+    "previousCentury": "Last century",
+    "nextCentury": "Next century"
+  },
+  "timePickerLocale": {
+    "placeholder": "Select time"
+  },
+  "dateFormat": "DD-MM-YYYY",
+  "dateTimeFormat": "DD-MM-YYYY HH:mm:ss",
+  "weekFormat": "YYYY-wo",
+  "monthFormat": "YYYY-MM"
+}

@@ -2,6 +2,9 @@ import React from 'react';
 import history from '../history';
 import { DataTableDemo } from '../components/data_table';
 import struttura from '../assets/struttura.json';
+import { DatePicker } from 'antd';
+import moment from 'moment';
+import configDatePicker from '../assets/Lang/it-IT/datepicker.json';
 
 class ViewTable extends React.Component {
   constructor() {
@@ -12,11 +15,9 @@ class ViewTable extends React.Component {
       tableName: path[path.length - 1],
       columns: []
     };
-    console.log('pagina Tabella "costruttore"');
   }
 
   componentDidMount() {
-    console.log('pagina Tabella "DidMount"');
     const options = {
       method: 'post',
       headers: { 'Content-Type': 'application/json' },
@@ -36,20 +37,29 @@ class ViewTable extends React.Component {
     this.setState({
       columns: struttura
         .find(tabella => tabella.nome === this.state.tableName)
-        .colonne.map(c => {
-          let colonna = {
-            title: c.nome,
-            key: c.nome,
-            dataIndex: c.nome,
-            editable: true
-          };
-          console.log(c.render);
-          if (c.render) {
-            colonna.render = v => (
-              <a target="_blank" rel="noopener noreferrer" href={v.value}>
-                {v.name}
-              </a>
-            );
+        .colonne.map((c, key) => {
+          let colonna = c;
+          colonna.title = c.nome;
+          colonna.dataIndex = c.nome;
+          colonna.key = key;
+          switch (c.render) {
+            case 'indirizzo':
+              colonna.render = v => (
+                <a target="_blank" rel="noopener noreferrer" href={v.value}>
+                  {v.name}
+                </a>
+              );
+              break;
+            case 'data':
+              colonna.render = v => (
+                <DatePicker
+                  defaultValue={moment(v || moment.now())}
+                  locale={configDatePicker}
+                ></DatePicker>
+              );
+              break;
+            default:
+              break;
           }
           return colonna;
         })
@@ -57,7 +67,6 @@ class ViewTable extends React.Component {
   }
 
   componentDidUpdate() {
-    console.log('pagina Tabella "update"');
     let path = history.location.pathname.split('/');
     path = path[path.length - 1];
     if (path !== this.state.tableName) {

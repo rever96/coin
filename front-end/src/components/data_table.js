@@ -1,14 +1,17 @@
 import React from 'react';
 import './data_table.css';
+// import mystyle from './data_table.css';
 import { Table, Input, Button, Popconfirm, Form } from 'antd';
 
 const EditableContext = React.createContext();
 
-const EditableRow = ({ form, index, ...props }) => (
-  <EditableContext.Provider value={form}>
-    <tr {...props} />
-  </EditableContext.Provider>
-);
+const EditableRow = ({ form, ...props }) => {
+  return (
+    <EditableContext.Provider value={form}>
+      <tr {...props} />
+    </EditableContext.Provider>
+  );
+};
 
 const EditableFormRow = Form.create()(EditableRow);
 
@@ -60,17 +63,12 @@ class EditableCell extends React.Component {
         )}
       </Form.Item>
     ) : (
-      <div
-        className="editable-cell-value-wrap"
-        style={{ paddingRight: 24 }}
-        onClick={this.toggleEdit}
-      >
-        {children}
-      </div>
+      <div className="editable-cell-value-wrap">{children}</div>
     );
   };
 
   render() {
+    console.log(this.props);
     const {
       editable,
       dataIndex,
@@ -82,13 +80,21 @@ class EditableCell extends React.Component {
       ...restProps
     } = this.props;
     return (
-      <td {...restProps}>
+      <>
         {editable ? (
-          <EditableContext.Consumer>{this.renderCell}</EditableContext.Consumer>
+          <td
+            className="cell"
+            // {...restProps}
+            onClick={this.toggleEdit}
+          >
+            <EditableContext.Consumer>
+              {this.renderCell}
+            </EditableContext.Consumer>
+          </td>
         ) : (
-          children
+          <td {...restProps}>{children}</td>
         )}
-      </td>
+      </>
     );
   }
 }
@@ -126,15 +132,13 @@ export class DataTableDemo extends React.Component {
     const { count, dataSource } = this.state;
     let emptyRow = {};
     this.props.colonne.forEach(c => {
-      emptyRow[c.title] = 'a';
+      emptyRow[c.title] = '';
     });
     emptyRow.key = count;
     this.setState({
       dataSource: [emptyRow, ...dataSource],
       count: count + 1
     });
-    console.log(this.state.dataSource);
-    console.log([emptyRow, ...dataSource]);
   };
 
   handleSave = row => {
@@ -156,7 +160,6 @@ export class DataTableDemo extends React.Component {
         cell: EditableCell
       }
     };
-    console.log(this.columns);
     const columns = this.columns.map(col => {
       if (!col.editable) {
         return col;
@@ -182,7 +185,7 @@ export class DataTableDemo extends React.Component {
           Aggiungi riga
         </Button>
         <Table
-          scroll={{ x: 1900 }}
+          scroll={{ x: 2000 }}
           components={components}
           rowClassName={() => 'editable-row'}
           bordered
