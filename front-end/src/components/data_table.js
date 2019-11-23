@@ -1,6 +1,5 @@
 import React from 'react';
 import './data_table.css';
-// import mystyle from './data_table.css';
 import { Table, Input, Button, Popconfirm, Form } from 'antd';
 
 const EditableContext = React.createContext();

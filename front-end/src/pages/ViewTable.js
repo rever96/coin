@@ -1,10 +1,10 @@
 import React from 'react';
 import history from '../history';
-import { DataTableDemo } from '../components/data_table';
 import struttura from '../assets/struttura.json';
 import { DatePicker } from 'antd';
 import moment from 'moment';
 import configDatePicker from '../assets/Lang/it-IT/datepicker.json';
+import { EdiTable } from '../components/edi_table/edi_table';
 
 class ViewTable extends React.Component {
   constructor() {
@@ -87,7 +87,7 @@ class ViewTable extends React.Component {
     let tabella = <>caricamento..</>;
     if (this.state.columns.length > 0 && this.state.rows.length > 0) {
       tabella = (
-        <DataTableDemo
+        <EdiTable
           titolo={this.state.tableName}
           colonne={this.state.columns}
           righe={this.state.rows}
