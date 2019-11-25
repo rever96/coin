@@ -5,6 +5,7 @@ import { DatePicker } from 'antd';
 import moment from 'moment';
 import configDatePicker from '../assets/Lang/it-IT/datepicker.json';
 import { EdiTable } from '../components/edi_table/edi_table';
+import { ModalSelectRow } from '../components/modal_select_row/modal_select_row';
 
 class ViewTable extends React.Component {
   constructor() {
@@ -26,10 +27,14 @@ class ViewTable extends React.Component {
     fetch('http://localhost:8080/api/v3/select', options)
       .then(response => response.json())
       .then(data => {
+        // TODO da ristrutturare utilizzando file di configurazione
         this.setState({
           rows: data.map((r, key) => {
             r.key = key;
             r.indirizzo = { name: r.indirizzo, value: r.gmap };
+            if (r.fk_orario) {
+              r.fk_orario = { value: r.fk_orario, rifTable: 'settimane' };
+            }
             return r;
           })
         });
@@ -58,7 +63,15 @@ class ViewTable extends React.Component {
                 ></DatePicker>
               );
               break;
+            case 'fk':
+              colonna.render = v => (
+                <ModalSelectRow tableName={v.rifTable}>ciao</ModalSelectRow>
+              );
+              break;
             default:
+              if (c.render) {
+                colonna.render = v => <p>{v}</p>;
+              }
               break;
           }
           return colonna;

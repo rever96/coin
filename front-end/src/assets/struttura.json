@@ -24,39 +24,9 @@
         "editable": true
       },
       {
-        "nome": "intestazione_legale",
-        "editable": true
-      },
-      {
-        "nome": "attivita_fruitrice",
-        "editable": true
-      },
-      {
-        "nome": "partita_iva",
-        "editable": true
-      },
-      {
-        "nome": "codice_univoco",
-        "editable": true
-      },
-      {
-        "nome": "accessibilita_consegne",
-        "editable": true,
-        "width": 180
-      },
-      {
-        "nome": "tipo_cliente",
-        "editable": true
-      },
-      {
-        "nome": "data_contatto_futuro",
+        "nome": "fk_orario",
         "editable": false,
-        "render": "data",
-        "width": 150
-      },
-      {
-        "nome": "note",
-        "editable": true
+        "render": "fk"
       }
     ]
   },

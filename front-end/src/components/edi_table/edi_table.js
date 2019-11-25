@@ -126,7 +126,6 @@ class EditableTable extends React.Component {
   };
 
   save(form, key) {
-    console.log(this.props.colonne);
     form.validateFields((error, row) => {
       if (error) {
         return;
@@ -184,7 +183,7 @@ class EditableTable extends React.Component {
           Aggiungi riga
         </Button>
         <Table
-          scroll={{ x: 1400 }}
+          // scroll={{ x: 1400 }}
           components={components}
           bordered
           dataSource={this.state.dataSource}
