@@ -6,43 +6,31 @@ const EditableContext = React.createContext();
 
 class EditableCell extends React.Component {
   getInput = () => {
-    // if (this.props.inputType === 'number') {
-    //   return <InputNumber />;
-    // }
+    if (this.props.render === 'fk') {
+      return <Button>prova </Button>;
+    }
     return <Input />;
   };
 
   renderCell = ({ getFieldDecorator }) => {
-    const {
-      editing,
-      dataIndex,
-      title,
-      inputType,
-      record,
-      index,
-      children,
-      ...restProps
-    } = this.props;
     return (
-      <td {...restProps}>
-        {editing ? (
+      <td>
+        {this.props.editing ? (
           <Form.Item style={{ margin: 0 }}>
-            {getFieldDecorator(dataIndex, {
-              rules: this.props.colonne.find(c => c.dataIndex === dataIndex)[
-                'not_null'
-              ]
+            {getFieldDecorator(this.props.dataIndex, {
+              rules: this.props.not_null
                 ? [
                     {
                       required: true,
-                      message: `Please Input ${title}!`
+                      message: `Campo obbligatorio: ${this.props.title}!`
                     }
                   ]
                 : [],
-              initialValue: record[dataIndex]
+              initialValue: this.props.cellValue
             })(this.getInput())}
           </Form.Item>
         ) : (
-          children
+          this.props.children
         )}
       </td>
     );
@@ -58,13 +46,12 @@ class EditableCell extends React.Component {
 class EditableTable extends React.Component {
   constructor(props) {
     super(props);
-    console.log(props);
     this.state = {
       dataSource: props.righe,
       editingKey: '',
       count: props.righe[props.righe.length - 1].key + 1
     };
-    this.columns = props.colonne;
+    this.columns = [...props.colonne];
     EditableCell.defaultProps = {
       colonne: this.columns
     };
@@ -111,7 +98,6 @@ class EditableTable extends React.Component {
         );
       }
     });
-    console.log(this.props.colonne);
   }
 
   isEditing = record => record.key === this.state.editingKey;
@@ -171,7 +157,6 @@ class EditableTable extends React.Component {
         cell: EditableCell
       }
     };
-
     const columns = this.columns.map(col => {
       if (!col.editable) {
         return col;
@@ -179,8 +164,10 @@ class EditableTable extends React.Component {
       return {
         ...col,
         onCell: record => ({
-          record,
+          cellValue: record[col.dataIndex],
           dataIndex: col.dataIndex,
+          render: col.render,
+          not_null: col.not_null,
           title: col.title,
           editing: this.isEditing(record)
         })

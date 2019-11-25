@@ -15,7 +15,8 @@
       {
         "nome": "data_inserimento",
         "editable": false,
-        "render": "data"
+        "render": "data",
+        "width": 150
       },
       {
         "nome": "n_coperti",
@@ -50,7 +51,8 @@
       {
         "nome": "data_contatto_futuro",
         "editable": false,
-        "render": "data"
+        "render": "data",
+        "width": 150
       },
       {
         "nome": "note",
