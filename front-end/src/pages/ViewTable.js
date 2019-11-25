@@ -7,6 +7,7 @@ import configDatePicker from '../assets/Lang/it-IT/datepicker.json';
 import { EdiTable } from '../components/edi_table/edi_table';
 import { ModalSelectRow } from '../components/modal_select_row/modal_select_row';
 import { connect } from 'react-redux';
+import fetchProductsAction from '../data/tables';
 
 class ViewTable extends React.Component {
   constructor() {
@@ -20,25 +21,29 @@ class ViewTable extends React.Component {
   }
 
   componentDidMount() {
-    const options = {
-      method: 'post',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ table: this.state.tableName })
-    };
-    fetch('http://localhost:8080/api/v3/select', options)
-      .then(response => response.json())
-      .then(data => {
-        // TODO da ristrutturare utilizzando file di configurazione
-        this.setState({
-          rows: data.map((r, key) => {
-            r.key = key;
-            r.indirizzo = { name: r.indirizzo, value: r.gmap };
-            if (r.fk_orario) {
-              r.fk_orario = { value: r.fk_orario, rifTable: 'settimane' };
-            }
-            return r;
-          })
-        });
+    // TODO da ristrutturare utilizzando file di configurazione
+    console.log(this.props.store.getState());
+    const tabella = this.props.store
+      .getState()
+      .products.find(table => table.tableName === this.state.tableName);
+    console.log(tabella);
+    if (!tabella) {
+      console.log('fetch ' + this.state.tableName);
+      fetchProductsAction(this.state.tableName, this.props.dispatch);
+    }
+    console.log(this.props.store.getState());
+
+    //action.fetch
+    if (tabella)
+      this.setState({
+        rows: tabella.tableData.map((r, key) => {
+          r.key = key;
+          r.indirizzo = { name: r.indirizzo, value: r.gmap };
+          if (r.fk_orario) {
+            r.fk_orario = { value: r.fk_orario, rifTable: 'settimane' };
+          }
+          return r;
+        })
       });
     this.setState({
       columns: struttura
@@ -81,7 +86,7 @@ class ViewTable extends React.Component {
   }
 
   componentDidUpdate() {
-    console.log(this.state.columns);
+    console.log(this.props.store.getState());
     let path = history.location.pathname.split('/');
     path = path[path.length - 1];
     if (path !== this.state.tableName) {
@@ -99,7 +104,6 @@ class ViewTable extends React.Component {
   }
 
   render() {
-    console.log(this.props);
     let tabella = <>caricamento..</>;
     if (this.state.columns.length > 0 && this.state.rows.length > 0) {
       tabella = (
