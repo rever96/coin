@@ -6,6 +6,7 @@ import moment from 'moment';
 import configDatePicker from '../assets/Lang/it-IT/datepicker.json';
 import { EdiTable } from '../components/edi_table/edi_table';
 import { ModalSelectRow } from '../components/modal_select_row/modal_select_row';
+import { connect } from 'react-redux';
 
 class ViewTable extends React.Component {
   constructor() {
@@ -98,6 +99,7 @@ class ViewTable extends React.Component {
   }
 
   render() {
+    console.log(this.props);
     let tabella = <>caricamento..</>;
     if (this.state.columns.length > 0 && this.state.rows.length > 0) {
       tabella = (
@@ -112,4 +114,4 @@ class ViewTable extends React.Component {
   }
 }
 
-export default ViewTable;
+export default connect()(ViewTable);
