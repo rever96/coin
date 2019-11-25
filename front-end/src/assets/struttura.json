@@ -4,7 +4,8 @@
     "colonne": [
       {
         "nome": "email",
-        "editable": true
+        "editable": true,
+        "not_null": true
       },
       {
         "nome": "indirizzo",

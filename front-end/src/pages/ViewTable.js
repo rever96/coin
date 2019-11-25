@@ -67,6 +67,7 @@ class ViewTable extends React.Component {
   }
 
   componentDidUpdate() {
+    console.log(this.state.columns);
     let path = history.location.pathname.split('/');
     path = path[path.length - 1];
     if (path !== this.state.tableName) {

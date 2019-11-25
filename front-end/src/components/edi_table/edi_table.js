@@ -1,14 +1,14 @@
 import React from 'react';
 import './edi_table.css';
-import { Table, Input, InputNumber, Popconfirm, Form, Button } from 'antd';
+import { Table, Input, Popconfirm, Form, Button } from 'antd';
 
 const EditableContext = React.createContext();
 
 class EditableCell extends React.Component {
   getInput = () => {
-    if (this.props.inputType === 'number') {
-      return <InputNumber />;
-    }
+    // if (this.props.inputType === 'number') {
+    //   return <InputNumber />;
+    // }
     return <Input />;
   };
 
@@ -28,12 +28,16 @@ class EditableCell extends React.Component {
         {editing ? (
           <Form.Item style={{ margin: 0 }}>
             {getFieldDecorator(dataIndex, {
-              rules: [
-                {
-                  required: true,
-                  message: `Please Input ${title}!`
-                }
-              ],
+              rules: this.props.colonne.find(c => c.dataIndex === dataIndex)[
+                'not_null'
+              ]
+                ? [
+                    {
+                      required: true,
+                      message: `Please Input ${title}!`
+                    }
+                  ]
+                : [],
               initialValue: record[dataIndex]
             })(this.getInput())}
           </Form.Item>
@@ -61,9 +65,13 @@ class EditableTable extends React.Component {
       count: props.righe[props.righe.length - 1].key + 1
     };
     this.columns = props.colonne;
+    EditableCell.defaultProps = {
+      colonne: this.columns
+    };
     this.columns.push({
       title: 'operation',
       dataIndex: 'operation',
+      width: 100,
       render: (text, record) => {
         const { editingKey } = this.state;
         const editable = this.isEditing(record);
@@ -103,6 +111,7 @@ class EditableTable extends React.Component {
         );
       }
     });
+    console.log(this.props.colonne);
   }
 
   isEditing = record => record.key === this.state.editingKey;
@@ -131,6 +140,7 @@ class EditableTable extends React.Component {
   };
 
   save(form, key) {
+    console.log(this.props.colonne);
     form.validateFields((error, row) => {
       if (error) {
         return;
@@ -187,7 +197,7 @@ class EditableTable extends React.Component {
           Aggiungi riga
         </Button>
         <Table
-          scroll={{ x: 2000 }}
+          scroll={{ x: 1400 }}
           components={components}
           bordered
           dataSource={this.state.dataSource}
