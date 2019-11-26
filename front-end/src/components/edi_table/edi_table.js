@@ -51,7 +51,12 @@ class EditableTable extends React.Component {
       editingKey: '',
       count: props.righe[props.righe.length - 1].key + 1
     };
-    this.columns = [...props.colonne];
+    this.titolo = this.props.titolo;
+    this.setColumns();
+  }
+
+  setColumns() {
+    this.columns = [...this.props.colonne];
     EditableCell.defaultProps = {
       colonne: this.columns
     };
@@ -150,6 +155,17 @@ class EditableTable extends React.Component {
     this.setState({ editingKey: key });
   }
 
+  componentDidUpdate() {
+    if (
+      this.titolo !== this.props.titolo &&
+      this.props.colonne.length > 0 &&
+      this.props.righe.length > 0
+    ) {
+      this.titolo = this.props.titolo;
+      this.setColumns();
+    }
+  }
+
   render() {
     const components = {
       body: {
@@ -175,6 +191,7 @@ class EditableTable extends React.Component {
 
     return (
       <EditableContext.Provider value={this.props.form}>
+        <h1>{this.titolo}</h1>
         <Button
           onClick={this.handleAdd}
           type="primary"

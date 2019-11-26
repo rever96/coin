@@ -7,44 +7,29 @@ import configDatePicker from '../assets/Lang/it-IT/datepicker.json';
 import { EdiTable } from '../components/edi_table/edi_table';
 import { ModalSelectRow } from '../components/modal_select_row/modal_select_row';
 import { connect } from 'react-redux';
-import fetchProductsAction from '../data/tables';
+import { fetchTable } from '../data/tables';
 
 class ViewTable extends React.Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     const path = history.location.pathname.split('/');
     this.state = {
-      rows: [],
       tableName: path[path.length - 1],
       columns: []
     };
   }
 
   componentDidMount() {
-    // TODO da ristrutturare utilizzando file di configurazione
-    console.log(this.props.store.getState());
-    const tabella = this.props.store
-      .getState()
-      .products.find(table => table.tableName === this.state.tableName);
-    console.log(tabella);
-    if (!tabella) {
-      console.log('fetch ' + this.state.tableName);
-      fetchProductsAction(this.state.tableName, this.props.dispatch);
-    }
-    console.log(this.props.store.getState());
-
-    //action.fetch
-    if (tabella)
+    if (
+      !this.props.fetchedTables ||
+      !this.props.fetchedTables.find(name => name === this.state.tableName)
+    ) {
+      fetchTable(this.state.tableName, this.props.dispatch);
+    } else {
       this.setState({
-        rows: tabella.tableData.map((r, key) => {
-          r.key = key;
-          r.indirizzo = { name: r.indirizzo, value: r.gmap };
-          if (r.fk_orario) {
-            r.fk_orario = { value: r.fk_orario, rifTable: 'settimane' };
-          }
-          return r;
-        })
+        righe: this.props.store.getState().tableData[this.state.tableName]
       });
+    }
     this.setState({
       columns: struttura
         .find(tabella => tabella.nome === this.state.tableName)
@@ -86,13 +71,11 @@ class ViewTable extends React.Component {
   }
 
   componentDidUpdate() {
-    console.log(this.props.store.getState());
     let path = history.location.pathname.split('/');
     path = path[path.length - 1];
     if (path !== this.state.tableName) {
       this.setState(
         {
-          rows: [],
           tableName: path,
           columns: []
         },
@@ -104,13 +87,13 @@ class ViewTable extends React.Component {
   }
 
   render() {
-    let tabella = <>caricamento..</>;
-    if (this.state.columns.length > 0 && this.state.rows.length > 0) {
+    let tabella = <>spinner super fighissimo</>;
+    if (this.props.renderTable) {
       tabella = (
         <EdiTable
           titolo={this.state.tableName}
           colonne={this.state.columns}
-          righe={this.state.rows}
+          righe={this.state.righe || this.props.tableData}
         />
       );
     }
@@ -118,4 +101,34 @@ class ViewTable extends React.Component {
   }
 }
 
-export default connect()(ViewTable);
+const mapStateToProps = state => {
+  const path = history.location.pathname.split('/');
+  const name = path[path.length - 1];
+  if (
+    !state.pending &&
+    state.tableData[name] &&
+    state.tableData[name].length > 0
+  ) {
+    console.log('table data aggiunta');
+    const tableData = state.tableData[name].map((r, key) => {
+      r.key = key;
+      if (r.indirizzo) {
+        r.indirizzo = { name: r.indirizzo, value: r.gmap };
+      }
+      if (r.fk_orario) {
+        r.fk_orario = { value: r.fk_orario, rifTable: 'settimane' };
+      }
+      return r;
+    });
+    return {
+      fetchedTables: state.fetchedTables,
+      tableData,
+      renderTable: true
+    };
+  }
+  return {
+    renderTable: false
+  };
+};
+
+export default connect(mapStateToProps)(ViewTable);

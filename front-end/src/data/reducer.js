@@ -1,56 +1,34 @@
 import {
-  FETCH_PRODUCTS_PENDING,
-  FETCH_PRODUCTS_SUCCESS,
-  FETCH_PRODUCTS_ERROR
+  FETCH_DATA_PENDING,
+  FETCH_DATA_SUCCESS,
+  FETCH_DATA_ERROR
 } from './actions';
-
-export const reduceConfig = (state = [], action) => {
-  switch (action.type) {
-    case 'GET':
-      const options = {
-        method: 'post',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ table: action.tableName })
-      };
-      fetch('http://localhost:8080/api/v3/select', options)
-        .then(response => response.json())
-        .then(data => {
-          return [
-            ...state,
-            {
-              tableName: action.tableName,
-              tableData: data
-            }
-          ];
-        });
-      break;
-    case 'INIT':
-      return [];
-    default:
-      return state;
-  }
-};
 
 const initialState = {
   pending: false,
-  products: [],
+  tableData: {},
+  fetchedTables: [],
   error: null
 };
 
-export function productsReducer(state = initialState, action) {
+export const tablesReducer = (state = initialState, action) => {
   switch (action.type) {
-    case FETCH_PRODUCTS_PENDING:
+    case FETCH_DATA_PENDING:
       return {
         ...state,
         pending: true
       };
-    case FETCH_PRODUCTS_SUCCESS:
+    case FETCH_DATA_SUCCESS:
       return {
         ...state,
         pending: false,
-        products: action.payload
+        fetchedTables: [...state.fetchedTables, action.tableName],
+        tableData: {
+          ...state.tableData,
+          [action.tableName]: action.tableData
+        }
       };
-    case FETCH_PRODUCTS_ERROR:
+    case FETCH_DATA_ERROR:
       return {
         ...state,
         pending: false,
@@ -59,4 +37,4 @@ export function productsReducer(state = initialState, action) {
     default:
       return state;
   }
-}
+};

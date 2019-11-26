@@ -1,27 +1,23 @@
 import {
-  fetchProductsPending,
-  fetchProductsSuccess,
-  fetchProductsError
+  fetchTablePending,
+  fetchTableSuccess,
+  fetchTableError
 } from './actions';
 
-function fetchProducts(tableName, dispatch) {
+export function fetchTable(tableName, dispatch) {
   const options = {
     method: 'post',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ table: tableName })
   };
 
-  dispatch(fetchProductsPending());
+  dispatch(fetchTablePending());
   fetch('http://localhost:8080/api/v3/select', options)
     .then(response => response.json())
     .then(data => {
-      console.log(data);
-      dispatch(fetchProductsSuccess(data));
-      return data;
+      dispatch(fetchTableSuccess(data, tableName));
     })
     .catch(error => {
-      dispatch(fetchProductsError(error));
+      dispatch(fetchTableError(error));
     });
 }
-
-export default fetchProducts;

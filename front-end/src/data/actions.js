@@ -1,23 +1,24 @@
-export const FETCH_PRODUCTS_PENDING = 'FETCH_PRODUCTS_PENDING';
-export const FETCH_PRODUCTS_SUCCESS = 'FETCH_PRODUCTS_SUCCESS';
-export const FETCH_PRODUCTS_ERROR = 'FETCH_PRODUCTS_ERROR';
+export const FETCH_DATA_PENDING = 'ACTION1';
+export const FETCH_DATA_SUCCESS = 'ACTION2';
+export const FETCH_DATA_ERROR = 'ACTION3';
 
-export function fetchProductsPending() {
+export function fetchTablePending() {
   return {
-    type: FETCH_PRODUCTS_PENDING
+    type: FETCH_DATA_PENDING
   };
 }
 
-export function fetchProductsSuccess(products) {
+export function fetchTableSuccess(tableData, tableName) {
   return {
-    type: FETCH_PRODUCTS_SUCCESS,
-    products: products
+    type: FETCH_DATA_SUCCESS,
+    tableData,
+    tableName
   };
 }
 
-export function fetchProductsError(error) {
+export function fetchTableError(error) {
   return {
-    type: FETCH_PRODUCTS_ERROR,
+    type: FETCH_DATA_ERROR,
     error: error
   };
 }

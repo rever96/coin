@@ -3,10 +3,10 @@ import { Router, Switch, Redirect, Route } from 'react-router-dom';
 import history from './history';
 import ViewTable from './pages/ViewTable';
 import { createStore, compose } from 'redux';
-import { productsReducer } from './data/reducer';
+import { tablesReducer } from './data/reducer';
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
-let storeConfig = createStore(productsReducer, composeEnhancers());
+let storeConfig = createStore(tablesReducer, composeEnhancers());
 ViewTable.defaultProps = {
   store: storeConfig
 };
