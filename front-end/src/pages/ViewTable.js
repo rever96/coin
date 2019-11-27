@@ -15,8 +15,10 @@ class ViewTable extends React.Component {
     const path = history.location.pathname.split('/');
     this.state = {
       tableName: path[path.length - 1],
-      columns: []
+      columns: [],
+      righe: []
     };
+    this.stillWaitingForData = true;
   }
 
   componentDidMount() {
@@ -24,11 +26,8 @@ class ViewTable extends React.Component {
       !this.props.fetchedTables ||
       !this.props.fetchedTables.find(name => name === this.state.tableName)
     ) {
+      console.log('fetch server table');
       fetchTable(this.state.tableName, this.props.dispatch);
-    } else {
-      this.setState({
-        righe: this.props.store.getState().tableData[this.state.tableName]
-      });
     }
     this.setState({
       columns: struttura
@@ -71,29 +70,63 @@ class ViewTable extends React.Component {
   }
 
   componentDidUpdate() {
+    if (this.checkChangeRoute()) {
+      console.log('cambio routes');
+      this.stillWaitingForData = true;
+      return;
+    }
+    if (this.stillWaitingForData && this.props.tableData) {
+      console.log('set rows');
+      this.stillWaitingForData = false;
+      this.setRows();
+    }
+  }
+
+  checkChangeRoute() {
     let path = history.location.pathname.split('/');
     path = path[path.length - 1];
     if (path !== this.state.tableName) {
       this.setState(
         {
           tableName: path,
-          columns: []
+          columns: [],
+          righe: []
         },
         () => {
           this.componentDidMount();
         }
       );
+      return true;
     }
+    return false;
+  }
+
+  setRows() {
+    console.log(this.props.tableData);
+    const tableData = this.props.tableData.map((r, key) => {
+      let cr = { ...r };
+      cr.key = key;
+      if (cr.indirizzo) {
+        cr.indirizzo = { name: r.indirizzo, value: r.gmap };
+      }
+      if (cr.fk_orario) {
+        cr.fk_orario = { value: r.fk_orario, rifTable: 'settimane' };
+      }
+      return cr;
+    });
+    this.setState({
+      righe: tableData
+    });
   }
 
   render() {
     let tabella = <>spinner super fighissimo</>;
-    if (this.props.renderTable) {
+    if (this.props.renderTable && this.state.righe.length > 0) {
       tabella = (
         <EdiTable
           titolo={this.state.tableName}
           colonne={this.state.columns}
-          righe={this.state.righe || this.props.tableData}
+          righe={this.state.righe}
         />
       );
     }
@@ -101,7 +134,7 @@ class ViewTable extends React.Component {
   }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state, ownProps) => {
   const path = history.location.pathname.split('/');
   const name = path[path.length - 1];
   if (
@@ -109,20 +142,9 @@ const mapStateToProps = state => {
     state.tableData[name] &&
     state.tableData[name].length > 0
   ) {
-    console.log('table data aggiunta');
-    const tableData = state.tableData[name].map((r, key) => {
-      r.key = key;
-      if (r.indirizzo) {
-        r.indirizzo = { name: r.indirizzo, value: r.gmap };
-      }
-      if (r.fk_orario) {
-        r.fk_orario = { value: r.fk_orario, rifTable: 'settimane' };
-      }
-      return r;
-    });
     return {
       fetchedTables: state.fetchedTables,
-      tableData,
+      tableData: state.tableData[name],
       renderTable: true
     };
   }

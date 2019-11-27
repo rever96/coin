@@ -156,6 +156,7 @@ class EditableTable extends React.Component {
   }
 
   componentDidUpdate() {
+    // console.log(this.props);
     if (
       this.titolo !== this.props.titolo &&
       this.props.colonne.length > 0 &&
@@ -163,6 +164,9 @@ class EditableTable extends React.Component {
     ) {
       this.titolo = this.props.titolo;
       this.setColumns();
+      this.setState({
+        dataSource: this.props.righe
+      });
     }
   }
 
