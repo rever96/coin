@@ -2,15 +2,46 @@ import React from 'react';
 import { Table, Input, Button, Icon } from 'antd';
 import Highlighter from 'react-highlight-words';
 import { connect } from 'react-redux';
+import struttura from '../../assets/struttura.json';
+import { setRows } from '../../data/tables';
 
 class SelectRowTable extends React.Component {
-  constructor(props) {
-    super(props);
-    console.log(props);
+  constructor() {
+    super();
     this.state = {
       searchText: '',
-      searchedColumn: ''
+      searchedColumn: '',
+      righe: [],
+      colonne: []
     };
+    this.stillWaitingForData = true;
+  }
+
+  componentDidUpdate() {
+    console.log(this.props);
+    if (this.stillWaitingForData && this.props.tableData) {
+      console.log('set rows');
+      this.setState({
+        righe: setRows(this.props.tableData)
+      });
+      const colonne = struttura
+        .find(tabella => tabella.nome === this.props.tableName)
+        .colonne.map((c, key) => {
+          let colonna = {
+            ...c,
+            ...this.getColumnSearchProps(c.nome)
+          };
+          colonna.title = c.nome;
+          colonna.dataIndex = c.nome;
+          colonna.key = key;
+
+          return colonna;
+        });
+      this.setState({
+        colonne
+      });
+      this.stillWaitingForData = false;
+    }
   }
 
   getColumnSearchProps = dataIndex => ({
@@ -93,49 +124,24 @@ class SelectRowTable extends React.Component {
   };
 
   render() {
-    const columns = [
-      {
-        title: 'Name',
-        dataIndex: 'name',
-        key: 'name',
-        width: '30%',
-        ...this.getColumnSearchProps('name')
-      },
-      {
-        title: 'Age',
-        dataIndex: 'age',
-        key: 'age',
-        width: '20%',
-        ...this.getColumnSearchProps('age')
-      },
-      {
-        title: 'Address',
-        dataIndex: 'address',
-        key: 'address',
-        ...this.getColumnSearchProps('address')
-      }
-    ];
-    return <Table columns={columns} dataSource={[]} />;
+    console.log(this.stillWaitingForData);
+    if (this.stillWaitingForData) {
+      return <> spinner super figherrimo</>;
+    }
+    return <Table columns={this.state.colonne} dataSource={this.state.righe} />;
   }
 }
 
 const mapStateToProps = (state, ownProps) => {
-  console.log(ownProps);
   const { tableName } = ownProps;
   if (
     !state.pending &&
     state.tableData[tableName] &&
     state.tableData[tableName].length > 0
   ) {
-    return {
-      fetchedTables: state.fetchedTables,
-      tableData: state.tableData[tableName],
-      renderTable: true
-    };
+    return { tableData: state.tableData[tableName] };
   }
-  return {
-    renderTable: false
-  };
+  return {};
 };
 
 export default connect(mapStateToProps)(SelectRowTable);

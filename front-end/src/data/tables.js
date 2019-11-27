@@ -28,3 +28,21 @@ export function fetchTableIfMissing(tableName, dispatch, fetchedTables) {
     fetchTable(tableName, dispatch);
   }
 }
+
+export function setRows(tableData) {
+  if (!tableData || tableData.lenght <= 0) {
+    return [];
+  }
+  const rows = tableData.map((r, key) => {
+    let cr = { ...r };
+    cr.key = key;
+    if (cr.indirizzo) {
+      cr.indirizzo = { name: r.indirizzo, value: r.gmap };
+    }
+    if (cr.fk_orario) {
+      cr.fk_orario = { value: r.fk_orario, rifTable: 'settimane' };
+    }
+    return cr;
+  });
+  return rows;
+}

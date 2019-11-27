@@ -7,7 +7,7 @@ import configDatePicker from '../assets/Lang/it-IT/datepicker.json';
 import { EdiTable } from '../components/edi_table/edi_table';
 import ModalSelectRow from '../components/modal_select_row/modal_select_row';
 import { connect } from 'react-redux';
-import { fetchTableIfMissing } from '../data/tables';
+import { fetchTableIfMissing, setRows } from '../data/tables';
 
 class ViewTable extends React.Component {
   constructor() {
@@ -76,7 +76,9 @@ class ViewTable extends React.Component {
     if (this.stillWaitingForData && this.props.tableData) {
       console.log('set rows');
       this.stillWaitingForData = false;
-      this.setRows();
+      this.setState({
+        righe: setRows(this.props.tableData)
+      });
     }
   }
 
@@ -97,23 +99,6 @@ class ViewTable extends React.Component {
       return true;
     }
     return false;
-  }
-
-  setRows() {
-    const tableData = this.props.tableData.map((r, key) => {
-      let cr = { ...r };
-      cr.key = key;
-      if (cr.indirizzo) {
-        cr.indirizzo = { name: r.indirizzo, value: r.gmap };
-      }
-      if (cr.fk_orario) {
-        cr.fk_orario = { value: r.fk_orario, rifTable: 'settimane' };
-      }
-      return cr;
-    });
-    this.setState({
-      righe: tableData
-    });
   }
 
   render() {

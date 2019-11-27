@@ -79,5 +79,42 @@
         "editable": true
       }
     ]
+  },
+  {
+    "nome": "settimane",
+    "colonne": [
+      {
+        "nome": "lunedi",
+        "editable": true
+      },
+      {
+        "nome": "martedi",
+        "editable": true
+      },
+      {
+        "nome": "mercoledi",
+        "editable": true
+      },
+      {
+        "nome": "giovedi",
+        "editable": true
+      },
+      {
+        "nome": "venerdi",
+        "editable": true
+      },
+      {
+        "nome": "sabato",
+        "editable": true
+      },
+      {
+        "nome": "domenica",
+        "editable": true
+      },
+      {
+        "nome": "note",
+        "editable": true
+      }
+    ]
   }
 ]
