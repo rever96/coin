@@ -5,9 +5,9 @@ import { DatePicker } from 'antd';
 import moment from 'moment';
 import configDatePicker from '../assets/Lang/it-IT/datepicker.json';
 import { EdiTable } from '../components/edi_table/edi_table';
-import { ModalSelectRow } from '../components/modal_select_row/modal_select_row';
+import ModalSelectRow from '../components/modal_select_row/modal_select_row';
 import { connect } from 'react-redux';
-import { fetchTable } from '../data/tables';
+import { fetchTableIfMissing } from '../data/tables';
 
 class ViewTable extends React.Component {
   constructor() {
@@ -15,22 +15,20 @@ class ViewTable extends React.Component {
     const path = history.location.pathname.split('/');
     this.state = {
       tableName: path[path.length - 1],
-      columns: [],
+      colonne: [],
       righe: []
     };
     this.stillWaitingForData = true;
   }
 
   componentDidMount() {
-    if (
-      !this.props.fetchedTables ||
-      !this.props.fetchedTables.find(name => name === this.state.tableName)
-    ) {
-      console.log('fetch server table');
-      fetchTable(this.state.tableName, this.props.dispatch);
-    }
+    fetchTableIfMissing(
+      this.state.tableName,
+      this.props.dispatch,
+      this.props.fetchedTables
+    );
     this.setState({
-      columns: struttura
+      colonne: struttura
         .find(tabella => tabella.nome === this.state.tableName)
         .colonne.map((c, key) => {
           let colonna = { ...c };
@@ -89,7 +87,7 @@ class ViewTable extends React.Component {
       this.setState(
         {
           tableName: path,
-          columns: [],
+          colonne: [],
           righe: []
         },
         () => {
@@ -120,11 +118,11 @@ class ViewTable extends React.Component {
 
   render() {
     let tabella = <>spinner super fighissimo</>;
-    if (this.props.renderTable && this.state.righe.length > 0) {
+    if (this.state.righe.length > 0) {
       tabella = (
         <EdiTable
           titolo={this.state.tableName}
-          colonne={this.state.columns}
+          colonne={this.state.colonne}
           righe={this.state.righe}
         />
       );
@@ -143,13 +141,10 @@ const mapStateToProps = (state, ownProps) => {
   ) {
     return {
       fetchedTables: state.fetchedTables,
-      tableData: state.tableData[name],
-      renderTable: true
+      tableData: state.tableData[name]
     };
   }
-  return {
-    renderTable: false
-  };
+  return {};
 };
 
 export default connect(mapStateToProps)(ViewTable);

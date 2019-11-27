@@ -21,3 +21,10 @@ export function fetchTable(tableName, dispatch) {
       dispatch(fetchTableError(error));
     });
 }
+
+export function fetchTableIfMissing(tableName, dispatch, fetchedTables) {
+  if (!fetchedTables || !fetchedTables.find(name => name === tableName)) {
+    console.log('fetch server table');
+    fetchTable(tableName, dispatch);
+  }
+}
