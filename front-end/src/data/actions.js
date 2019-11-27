@@ -1,6 +1,6 @@
-export const FETCH_DATA_PENDING = 'ACTION1';
-export const FETCH_DATA_SUCCESS = 'ACTION2';
-export const FETCH_DATA_ERROR = 'ACTION3';
+export const FETCH_DATA_PENDING = 'wait for db';
+export const FETCH_DATA_SUCCESS = 'db fetch success';
+export const FETCH_DATA_ERROR = 'db fetch error';
 
 export function fetchTablePending() {
   return {

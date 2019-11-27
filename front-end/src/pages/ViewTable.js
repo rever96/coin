@@ -10,8 +10,8 @@ import { connect } from 'react-redux';
 import { fetchTable } from '../data/tables';
 
 class ViewTable extends React.Component {
-  constructor(props) {
-    super(props);
+  constructor() {
+    super();
     const path = history.location.pathname.split('/');
     this.state = {
       tableName: path[path.length - 1],
@@ -33,7 +33,7 @@ class ViewTable extends React.Component {
       columns: struttura
         .find(tabella => tabella.nome === this.state.tableName)
         .colonne.map((c, key) => {
-          let colonna = c;
+          let colonna = { ...c };
           colonna.title = c.nome;
           colonna.dataIndex = c.nome;
           colonna.key = key;
@@ -102,7 +102,6 @@ class ViewTable extends React.Component {
   }
 
   setRows() {
-    console.log(this.props.tableData);
     const tableData = this.props.tableData.map((r, key) => {
       let cr = { ...r };
       cr.key = key;
