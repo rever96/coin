@@ -3,18 +3,28 @@ import { Layout, Menu, Breadcrumb, Icon } from 'antd';
 import struttura from './assets/struttura.json';
 import Routes from './routes';
 import { navigateTo } from './history';
+import { connect } from 'react-redux';
+import { resetTables } from './data/actions';
 
 const { Header, Content, Footer, Sider } = Layout;
 const { SubMenu } = Menu;
 
-export class MyLayout extends React.Component {
-  state = {
-    collapsed: false
-  };
+class MyLayout extends React.Component {
+  constructor() {
+    super();
+    this.state = {
+      collapsed: false
+    };
+  }
 
   onCollapse = collapsed => {
     this.setState({ collapsed });
   };
+
+  onReset() {
+    console.log('reset');
+    this.props.dispatch(resetTables());
+  }
 
   render() {
     return (
@@ -64,9 +74,9 @@ export class MyLayout extends React.Component {
               <Menu.Item key="6">Team 1</Menu.Item>
               <Menu.Item key="8">Team 2</Menu.Item>
             </SubMenu>
-            <Menu.Item key="9">
+            <Menu.Item onClick={this.onReset.bind(this)} key="9">
               <Icon type="file" />
-              <span>File</span>
+              <span>Reset</span>
             </Menu.Item>
           </Menu>
         </Sider>
@@ -90,3 +100,5 @@ export class MyLayout extends React.Component {
     );
   }
 }
+
+export default connect()(MyLayout);

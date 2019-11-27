@@ -1,6 +1,11 @@
 export const FETCH_DATA_PENDING = 'wait for db';
 export const FETCH_DATA_SUCCESS = 'db fetch success';
 export const FETCH_DATA_ERROR = 'db fetch error';
+export const RESET_DATA = 'copia locale db eliminata';
+
+export function resetTables() {
+  return { type: RESET_DATA };
+}
 
 export function fetchTablePending() {
   return {

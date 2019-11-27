@@ -1,7 +1,8 @@
 import {
   FETCH_DATA_PENDING,
   FETCH_DATA_SUCCESS,
-  FETCH_DATA_ERROR
+  FETCH_DATA_ERROR,
+  RESET_DATA
 } from './actions';
 
 const initialState = {
@@ -13,6 +14,8 @@ const initialState = {
 
 export const tablesReducer = (state = initialState, action) => {
   switch (action.type) {
+    case RESET_DATA:
+      return initialState;
     case FETCH_DATA_PENDING:
       return {
         ...state,
