@@ -24,7 +24,7 @@
         "editable": true
       },
       {
-        "nome": "fk_orario",
+        "nome": "fk_proprietario",
         "editable": false,
         "render": "fk"
       }

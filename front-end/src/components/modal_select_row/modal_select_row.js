@@ -5,11 +5,9 @@ import { fetchTableIfMissing } from '../../data/tables';
 import { connect } from 'react-redux';
 
 class ModalSelectRow extends React.Component {
-  constructor(props) {
-    super(props);
-    console.log(Object.assign({}, props));
+  constructor() {
+    super();
     this.state = {
-      tableName: props.tableName,
       visible: false,
       confirmLoading: false
     };
@@ -17,7 +15,7 @@ class ModalSelectRow extends React.Component {
 
   showModal = () => {
     fetchTableIfMissing(
-      this.state.tableName,
+      this.props.tableName,
       this.props.dispatch,
       this.props.fetchedTables
     );
@@ -45,21 +43,25 @@ class ModalSelectRow extends React.Component {
   };
 
   render() {
-    const { visible, confirmLoading, tableName } = this.state;
+    const { visible, confirmLoading } = this.state;
+    const { tableName } = this.props;
     return (
       <div>
         <Button type="primary" onClick={this.showModal}>
           Riferimento a {tableName}
         </Button>
         <Modal
-          title="Title"
+          title={'Seleziona riferimento a ' + tableName}
           visible={visible}
           onOk={this.handleOk}
           confirmLoading={confirmLoading}
           onCancel={this.handleCancel}
           width="90%"
         >
-          <SelectRowTable tableName={this.props.tableName}></SelectRowTable>
+          <SelectRowTable
+            tableName={tableName}
+            id={this.props.id}
+          ></SelectRowTable>
         </Modal>
       </div>
     );

@@ -29,6 +29,7 @@ export function fetchTableIfMissing(tableName, dispatch, fetchedTables) {
   }
 }
 
+// TODO separare logica dal tipo dei dati utilizzando un file di configurazione
 export function setRows(tableData) {
   if (!tableData || tableData.lenght <= 0) {
     return [];
@@ -42,7 +43,10 @@ export function setRows(tableData) {
     if (cr.fk_orario) {
       cr.fk_orario = { value: r.fk_orario, rifTable: 'settimane' };
     }
+    if (cr.fk_proprietario) {
+      cr.fk_proprietario = { value: r.fk_proprietario, rifTable: 'persone' };
+    }
     return cr;
   });
-  return rows;
+  return [...rows];
 }

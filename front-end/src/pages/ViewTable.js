@@ -53,7 +53,10 @@ class ViewTable extends React.Component {
               break;
             case 'fk':
               colonna.render = v => (
-                <ModalSelectRow tableName={v.rifTable}>ciao</ModalSelectRow>
+                <ModalSelectRow
+                  tableName={v.rifTable}
+                  id={v.value}
+                ></ModalSelectRow>
               );
               break;
             default:
