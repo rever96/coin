@@ -5,12 +5,19 @@ import { fetchTableIfMissing } from '../../data/tables';
 import { connect } from 'react-redux';
 
 class ModalSelectRow extends React.Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       visible: false,
       confirmLoading: false
     };
+    console.log('Container Constructor ' + props.id);
+  }
+
+  componentDidUpdate() {
+    console.log(
+      'Container DidUpdate ' + this.props.id + ': ' + this.state.visible
+    );
   }
 
   showModal = () => {
@@ -61,6 +68,7 @@ class ModalSelectRow extends React.Component {
           <SelectRowTable
             tableName={tableName}
             id={this.props.id}
+            visible={visible}
           ></SelectRowTable>
         </Modal>
       </div>

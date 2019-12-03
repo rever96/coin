@@ -36,9 +36,9 @@ class MyLayout extends React.Component {
         >
           <div className="logo" />
           <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline">
-            <Menu.Item key="1">
+            <Menu.Item onClick={() => navigateTo('/dashboard')} key="1">
               <Icon type="pie-chart" />
-              <span>Option 1</span>
+              <span>Esempio</span>
             </Menu.Item>
             <Menu.Item key="2">
               <Icon type="desktop" />
