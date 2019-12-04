@@ -11,13 +11,6 @@ class ModalSelectRow extends React.Component {
       visible: false,
       confirmLoading: false
     };
-    console.log('Container Constructor ' + props.id);
-  }
-
-  componentDidUpdate() {
-    console.log(
-      'Container DidUpdate ' + this.props.id + ': ' + this.state.visible
-    );
   }
 
   showModal = () => {
