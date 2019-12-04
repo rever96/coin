@@ -19,18 +19,25 @@ class SelectRowTable extends React.Component {
     console.log('Content Constructor');
   }
 
+  componentDidMount() {
+    this.componentDidUpdate();
+  }
+
   componentDidUpdate() {
     console.log('Content DidUpdate');
     if (this.stillWaitingForData && this.props.tableData) {
       this.stillWaitingForData = false;
-      const righe = setRows(this.props.tableData);
+      console.log(Object.assign([], this.props.tableData));
+      const righe = Object.assign([], setRows(this.props.tableData));
       // todo in caso che non ci sia già la chiave esterna?
-      // const previuosIndex = righe.findIndex(r => r.id === this.props.id);
-      // const selectedRow = righe.splice(previuosIndex, 1)[0];
-      // console.log(selectedRow);
-      // righe.splice(0, 0, selectedRow);
-      // righe[0].key = 0;
-      // righe[previuosIndex].key = previuosIndex;
+      console.log(Object.assign([], righe));
+      const previuosIndex = righe.findIndex(r => r.id === this.props.id);
+      const selectedRow = righe.splice(previuosIndex, 1)[0];
+      console.log(Object.assign([], righe));
+      righe.splice(0, 0, selectedRow);
+      righe[0].key = 0;
+      righe[previuosIndex].key = previuosIndex;
+      console.log(Object.assign([], righe));
       this.setState({ righe });
       const colonne = struttura
         .find(tabella => tabella.nome === this.props.tableName)

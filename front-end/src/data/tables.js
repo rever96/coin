@@ -34,19 +34,37 @@ export function setRows(tableData) {
   if (!tableData || tableData.lenght <= 0) {
     return [];
   }
-  const rows = tableData.map((r, key) => {
-    let cr = { ...r };
+  // const rows = tableData.map((r, key) => {
+  //   let cr = { ...r };
+  //   cr.key = key;
+  //   console.log(cr.key);
+  //   if (cr.indirizzo) {
+  //     cr.indirizzo = { name: r.indirizzo, value: r.gmap };
+  //   }
+  //   if (cr.fk_orario) {
+  //     cr.fk_orario = { value: r.fk_orario, rifTable: 'settimane' };
+  //   }
+  //   if (cr.fk_proprietario) {
+  //     cr.fk_proprietario = { value: r.fk_proprietario, rifTable: 'persone' };
+  //   }
+  //   return cr;
+  // });
+  const rows = [];
+  tableData.forEach((cr, key) => {
     cr.key = key;
+    console.log(cr.key);
     if (cr.indirizzo) {
-      cr.indirizzo = { name: r.indirizzo, value: r.gmap };
+      cr.indirizzo = { name: cr.indirizzo, value: cr.gmap };
     }
     if (cr.fk_orario) {
-      cr.fk_orario = { value: r.fk_orario, rifTable: 'settimane' };
+      cr.fk_orario = { value: cr.fk_orario, rifTable: 'settimane' };
     }
     if (cr.fk_proprietario) {
-      cr.fk_proprietario = { value: r.fk_proprietario, rifTable: 'persone' };
+      cr.fk_proprietario = { value: cr.fk_proprietario, rifTable: 'persone' };
     }
-    return cr;
+    rows.push(cr);
+    console.log([...rows]);
   });
+  console.log([...rows]);
   return [...rows];
 }
