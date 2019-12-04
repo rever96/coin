@@ -43,7 +43,7 @@ class SelectRowTable extends React.Component {
           };
           colonna.title = c.nome;
           colonna.dataIndex = c.nome;
-          colonna.key = key;
+          colonna.key = c.nome;
 
           return colonna;
         });
@@ -149,7 +149,6 @@ class SelectRowTable extends React.Component {
       return <> spinner super figherrimo</>;
     }
     this.addSelectableFeature();
-    console.log(this.state.searchedColumn);
     return (
       <Table
         rowSelection={this.rowSelection}

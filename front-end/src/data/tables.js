@@ -29,6 +29,11 @@ export function fetchTableIfMissing(tableName, dispatch, fetchedTables) {
   }
 }
 
+export function setTable(tableName, dispatch, data) {
+  console.log('set local table');
+  dispatch(fetchTableSuccess(data, tableName));
+}
+
 // TODO separare logica dal tipo dei dati utilizzando un file di configurazione
 export function setRows(tableData) {
   if (!tableData || tableData.lenght <= 0) {

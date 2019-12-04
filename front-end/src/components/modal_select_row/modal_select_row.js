@@ -1,21 +1,20 @@
 import React from 'react';
 import { Modal, Button } from 'antd';
 import SelectRowTable from '../edi_table/sel_table';
-import { fetchTableIfMissing } from '../../data/tables';
+import { fetchTableIfMissing, setTable } from '../../data/tables';
 import { connect } from 'react-redux';
 
 class ModalSelectRow extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      visible: false,
-      confirmLoading: false
+      visible: false
     };
   }
 
   showModal = () => {
     fetchTableIfMissing(
-      this.props.tableName,
+      this.props.childTableName,
       this.props.dispatch,
       this.props.fetchedTables
     );
@@ -26,40 +25,39 @@ class ModalSelectRow extends React.Component {
 
   handleOk = () => {
     this.setState({
-      confirmLoading: true
+      visible: false
     });
-    setTimeout(() => {
-      this.setState({
-        visible: false,
-        confirmLoading: false
-      });
-    }, 2000);
   };
 
   handleCancel = () => {
+    console.log({ ...this.props });
+    setTable(
+      this.props.parentTableName,
+      this.props.dispatch,
+      this.props.tableData
+    );
     this.setState({
       visible: false
     });
   };
 
   render() {
-    const { visible, confirmLoading } = this.state;
-    const { tableName } = this.props;
+    const { visible } = this.state;
+    const { childTableName } = this.props;
     return (
       <div>
         <Button type="primary" onClick={this.showModal}>
-          Riferimento a {tableName}
+          Riferimento a {childTableName}
         </Button>
         <Modal
-          title={'Seleziona riferimento a ' + tableName}
+          title={'Seleziona riferimento a ' + childTableName}
           visible={visible}
           onOk={this.handleOk}
-          confirmLoading={confirmLoading}
           onCancel={this.handleCancel}
           width="90%"
         >
           <SelectRowTable
-            tableName={tableName}
+            tableName={childTableName}
             id={this.props.id}
             visible={visible}
           ></SelectRowTable>
@@ -69,9 +67,12 @@ class ModalSelectRow extends React.Component {
   }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state, ownProps) => {
+  const { parentTableName } = ownProps;
+  console.log(parentTableName);
   return {
-    fetchedTables: state.fetchedTables
+    fetchedTables: state.fetchedTables,
+    tableData: state.tableData[parentTableName]
   };
 };
 

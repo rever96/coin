@@ -54,7 +54,8 @@ class ViewTable extends React.Component {
             case 'fk':
               colonna.render = v => (
                 <ModalSelectRow
-                  tableName={v.rifTable}
+                  parentTableName={this.state.tableName}
+                  childTableName={v.rifTable}
                   id={v.value}
                 ></ModalSelectRow>
               );
