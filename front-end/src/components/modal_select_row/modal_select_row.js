@@ -54,12 +54,15 @@ class ModalSelectRow extends React.Component {
           visible={visible}
           onOk={this.handleOk}
           onCancel={this.handleCancel}
+          okText="Annulla"
+          cancelText="Mantieni modifiche"
           width="90%"
         >
           <SelectRowTable
             tableName={childTableName}
             id={this.props.id}
             visible={visible}
+            dispatch={this.props.dispatch}
           ></SelectRowTable>
         </Modal>
       </div>
@@ -69,7 +72,6 @@ class ModalSelectRow extends React.Component {
 
 const mapStateToProps = (state, ownProps) => {
   const { parentTableName } = ownProps;
-  console.log(parentTableName);
   return {
     fetchedTables: state.fetchedTables,
     tableData: state.tableData[parentTableName]

@@ -4,6 +4,7 @@ import Highlighter from 'react-highlight-words';
 import { connect } from 'react-redux';
 import struttura from '../../assets/struttura.json';
 import { setRows } from '../../data/tables';
+import { setTable } from '../../data/tables';
 
 class SelectRowTable extends React.Component {
   constructor() {
@@ -55,6 +56,10 @@ class SelectRowTable extends React.Component {
 
   onSelectChange = selectedRowKeys => {
     this.setState({ selectedRowKey: selectedRowKeys[1] });
+    console.log(this.state.righe);
+    console.log(this.state.selectedRowKey);
+    console.log(this.state.righe[this.state.selectedRowKey]);
+    setTable(this.props.tableName, this.props.dispatch, this.props.tableData);
   };
 
   addSelectableFeature() {

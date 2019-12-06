@@ -53,6 +53,7 @@ class ViewTable extends React.Component {
               break;
             case 'fk':
               colonna.render = v => (
+                // TODO modifica fk
                 <ModalSelectRow
                   parentTableName={this.state.tableName}
                   childTableName={v.rifTable}
