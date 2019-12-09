@@ -74,10 +74,20 @@ export function setRows(tableData) {
       cr.indirizzo = { name: r.indirizzo, value: r.gmap };
     }
     if (cr.fk_orario) {
-      cr.fk_orario = { value: r.fk_orario, rifTable: 'settimane' };
+      cr.fk_orario = {
+        id: r.id,
+        value: r.fk_orario,
+        rifTable: 'settimane',
+        rifColumn: 'fk_orario'
+      };
     }
     if (cr.fk_proprietario) {
-      cr.fk_proprietario = { value: r.fk_proprietario, rifTable: 'persone' };
+      cr.fk_proprietario = {
+        id: r.id,
+        value: r.fk_proprietario,
+        rifTable: 'persone',
+        rifColumn: 'fk_proprietario'
+      };
     }
     return cr;
   });

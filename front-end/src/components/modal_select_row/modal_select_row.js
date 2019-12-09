@@ -1,15 +1,22 @@
 import React from 'react';
 import { Modal, Button } from 'antd';
 import SelectRowTable from '../edi_table/sel_table';
-import { fetchTableIfMissing, setTable } from '../../data/tables';
+import { fetchTableIfMissing, updateTableRow } from '../../data/tables';
 import { connect } from 'react-redux';
 
 class ModalSelectRow extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      fk: props.fk,
       visible: false
     };
+  }
+
+  changeForeignKey(id) {
+    this.setState({
+      fk: id
+    });
   }
 
   showModal = () => {
@@ -24,19 +31,29 @@ class ModalSelectRow extends React.Component {
   };
 
   handleOk = () => {
-    this.setState({
-      visible: false
-    });
+    if (this.props.fk !== this.state.fk) {
+      const obj = {};
+      obj[this.props.col] = this.state.fk;
+      updateTableRow(
+        this.props.dispatch,
+        this.props.parentTableName,
+        this.props.id,
+        obj
+      ).then(() => {
+        this.setState({
+          visible: false
+        });
+      });
+    } else {
+      this.setState({
+        visible: false
+      });
+    }
   };
 
   handleCancel = () => {
-    console.log({ ...this.props });
-    setTable(
-      this.props.parentTableName,
-      this.props.dispatch,
-      this.props.tableData
-    );
     this.setState({
+      fk: this.props.fk,
       visible: false
     });
   };
@@ -54,15 +71,16 @@ class ModalSelectRow extends React.Component {
           visible={visible}
           onOk={this.handleOk}
           onCancel={this.handleCancel}
-          okText="Annulla"
-          cancelText="Mantieni modifiche"
+          // okText="Annulla"
+          // cancelText="Mantieni modifiche"
           width="90%"
         >
           <SelectRowTable
             tableName={childTableName}
-            id={this.props.id}
+            id={this.props.fk}
             visible={visible}
             dispatch={this.props.dispatch}
+            changeForeignKey={this.changeForeignKey.bind(this)}
           ></SelectRowTable>
         </Modal>
       </div>

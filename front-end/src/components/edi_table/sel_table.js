@@ -7,8 +7,8 @@ import { setRows } from '../../data/tables';
 // import { setTable } from '../../data/tables';
 
 class SelectRowTable extends React.Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       searchText: '',
       searchedColumn: '',
@@ -26,6 +26,7 @@ class SelectRowTable extends React.Component {
   componentDidUpdate() {
     if (this.stillWaitingForData && this.props.tableData) {
       this.stillWaitingForData = false;
+      console.log('set selected key');
       const righe = setRows(this.props.tableData);
       // todo in caso che non ci sia già la chiave esterna?
       const previuosIndex = righe.findIndex(r => r.id === this.props.id);
@@ -55,10 +56,9 @@ class SelectRowTable extends React.Component {
   }
 
   onSelectChange = selectedRowKeys => {
+    const fk = this.state.righe.find(r => r.key === selectedRowKeys[1]).id;
+    this.props.changeForeignKey(fk);
     this.setState({ selectedRowKey: selectedRowKeys[1] });
-    // const fk = this.state.righe.find(r => r.key === this.state.selectedRowKey)
-    //   .id;
-    // non devo modificare tutta la tabella
   };
 
   addSelectableFeature() {

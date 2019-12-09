@@ -57,7 +57,9 @@ class ViewTable extends React.Component {
                 <ModalSelectRow
                   parentTableName={this.state.tableName}
                   childTableName={v.rifTable}
-                  id={v.value}
+                  fk={v.value}
+                  id={v.id}
+                  col={v.rifColumn}
                 ></ModalSelectRow>
               );
               break;
