@@ -5,7 +5,8 @@ import { DatePicker } from 'antd';
 import moment from 'moment';
 import configDatePicker from '../assets/Lang/it-IT/datepicker.json';
 import { EdiTable } from '../components/edi_table/edi_table';
-import ModalSelectRow from '../components/modal_select_row/modal_select_row';
+import ModalSelectRow from '../components/modals/modal_select_row';
+import ModalAddress from '../components/modals/modal_address';
 import { connect } from 'react-redux';
 import { fetchTableIfMissing, setRows } from '../data/tables';
 
@@ -19,6 +20,13 @@ class ViewTable extends React.Component {
       righe: []
     };
     this.stillWaitingForData = true;
+  }
+
+  forceViewChange() {
+    console.log('parent');
+    this.setState({
+      righe: setRows(this.props.tableData)
+    });
   }
 
   componentDidMount() {
@@ -38,9 +46,16 @@ class ViewTable extends React.Component {
           switch (c.render) {
             case 'indirizzo':
               colonna.render = v => (
-                <a target="_blank" rel="noopener noreferrer" href={v.value}>
+                <ModalAddress
+                  parentTableName={this.state.tableName}
+                  link={v.value}
+                  columnLink={v.columnLink}
+                  columnAddress={v.columnAddress}
+                  id={v.id}
+                  parentUpdate={this.forceViewChange.bind(this)}
+                >
                   {v.name}
-                </a>
+                </ModalAddress>
               );
               break;
             case 'data':
@@ -75,6 +90,7 @@ class ViewTable extends React.Component {
   }
 
   componentDidUpdate() {
+    console.log(this.stillWaitingForData);
     if (this.checkChangeRoute()) {
       console.log('cambio routes');
       this.stillWaitingForData = true;

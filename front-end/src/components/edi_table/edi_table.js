@@ -170,7 +170,6 @@ class EditableTable extends React.Component {
   }
 
   componentDidUpdate() {
-    // console.log(this.props);
     if (
       this.titolo !== this.props.titolo &&
       this.props.colonne.length > 0 &&
@@ -185,6 +184,8 @@ class EditableTable extends React.Component {
   }
 
   render() {
+    console.log(this.props.righe);
+    console.log(this.state.dataSource);
     const components = {
       body: {
         cell: EditableCell

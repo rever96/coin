@@ -71,7 +71,13 @@ export function setRows(tableData) {
     let cr = { ...r };
     cr.key = key;
     if (cr.indirizzo) {
-      cr.indirizzo = { name: r.indirizzo, value: r.gmap };
+      cr.indirizzo = {
+        id: r.id,
+        name: r.indirizzo,
+        value: r.gmap,
+        columnLink: 'gmap',
+        columnAddress: 'indirizzo'
+      };
     }
     if (cr.fk_orario) {
       cr.fk_orario = {
