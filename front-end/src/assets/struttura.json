@@ -10,7 +10,7 @@
       {
         "nome": "indirizzo",
         "render": "indirizzo",
-        "editable": true
+        "editable": false
       },
       {
         "nome": "data_inserimento",

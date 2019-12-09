@@ -7,6 +7,7 @@ const EditableContext = React.createContext();
 
 class EditableCell extends React.Component {
   getInput = () => {
+    console.log(this.props.render);
     if (this.props.render === 'fk') {
       return <Button>prova </Button>;
     }

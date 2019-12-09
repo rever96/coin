@@ -9,7 +9,8 @@ class ModalSelectRow extends React.Component {
     super(props);
     this.state = {
       fk: props.fk,
-      visible: false
+      visible: false,
+      confirmLoading: false
     };
   }
 
@@ -32,6 +33,9 @@ class ModalSelectRow extends React.Component {
 
   handleOk = () => {
     if (this.props.fk !== this.state.fk) {
+      this.setState({
+        confirmLoading: true
+      });
       const obj = {};
       obj[this.props.col] = this.state.fk;
       updateTableRow(
@@ -41,7 +45,8 @@ class ModalSelectRow extends React.Component {
         obj
       ).then(() => {
         this.setState({
-          visible: false
+          visible: false,
+          confirmLoading: false
         });
       });
     } else {
@@ -71,6 +76,7 @@ class ModalSelectRow extends React.Component {
           visible={visible}
           onOk={this.handleOk}
           onCancel={this.handleCancel}
+          confirmLoading={this.state.confirmLoading}
           // okText="Annulla"
           // cancelText="Mantieni modifiche"
           width="90%"
