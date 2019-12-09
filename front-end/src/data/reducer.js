@@ -2,7 +2,8 @@ import {
   FETCH_DATA_PENDING,
   FETCH_DATA_SUCCESS,
   FETCH_DATA_ERROR,
-  RESET_DATA
+  RESET_DATA,
+  UPDATE_DATA
 } from './actions';
 
 const initialState = {
@@ -36,6 +37,16 @@ export const tablesReducer = (state = initialState, action) => {
         ...state,
         pending: false,
         error: action.error
+      };
+    case UPDATE_DATA:
+      const refRow = state.tableData[action.tableName].find(
+        row => row.id === action.id
+      );
+      action.row.forEach(newRow => {
+        refRow[newRow.col] = newRow.data;
+      });
+      return {
+        ...state
       };
     default:
       return state;

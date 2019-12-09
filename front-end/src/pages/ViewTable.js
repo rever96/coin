@@ -114,6 +114,7 @@ class ViewTable extends React.Component {
           titolo={this.state.tableName}
           colonne={this.state.colonne}
           righe={this.state.righe}
+          dispatch={this.props.dispatch}
         />
       );
     }

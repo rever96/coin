@@ -1,6 +1,7 @@
 import React from 'react';
 import './edi_table.css';
 import { Table, Input, Popconfirm, Form, Button } from 'antd';
+import { updateTableRow } from '../../data/tables';
 
 const EditableContext = React.createContext();
 
@@ -143,8 +144,20 @@ class EditableTable extends React.Component {
           ...item,
           ...row
         });
-        this.setState({ dataSource: newData, editingKey: '' });
+        //modificata riga
+        updateTableRow(
+          this.props.dispatch,
+          this.props.titolo,
+          item.id,
+          row
+        ).then(() => {
+          //aggiorno questa componente
+          //perchè cambia lo stato del reducer, ma questa componente non è connessa
+          this.setState({ dataSource: newData, editingKey: '' });
+        });
       } else {
+        // aggiunta nuova riga
+        console.log('inserire qui codice insert table server');
         newData.push(row);
         this.setState({ dataSource: newData, editingKey: '' });
       }

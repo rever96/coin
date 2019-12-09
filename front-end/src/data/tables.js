@@ -1,7 +1,8 @@
 import {
   fetchTablePending,
   fetchTableSuccess,
-  fetchTableError
+  fetchTableError,
+  actionUpdateTableRow
 } from './actions';
 
 export function fetchTable(tableName, dispatch) {
@@ -27,6 +28,33 @@ export function fetchTableIfMissing(tableName, dispatch, fetchedTables) {
     console.log('fetch server table');
     fetchTable(tableName, dispatch);
   }
+}
+
+export function updateTableRow(dispatch, tableName, id, row) {
+  return new Promise((resolve, reject) => {
+    const values = [];
+    for (const key in row) {
+      values.push({ col: key, data: row[key] });
+    }
+    const options = {
+      method: 'post',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        table: tableName,
+        values,
+        condition: "id = '" + id + "'"
+      })
+    };
+    fetch('http://localhost:8080/api/v3/update', options)
+      .then(response => response.json())
+      .then(() => {
+        dispatch(actionUpdateTableRow(tableName, values, id));
+        resolve();
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  });
 }
 
 export function setTable(tableName, dispatch, data) {

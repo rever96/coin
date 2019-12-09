@@ -4,7 +4,7 @@ import Highlighter from 'react-highlight-words';
 import { connect } from 'react-redux';
 import struttura from '../../assets/struttura.json';
 import { setRows } from '../../data/tables';
-import { setTable } from '../../data/tables';
+// import { setTable } from '../../data/tables';
 
 class SelectRowTable extends React.Component {
   constructor() {
@@ -56,8 +56,8 @@ class SelectRowTable extends React.Component {
 
   onSelectChange = selectedRowKeys => {
     this.setState({ selectedRowKey: selectedRowKeys[1] });
-    const fk = this.state.righe.find(r => r.key === this.state.selectedRowKey)
-      .id;
+    // const fk = this.state.righe.find(r => r.key === this.state.selectedRowKey)
+    //   .id;
     // non devo modificare tutta la tabella
   };
 
