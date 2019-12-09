@@ -6,7 +6,6 @@ import { connect } from 'react-redux';
 class CustomModal extends React.Component {
   constructor(props) {
     super(props);
-    console.log(props);
     this.state = {
       visible: false,
       confirmLoading: false,
@@ -55,7 +54,6 @@ class CustomModal extends React.Component {
   };
 
   render() {
-    console.log(this.props.children);
     return (
       <div>
         <Button type="primary" onClick={this.showModal}>

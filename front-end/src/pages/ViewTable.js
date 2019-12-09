@@ -23,10 +23,14 @@ class ViewTable extends React.Component {
   }
 
   forceViewChange() {
-    console.log('parent');
     this.setState({
       righe: setRows(this.props.tableData)
     });
+    this.childDoAlert();
+  }
+
+  acceptMethods(childDoAlert) {
+    this.childDoAlert = childDoAlert;
   }
 
   componentDidMount() {
@@ -90,14 +94,12 @@ class ViewTable extends React.Component {
   }
 
   componentDidUpdate() {
-    console.log(this.stillWaitingForData);
     if (this.checkChangeRoute()) {
       console.log('cambio routes');
       this.stillWaitingForData = true;
       return;
     }
     if (this.stillWaitingForData && this.props.tableData) {
-      console.log('set rows');
       this.stillWaitingForData = false;
       this.setState({
         righe: setRows(this.props.tableData)
@@ -129,6 +131,7 @@ class ViewTable extends React.Component {
     if (this.state.righe.length > 0) {
       tabella = (
         <EdiTable
+          shareMethods={this.acceptMethods.bind(this)}
           titolo={this.state.tableName}
           colonne={this.state.colonne}
           righe={this.state.righe}

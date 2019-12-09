@@ -6,6 +6,7 @@ import {
 } from './actions';
 
 export function fetchTable(tableName, dispatch) {
+  console.log('fetch server table');
   const options = {
     method: 'post',
     headers: { 'Content-Type': 'application/json' },
@@ -25,12 +26,12 @@ export function fetchTable(tableName, dispatch) {
 
 export function fetchTableIfMissing(tableName, dispatch, fetchedTables) {
   if (!fetchedTables || !fetchedTables.find(name => name === tableName)) {
-    console.log('fetch server table');
     fetchTable(tableName, dispatch);
   }
 }
 
 export function updateTableRow(dispatch, tableName, id, row) {
+  console.log('update local table + server table');
   return new Promise((resolve, reject) => {
     const values = [];
     for (const key in row) {
@@ -64,6 +65,7 @@ export function setTable(tableName, dispatch, data) {
 
 // TODO separare logica dal tipo dei dati utilizzando un file di configurazione
 export function setRows(tableData) {
+  console.log('set local rows');
   if (!tableData || tableData.lenght <= 0) {
     return [];
   }

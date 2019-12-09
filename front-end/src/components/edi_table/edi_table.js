@@ -169,6 +169,10 @@ class EditableTable extends React.Component {
     this.setState({ editingKey: key });
   }
 
+  componentDidMount() {
+    this.props.shareMethods(this.updateRows.bind(this));
+  }
+
   componentDidUpdate() {
     if (
       this.titolo !== this.props.titolo &&
@@ -177,15 +181,17 @@ class EditableTable extends React.Component {
     ) {
       this.titolo = this.props.titolo;
       this.setColumns();
-      this.setState({
-        dataSource: this.props.righe
-      });
+      this.updateRows();
     }
   }
 
+  updateRows() {
+    this.setState({
+      dataSource: this.props.righe
+    });
+  }
+
   render() {
-    console.log(this.props.righe);
-    console.log(this.state.dataSource);
     const components = {
       body: {
         cell: EditableCell
