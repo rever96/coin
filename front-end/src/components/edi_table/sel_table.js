@@ -56,10 +56,9 @@ class SelectRowTable extends React.Component {
 
   onSelectChange = selectedRowKeys => {
     this.setState({ selectedRowKey: selectedRowKeys[1] });
-    console.log(this.state.righe);
-    console.log(this.state.selectedRowKey);
-    console.log(this.state.righe[this.state.selectedRowKey]);
-    setTable(this.props.tableName, this.props.dispatch, this.props.tableData);
+    const fk = this.state.righe.find(r => r.key === this.state.selectedRowKey)
+      .id;
+    // non devo modificare tutta la tabella
   };
 
   addSelectableFeature() {
