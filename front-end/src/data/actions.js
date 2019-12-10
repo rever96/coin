@@ -3,6 +3,7 @@ export const FETCH_DATA_SUCCESS = 'db fetch success';
 export const FETCH_DATA_ERROR = 'db fetch error';
 export const RESET_DATA = 'copia locale db eliminata';
 export const UPDATE_DATA = 'aggiorno copia locale';
+export const CREATE_DATA = 'aggiungo nuova t-upla';
 
 export function resetTables() {
   return { type: RESET_DATA };
@@ -32,6 +33,15 @@ export function fetchTableError(error) {
 export function actionUpdateTableRow(tableName, row, id) {
   return {
     type: UPDATE_DATA,
+    tableName,
+    id,
+    row
+  };
+}
+
+export function actionCreateTableRow(tableName, row, id) {
+  return {
+    type: CREATE_DATA,
     tableName,
     id,
     row

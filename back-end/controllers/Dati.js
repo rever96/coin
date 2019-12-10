@@ -1,4 +1,5 @@
 const db = require('./db');
+const uuidv4 = require('uuid/v4');
 
 exports.select = async function(req, res) {
   const query = `SELECT * FROM ` + req.body.table;
@@ -30,6 +31,23 @@ exports.update = async function(req, res) {
   try {
     await db.query(query).then(result => {
       return res.status(201).json(result.rows);
+    });
+  } catch (error) {
+    return res.status(400).send(error);
+  }
+};
+
+exports.create = async function(req, res) {
+  const { table, values } = req.body;
+  const columns = values.reduce((acc, cur) => acc + `, ` + cur.col, `(id`);
+  const row = values.reduce((acc, cur) => acc + `, '` + cur.data + `'`, `'`);
+  const id = uuidv4();
+  const query =
+    `INSERT INTO ` + table + columns + `) VALUES('` + id + row + `)`;
+  console.log(query);
+  try {
+    await db.query(query).then(() => {
+      return res.status(201).json(id);
     });
   } catch (error) {
     return res.status(400).send(error);

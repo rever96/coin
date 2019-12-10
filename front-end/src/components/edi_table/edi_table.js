@@ -1,6 +1,6 @@
 import React from 'react';
 import './edi_table.css';
-import { Table, Input, Popconfirm, Form, Button } from 'antd';
+import { Table, Input, Popconfirm, Form, Button, notification } from 'antd';
 import { updateTableRow } from '../../data/tables';
 
 const EditableContext = React.createContext();
@@ -138,30 +138,28 @@ class EditableTable extends React.Component {
         return;
       }
       const newData = [...this.state.dataSource];
+      console.log({ ...newData });
       const index = newData.findIndex(item => key === item.key);
-      if (index > -1) {
-        const item = newData[index];
-        newData.splice(index, 1, {
-          ...item,
-          ...row
-        });
-        //modificata riga
-        updateTableRow(
-          this.props.dispatch,
-          this.props.titolo,
-          item.id,
-          row
-        ).then(() => {
+      const item = newData[index];
+      newData.splice(index, 1, {
+        ...item,
+        ...row
+      });
+      //modificata riga o aggiungi
+      updateTableRow(this.props.dispatch, this.props.titolo, item.id, row)
+        .then(() => {
           //aggiorno questa componente
           //perchè cambia lo stato del reducer, ma questa componente non è connessa
           this.setState({ dataSource: newData, editingKey: '' });
+        })
+        .catch(error => {
+          notification.error({
+            message: `Operazione fallita`,
+            description: error.toString(),
+            placement: 'bottomRight',
+            duration: 0
+          });
         });
-      } else {
-        // aggiunta nuova riga
-        console.log('inserire qui codice insert table server');
-        newData.push(row);
-        this.setState({ dataSource: newData, editingKey: '' });
-      }
     });
   }
 

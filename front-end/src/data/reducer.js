@@ -3,7 +3,8 @@ import {
   FETCH_DATA_SUCCESS,
   FETCH_DATA_ERROR,
   RESET_DATA,
-  UPDATE_DATA
+  UPDATE_DATA,
+  CREATE_DATA
 } from './actions';
 
 const initialState = {
@@ -45,6 +46,13 @@ export const tablesReducer = (state = initialState, action) => {
       action.row.forEach(newRow => {
         refRow[newRow.col] = newRow.data;
       });
+      return {
+        ...state
+      };
+    case CREATE_DATA:
+      const refTable = state.tableData[action.tableName];
+      refTable.push({ id: action.id, ...action.row });
+      console.log(refTable);
       return {
         ...state
       };
