@@ -2,8 +2,9 @@ export const FETCH_DATA_PENDING = 'wait for db';
 export const FETCH_DATA_SUCCESS = 'db fetch success';
 export const FETCH_DATA_ERROR = 'db fetch error';
 export const RESET_DATA = 'copia locale db eliminata';
-export const UPDATE_DATA = 'aggiorno copia locale';
-export const CREATE_DATA = 'aggiungo nuova t-upla';
+export const UPDATE_DATA = 'aggiorno t-upla';
+export const CREATE_DATA = 'aggiungo t-upla';
+export const DELETE_DATA = 'elimino t-upla';
 
 export function resetTables() {
   return { type: RESET_DATA };
@@ -45,5 +46,13 @@ export function actionCreateTableRow(tableName, row, id) {
     tableName,
     id,
     row
+  };
+}
+
+export function actionDeleteTableRow(tableName, id) {
+  return {
+    type: DELETE_DATA,
+    tableName,
+    id
   };
 }

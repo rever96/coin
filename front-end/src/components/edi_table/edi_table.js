@@ -1,7 +1,7 @@
 import React from 'react';
 import './edi_table.css';
 import { Table, Input, Popconfirm, Form, Button, notification } from 'antd';
-import { updateTableRow } from '../../data/tables';
+import { updateTableRow, deleteTableRow } from '../../data/tables';
 
 const EditableContext = React.createContext();
 
@@ -115,7 +115,19 @@ class EditableTable extends React.Component {
 
   handleDelete = key => {
     const dataSource = [...this.state.dataSource];
-    this.setState({ dataSource: dataSource.filter(item => item.key !== key) });
+    const deletedRow = dataSource.splice(
+      dataSource.findIndex(row => row.key === key),
+      1
+    )[0];
+    console.log(deletedRow);
+    deleteTableRow(this.props.dispatch, this.props.titolo, deletedRow.id).then(
+      () => {
+        //aggiorno questa componente
+        //perchè cambia lo stato del reducer, ma questa componente non è connessa
+        console.log(dataSource);
+        this.setState({ dataSource });
+      }
+    );
   };
 
   handleAdd = () => {

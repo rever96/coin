@@ -44,6 +44,7 @@ app.post('/api/v2/alterDB', Struttura.alter);
 app.post('/api/v3/select', Dati.select);
 app.post('/api/v3/update', Dati.update);
 app.post('/api/v3/create', Dati.create);
+app.post('/api/v3/delete', Dati.delete);
 
 app.listen(8080, () => {
   console.log('online');

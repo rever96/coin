@@ -4,7 +4,8 @@ import {
   FETCH_DATA_ERROR,
   RESET_DATA,
   UPDATE_DATA,
-  CREATE_DATA
+  CREATE_DATA,
+  DELETE_DATA
 } from './actions';
 
 const initialState = {
@@ -15,6 +16,7 @@ const initialState = {
 };
 
 export const tablesReducer = (state = initialState, action) => {
+  let refRow, refTable;
   switch (action.type) {
     case RESET_DATA:
       return initialState;
@@ -40,7 +42,7 @@ export const tablesReducer = (state = initialState, action) => {
         error: action.error
       };
     case UPDATE_DATA:
-      const refRow = state.tableData[action.tableName].find(
+      refRow = state.tableData[action.tableName].find(
         row => row.id === action.id
       );
       action.row.forEach(newRow => {
@@ -50,8 +52,18 @@ export const tablesReducer = (state = initialState, action) => {
         ...state
       };
     case CREATE_DATA:
-      const refTable = state.tableData[action.tableName];
+      refTable = state.tableData[action.tableName];
       refTable.push({ id: action.id, ...action.row });
+      console.log(refTable);
+      return {
+        ...state
+      };
+    case DELETE_DATA:
+      refTable = state.tableData[action.tableName];
+      refTable.splice(
+        refTable.findIndex(row => row.id === action.id),
+        1
+      );
       console.log(refTable);
       return {
         ...state

@@ -43,11 +43,24 @@ exports.create = async function(req, res) {
   const row = values.reduce((acc, cur) => acc + `, '` + cur.data + `'`, `'`);
   const id = uuidv4();
   const query =
-    `INSERT INTO ` + table + columns + `) VALUES('` + id + row + `)`;
+    `INSERT INTO ` + table + columns + `) VALUES('` + id + row + `);`;
   console.log(query);
   try {
     await db.query(query).then(() => {
       return res.status(201).json(id);
+    });
+  } catch (error) {
+    return res.status(400).send(error);
+  }
+};
+
+exports.delete = async function(req, res) {
+  const { table, id } = req.body;
+  const query = `DELETE FROM ` + table + ` WHERE id='` + id + `';`;
+  console.log(query);
+  try {
+    await db.query(query).then(() => {
+      return res.status(204).json({ message: 'deleted' });
     });
   } catch (error) {
     return res.status(400).send(error);

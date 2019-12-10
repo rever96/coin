@@ -3,7 +3,8 @@ import {
   fetchTableSuccess,
   fetchTableError,
   actionUpdateTableRow,
-  actionCreateTableRow
+  actionCreateTableRow,
+  actionDeleteTableRow
 } from './actions';
 
 export function fetchTable(tableName, dispatch) {
@@ -91,6 +92,30 @@ export function updateTableRow(dispatch, tableName, id, row) {
         });
     });
   }
+}
+
+export function deleteTableRow(dispatch, tableName, id) {
+  console.log('delete row local table + server table');
+  return new Promise((resolve, reject) => {
+    const options = {
+      method: 'post',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        table: tableName,
+        id
+      })
+    };
+    fetch('http://localhost:8080/api/v3/delete', options)
+      .then(response => response.json())
+      .then(() => {
+        console.log('succes');
+        dispatch(actionDeleteTableRow(tableName, id));
+        resolve();
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  });
 }
 
 export function setTable(tableName, dispatch, data) {
