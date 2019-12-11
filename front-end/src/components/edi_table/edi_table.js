@@ -1,13 +1,16 @@
 import React from 'react';
 import './edi_table.css';
 import { Table, Input, Popconfirm, Form, Button, notification } from 'antd';
-import { updateTableRow, deleteTableRow } from '../../data/tables';
+import {
+  updateTableRow,
+  deleteTableRow,
+  createTableRow
+} from '../../data/tables';
 
 const EditableContext = React.createContext();
 
 class EditableCell extends React.Component {
   getInput = () => {
-    console.log(this.props.render);
     if (this.props.render === 'fk') {
       return <Button>prova </Button>;
     }
@@ -119,15 +122,20 @@ class EditableTable extends React.Component {
       dataSource.findIndex(row => row.key === key),
       1
     )[0];
-    console.log(deletedRow);
-    deleteTableRow(this.props.dispatch, this.props.titolo, deletedRow.id).then(
-      () => {
+    deleteTableRow(this.props.dispatch, this.props.titolo, deletedRow.id)
+      .then(() => {
         //aggiorno questa componente
         //perchè cambia lo stato del reducer, ma questa componente non è connessa
-        console.log(dataSource);
         this.setState({ dataSource });
-      }
-    );
+      })
+      .catch(error => {
+        notification.error({
+          message: `Operazione fallita`,
+          description: error.toString(),
+          placement: 'bottomRight',
+          duration: 0
+        });
+      });
   };
 
   handleAdd = () => {
@@ -149,29 +157,50 @@ class EditableTable extends React.Component {
       if (error) {
         return;
       }
-      const newData = [...this.state.dataSource];
-      console.log({ ...newData });
-      const index = newData.findIndex(item => key === item.key);
-      const item = newData[index];
-      newData.splice(index, 1, {
+      const dataSource = [...this.state.dataSource];
+      const index = dataSource.findIndex(item => key === item.key);
+      const item = dataSource[index];
+      dataSource.splice(index, 1, {
         ...item,
         ...row
       });
       //modificata riga o aggiungi
-      updateTableRow(this.props.dispatch, this.props.titolo, item.id, row)
-        .then(() => {
-          //aggiorno questa componente
-          //perchè cambia lo stato del reducer, ma questa componente non è connessa
-          this.setState({ dataSource: newData, editingKey: '' });
-        })
-        .catch(error => {
-          notification.error({
-            message: `Operazione fallita`,
-            description: error.toString(),
-            placement: 'bottomRight',
-            duration: 0
+      if (item.id) {
+        updateTableRow(this.props.dispatch, this.props.titolo, item.id, row)
+          .then(() => {
+            //aggiorno questa componente
+            //perchè cambia lo stato del reducer, ma questa componente non è connessa
+            this.setState({ dataSource, editingKey: '' });
+          })
+          .catch(error => {
+            notification.error({
+              message: `Operazione fallita`,
+              description: error.toString(),
+              placement: 'bottomRight',
+              duration: 0
+            });
           });
-        });
+      } else {
+        createTableRow(this.props.dispatch, this.props.titolo, row)
+          .then(id => {
+            //aggiorno questa componente
+            //perchè cambia lo stato del reducer, ma questa componente non è connessa
+            console.log(id);
+            dataSource.splice(index, 1, {
+              ...dataSource[index],
+              id
+            });
+            this.setState({ dataSource, editingKey: '' });
+          })
+          .catch(error => {
+            notification.error({
+              message: `Operazione fallita`,
+              description: error.toString(),
+              placement: 'bottomRight',
+              duration: 0
+            });
+          });
+      }
     });
   }
 

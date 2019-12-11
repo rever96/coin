@@ -33,65 +33,65 @@ export function fetchTableIfMissing(tableName, dispatch, fetchedTables) {
 }
 
 export function updateTableRow(dispatch, tableName, id, row) {
-  if (id) {
-    console.log('update local table + server table');
-    return new Promise((resolve, reject) => {
-      const values = [];
-      for (const key in row) {
-        values.push({ col: key, data: row[key] });
-      }
-      const options = {
-        method: 'post',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          table: tableName,
-          values,
-          condition: "id = '" + id + "'"
-        })
-      };
-      fetch('http://localhost:8080/api/v3/update', options)
-        .then(response => response.json())
-        .then(() => {
-          dispatch(actionUpdateTableRow(tableName, values, id));
-          resolve();
-        })
-        .catch(error => {
-          console.log(error);
-        });
-    });
-  } else {
-    console.log('add row local table + server table');
-    return new Promise((resolve, reject) => {
-      const values = [];
-      for (const key in row) {
-        values.push({ col: key, data: row[key] });
-      }
-      const options = {
-        method: 'post',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          table: tableName,
-          values
-        })
-      };
-      fetch('http://localhost:8080/api/v3/create', options)
-        .then(response => response.json())
-        .then(res => {
-          if (res.name && res.name === 'error') {
-            const a = [];
-            for (const key in res) {
-              a.push(key + ': ' + res[key]);
-            }
-            reject(a);
+  console.log('update local table + server table');
+  return new Promise((resolve, reject) => {
+    const values = [];
+    for (const key in row) {
+      values.push({ col: key, data: row[key] });
+    }
+    const options = {
+      method: 'post',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        table: tableName,
+        values,
+        condition: "id = '" + id + "'"
+      })
+    };
+    fetch('http://localhost:8080/api/v3/update', options)
+      .then(response => response.json())
+      .then(() => {
+        dispatch(actionUpdateTableRow(tableName, values, id));
+        resolve();
+      })
+      .catch(error => {
+        reject(error);
+      });
+  });
+}
+
+export function createTableRow(dispatch, tableName, row) {
+  console.log('add row local table + server table');
+  return new Promise((resolve, reject) => {
+    const values = [];
+    for (const key in row) {
+      values.push({ col: key, data: row[key] });
+    }
+    const options = {
+      method: 'post',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        table: tableName,
+        values
+      })
+    };
+    fetch('http://localhost:8080/api/v3/create', options)
+      .then(response => response.json())
+      .then(res => {
+        if (res.name && res.name === 'error') {
+          const a = [];
+          for (const key in res) {
+            a.push(key + ': ' + res[key]);
           }
-          dispatch(actionCreateTableRow(tableName, row, res));
-          resolve();
-        })
-        .catch(error => {
-          reject(error);
-        });
-    });
-  }
+          reject(a);
+        }
+        dispatch(actionCreateTableRow(tableName, row, res));
+        resolve(res);
+      })
+      .catch(error => {
+        reject(error);
+      });
+  });
 }
 
 export function deleteTableRow(dispatch, tableName, id) {
@@ -107,8 +107,14 @@ export function deleteTableRow(dispatch, tableName, id) {
     };
     fetch('http://localhost:8080/api/v3/delete', options)
       .then(response => response.json())
-      .then(() => {
-        console.log('succes');
+      .then(res => {
+        if (res.name && res.name === 'error') {
+          const a = [];
+          for (const key in res) {
+            a.push(key + ': ' + res[key]);
+          }
+          reject(a);
+        }
         dispatch(actionDeleteTableRow(tableName, id));
         resolve();
       })

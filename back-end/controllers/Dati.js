@@ -60,9 +60,11 @@ exports.delete = async function(req, res) {
   console.log(query);
   try {
     await db.query(query).then(() => {
-      return res.status(204).json({ message: 'deleted' });
+      console.log('succcess');
+      return res.status(201).json({ message: 'deleted' });
     });
   } catch (error) {
+    console.log(error);
     return res.status(400).send(error);
   }
 };
