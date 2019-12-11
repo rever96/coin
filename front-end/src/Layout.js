@@ -1,12 +1,12 @@
 import React from 'react';
-import { Layout, Menu, Breadcrumb, Icon } from 'antd';
+import { Layout, Menu, Icon } from 'antd';
 import struttura from './assets/struttura.json';
 import Routes from './routes';
 import { navigateTo } from './history';
 import { connect } from 'react-redux';
 import { resetTables } from './data/actions';
 
-const { Header, Content, Footer, Sider } = Layout;
+const { Content, Footer, Sider } = Layout;
 const { SubMenu } = Menu;
 
 class MyLayout extends React.Component {
@@ -35,14 +35,14 @@ class MyLayout extends React.Component {
           onCollapse={this.onCollapse}
         >
           <div className="logo" />
-          <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline">
-            <Menu.Item onClick={() => navigateTo('/dashboard')} key="1">
+          <Menu theme="dark" defaultSelectedKeys={['0']} mode="inline">
+            <Menu.Item onClick={() => navigateTo('/dashboard')} key="0">
+              <Icon type="desktop" />
+              <span>Home</span>
+            </Menu.Item>
+            <Menu.Item onClick={() => navigateTo('/example')} key="1">
               <Icon type="pie-chart" />
               <span>Esempio</span>
-            </Menu.Item>
-            <Menu.Item key="2">
-              <Icon type="desktop" />
-              <span>Option 2</span>
             </Menu.Item>
             <SubMenu
               key="sub1"
@@ -80,18 +80,18 @@ class MyLayout extends React.Component {
             </Menu.Item>
           </Menu>
         </Sider>
-        <Layout>
-          <Header style={{ background: '#fff', padding: 0 }} />
-          <Content style={{ margin: '0 16px' }}>
-            <Breadcrumb style={{ margin: '16px 0' }}>
-              <Breadcrumb.Item>User</Breadcrumb.Item>
-              <Breadcrumb.Item>Bill</Breadcrumb.Item>
-            </Breadcrumb>
-
+        <Layout style={{ backgroundColor: '#fff' }}>
+          <Content style={{ margin: '16px 8px 0px 8px' }}>
             {/* pagina */}
             <Routes></Routes>
           </Content>
-          <Footer style={{ textAlign: 'center' }}>
+          <Footer
+            style={{
+              paddingTop: '11px',
+              paddingBottom: '16px',
+              textAlign: 'center'
+            }}
+          >
             ©2019 Created by Marius e Loris per il matrimonio di Francesco (con
             Mara)
           </Footer>
