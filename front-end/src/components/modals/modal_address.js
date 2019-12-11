@@ -33,6 +33,8 @@ class CustomModal extends React.Component {
     const obj = {};
     obj[this.props.columnLink] = this.state.link;
     obj[this.props.columnAddress] = this.state.address;
+    console.log(this.props.id);
+    console.log(obj);
     updateTableRow(
       this.props.dispatch,
       this.props.parentTableName,

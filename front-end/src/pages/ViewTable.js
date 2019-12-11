@@ -1,7 +1,7 @@
 import React from 'react';
 import history from '../history';
 import struttura from '../assets/struttura.json';
-import { DatePicker } from 'antd';
+import { DatePicker, Button } from 'antd';
 import moment from 'moment';
 import configDatePicker from '../assets/Lang/it-IT/datepicker.json';
 import { EdiTable } from '../components/edi_table/edi_table';
@@ -50,16 +50,21 @@ class ViewTable extends React.Component {
           switch (c.render) {
             case 'indirizzo':
               colonna.render = v => (
-                <ModalAddress
-                  parentTableName={this.state.tableName}
-                  link={v.value}
-                  columnLink={v.columnLink}
-                  columnAddress={v.columnAddress}
-                  id={v.id}
-                  parentUpdate={this.forceViewChange.bind(this)}
-                >
-                  {v.name}
-                </ModalAddress>
+                <>
+                  {v === null && <Button>ADD</Button>}
+                  {v !== null && (
+                    <ModalAddress
+                      parentTableName={this.state.tableName}
+                      link={v.value}
+                      columnLink={v.columnLink}
+                      columnAddress={v.columnAddress}
+                      id={v.id}
+                      parentUpdate={this.forceViewChange.bind(this)}
+                    >
+                      {v.name}
+                    </ModalAddress>
+                  )}
+                </>
               );
               break;
             case 'data':
@@ -73,13 +78,18 @@ class ViewTable extends React.Component {
             case 'fk':
               colonna.render = v => (
                 // TODO modifica fk
-                <ModalSelectRow
-                  parentTableName={this.state.tableName}
-                  childTableName={v.rifTable}
-                  fk={v.value}
-                  id={v.id}
-                  col={v.rifColumn}
-                ></ModalSelectRow>
+                <>
+                  {v === null && <Button>ADD</Button>}
+                  {v !== null && (
+                    <ModalSelectRow
+                      parentTableName={this.state.tableName}
+                      childTableName={v.rifTable}
+                      fk={v.value}
+                      id={v.id}
+                      col={v.rifColumn}
+                    ></ModalSelectRow>
+                  )}
+                </>
               );
               break;
             default:
@@ -104,6 +114,7 @@ class ViewTable extends React.Component {
       this.setState({
         righe: setRows(this.props.tableData)
       });
+      console.log(this.props.tableData);
     }
   }
 

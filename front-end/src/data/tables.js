@@ -62,6 +62,7 @@ export function updateTableRow(dispatch, tableName, id, row) {
 
 export function createTableRow(dispatch, tableName, row) {
   console.log('add row local table + server table');
+  console.log(row);
   return new Promise((resolve, reject) => {
     const values = [];
     for (const key in row) {
@@ -131,14 +132,14 @@ export function setTable(tableName, dispatch, data) {
 
 // TODO separare logica dal tipo dei dati utilizzando un file di configurazione
 export function setRows(tableData) {
-  console.log('set local rows');
+  console.log('set local rows (codice pericolante)');
   if (!tableData || tableData.lenght <= 0) {
     return [];
   }
   const rows = tableData.map((r, key) => {
     let cr = { ...r };
     cr.key = key;
-    if (cr.indirizzo) {
+    if (cr.indirizzo || cr.indirizzo === '') {
       cr.indirizzo = {
         id: r.id,
         name: r.indirizzo,
@@ -147,7 +148,7 @@ export function setRows(tableData) {
         columnAddress: 'indirizzo'
       };
     }
-    if (cr.fk_orario) {
+    if (cr.fk_orario || cr.fk_orario === '') {
       cr.fk_orario = {
         id: r.id,
         value: r.fk_orario,
@@ -155,7 +156,7 @@ export function setRows(tableData) {
         rifColumn: 'fk_orario'
       };
     }
-    if (cr.fk_proprietario) {
+    if (cr.fk_proprietario || cr.fk_proprietario === '') {
       cr.fk_proprietario = {
         id: r.id,
         value: r.fk_proprietario,
@@ -163,6 +164,7 @@ export function setRows(tableData) {
         rifColumn: 'fk_proprietario'
       };
     }
+    console.log(cr);
     return cr;
   });
   return [...rows];
