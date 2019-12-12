@@ -1,7 +1,7 @@
 import React from 'react';
-import { Collapse, Row, Col, Divider, Typography } from 'antd';
+import { Collapse, Row, Col, Divider, Typography, Icon } from 'antd';
 
-const { Title } = Typography;
+const { Title, Text } = Typography;
 const { Panel } = Collapse;
 const ExternalPanelStyle = {
   background: '#fff',
@@ -11,19 +11,12 @@ const ExternalPanelStyle = {
   border: '1px solid rgb(212, 212, 212)'
 };
 
-const badgeStyle = {
-  backgroundColor: '#fff',
-  color: '#999',
-  boxShadow: '0 0 0 1px #d9d9d9 inset',
-  right: '10px'
-};
-
 const data = [
   {
     color: '#00f',
     name: 'John Brown',
-    dataInizio: 12,
-    dataFine: 13,
+    dataInizio: '12:00',
+    dataFine: '13:30',
     testo: 'ciao mondo!'
   },
   {
@@ -65,47 +58,41 @@ class AccordionHeader extends React.PureComponent {
         </Row>
         <div
           style={{
-            display: 'inline-block',
-            textAlign: 'left',
+            float: 'left',
             height: '56px',
-            width: '100px'
+            width: '100px',
+            borderRight: '4px',
+            borderRightStyle: 'solid',
+            borderRightColor: this.props.color
           }}
         >
-          <Row>
-            <Col
-              style={{
-                height: '100%',
-                borderRight: '4px',
-                borderRightStyle: 'solid',
-                borderRightColor: this.props.color
-              }}
-              span={24}
-            >
-              <p>data 1</p>
-              <p>data 2</p>
-            </Col>
-          </Row>
+          <Text style={{ fontSize: '24px' }} strong type="danger">
+            {this.props.dataInizio}
+          </Text>
+          <Divider style={{ margin: '4px 0px' }} />
+          <Text type="warning">{this.props.dataFine}</Text>
         </div>
-
-        <div
+        <Row
           style={{
-            display: 'inline-block',
-            textAlign: 'left',
             height: '56px',
-            width: 'auto'
+            marginLeft: '100px'
           }}
         >
-          <Row>
-            <Col
-              style={{ backgroundColor: 'red', height: '100%' }}
-              span={20}
-            ></Col>
-            <Col
-              style={{ backgroundColor: 'green', height: '100%' }}
-              span={4}
-            ></Col>
-          </Row>
-        </div>
+          <Col
+            style={{ textAlign: 'left', padding: '0px 8px', height: '100%' }}
+            span={20}
+          >
+            <Row>
+              <Title level={4}>{this.props.titolo}</Title>
+            </Row>
+            <Row>
+              <Text>{this.props.prefazione}</Text>
+            </Row>
+          </Col>
+          <Col style={{ height: '100%' }} span={4}>
+            <Icon type="delete" />
+          </Col>
+        </Row>
       </>
     );
   }
@@ -121,11 +108,13 @@ class ListaImpegni extends React.Component {
               <Panel
                 showArrow={false}
                 header={
-                  <AccordionHeader color={tag.color}>
-                    <Title level={4} style={{ margin: '0px' }}>
-                      {tag.name}
-                    </Title>
-                  </AccordionHeader>
+                  <AccordionHeader
+                    color={tag.color}
+                    dataInizio={tag.dataInizio}
+                    dataFine={tag.dataFine}
+                    titolo={tag.name}
+                    prefazione={tag.testo}
+                  ></AccordionHeader>
                 }
                 style={ExternalPanelStyle}
                 key={key}
