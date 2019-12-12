@@ -39,7 +39,9 @@ class Example extends React.Component {
           </Col>
           <Col
             style={{
-              padding: '0px 8px'
+              padding: '0px 8px',
+              height: 'calc(100vh - 64px)',
+              overflow: 'auto'
             }}
             span={16}
           >

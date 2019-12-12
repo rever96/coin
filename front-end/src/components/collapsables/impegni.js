@@ -11,13 +11,6 @@ import {
 
 const { Title, Text } = Typography;
 const { Panel } = Collapse;
-const ExternalPanelStyle = {
-  background: '#fff',
-  borderRadius: 10,
-  marginBottom: 24,
-  overflow: 'hidden',
-  border: '1px solid rgb(212, 212, 212)'
-};
 
 const data = [
   {
@@ -25,22 +18,32 @@ const data = [
     name: 'John Brown',
     dataInizio: '12:00',
     dataFine: '13:30',
-    testo: 'ciao mondo!',
-    tags: ['notification', 'wallet', 'file-image', 'file-text']
+    testo: "Sottotitolo: prefazione dell'impegno",
+    tags: ['notification', 'wallet', 'file-image', 'file-text'],
+    nuovoGiorno: '12 Ottobre'
   },
   {
     color: '#f00',
     name: 'Titolo2',
-    dataInizio: 12,
-    dataFine: 13,
+    dataInizio: '15:00',
+    dataFine: '15:00',
     testo: 'ciao mondo!'
   },
   {
     color: '#f0f',
     name: 'Titolo3',
-    dataInizio: 12,
-    dataFine: 13,
+    dataInizio: '17:00',
+    dataFine: '20:00',
     testo: 'ciao mondo!'
+  },
+  {
+    color: '#00f',
+    name: 'John Brown 2',
+    dataInizio: '12:00',
+    dataFine: '13:30',
+    testo: 'ciao mondo!',
+    tags: ['file-image', 'file-text'],
+    nuovoGiorno: '13 Ottobre'
   },
   {
     color: '#0f0',
@@ -59,12 +62,18 @@ class AccordionHeader extends React.PureComponent {
       deleting: false
     };
   }
-  mouseLeave() {
-    this.setState({ overing: false });
-  }
 
   mouseEnter() {
-    this.setState({ overing: true });
+    this.setState({
+      overing: true
+    });
+    this.props.handleParentHover(true);
+  }
+  mouseLeave() {
+    this.setState({
+      overing: false
+    });
+    this.props.handleParentHover(false);
   }
 
   stopPropagation = e => {
@@ -73,18 +82,20 @@ class AccordionHeader extends React.PureComponent {
   };
 
   openDeletePopConfirm(e) {
-    console.log(e);
     this.setState({ deleting: e });
   }
   elimina() {
     console.log('eliminato');
   }
   render() {
-    console.log(this.props.tags);
     return (
       <div
         onMouseEnter={this.mouseEnter.bind(this)}
         onMouseLeave={this.mouseLeave.bind(this)}
+        style={{
+          backgroundColor:
+            this.state.overing || this.state.deleting ? '#aaa' : '#fff'
+        }}
       >
         <div
           style={{
@@ -121,8 +132,10 @@ class AccordionHeader extends React.PureComponent {
               >
                 <Icon
                   onClick={this.openDeletePopConfirm.bind(this)}
-                  style={{ fontSize: '36px', color: 'red' }}
+                  style={{ fontSize: '36px' }}
                   type="delete"
+                  twoToneColor="red"
+                  theme="twoTone"
                 />
               </Popconfirm>
             </Row>
@@ -144,7 +157,7 @@ class AccordionHeader extends React.PureComponent {
                 {this.props.titolo}
                 {this.props.tags &&
                   this.props.tags.map((tag, key) => {
-                    return <Icon key={key} type={tag}></Icon>;
+                    return <Icon key={key} theme="twoTone" type={tag}></Icon>;
                   })}
               </Title>
             </Row>
@@ -159,10 +172,29 @@ class AccordionHeader extends React.PureComponent {
 }
 
 class ListaImpegni extends React.Component {
+  constructor() {
+    super();
+    this.state = {
+      overing: -1
+    };
+  }
+
+  handleChildHover(key, on) {
+    if (!on) {
+      this.setState({
+        overing: -1
+      });
+      return;
+    }
+    this.setState({
+      overing: key
+    });
+  }
+
   render() {
-    console.log(data);
     return (
       <>
+        <Title>10 Ottobre</Title>
         <Collapse style={{}} bordered={false} accordion={true}>
           {data.map((tag, key) => {
             return (
@@ -176,9 +208,69 @@ class ListaImpegni extends React.Component {
                     titolo={tag.name}
                     prefazione={tag.testo}
                     tags={tag.tags}
+                    handleParentHover={this.handleChildHover.bind(this, key)}
                   ></AccordionHeader>
                 }
-                style={ExternalPanelStyle}
+                style={{
+                  background: this.state.overing === key ? '#aaa' : '#fff',
+                  overflow: 'hidden'
+                }}
+                key={key}
+              >
+                {tag.testo}
+              </Panel>
+            );
+          })}
+        </Collapse>
+        <Title>10 Ottobre</Title>
+        <Collapse style={{}} bordered={false} accordion={true}>
+          {data.map((tag, key) => {
+            return (
+              <Panel
+                showArrow={false}
+                header={
+                  <AccordionHeader
+                    color={tag.color}
+                    dataInizio={tag.dataInizio}
+                    dataFine={tag.dataFine}
+                    titolo={tag.name}
+                    prefazione={tag.testo}
+                    tags={tag.tags}
+                    handleParentHover={this.handleChildHover.bind(this, key)}
+                  ></AccordionHeader>
+                }
+                style={{
+                  background: this.state.overing === key ? '#aaa' : '#fff',
+                  overflow: 'hidden'
+                }}
+                key={key}
+              >
+                {tag.testo}
+              </Panel>
+            );
+          })}
+        </Collapse>
+        <Title>10 Ottobre</Title>
+        <Collapse style={{}} bordered={false} accordion={true}>
+          {data.map((tag, key) => {
+            return (
+              <Panel
+                showArrow={false}
+                header={
+                  <AccordionHeader
+                    color={tag.color}
+                    dataInizio={tag.dataInizio}
+                    dataFine={tag.dataFine}
+                    titolo={tag.name}
+                    prefazione={tag.testo}
+                    tags={tag.tags}
+                    handleParentHover={this.handleChildHover.bind(this, key)}
+                  ></AccordionHeader>
+                }
+                style={{
+                  background: this.state.overing === key ? '#aaa' : '#fff',
+                  overflow: 'hidden'
+                }}
                 key={key}
               >
                 {tag.testo}
