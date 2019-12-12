@@ -1,5 +1,13 @@
 import React from 'react';
-import { Collapse, Row, Col, Divider, Typography, Icon } from 'antd';
+import {
+  Collapse,
+  Row,
+  Col,
+  Divider,
+  Typography,
+  Icon,
+  Popconfirm
+} from 'antd';
 
 const { Title, Text } = Typography;
 const { Panel } = Collapse;
@@ -17,7 +25,8 @@ const data = [
     name: 'John Brown',
     dataInizio: '12:00',
     dataFine: '13:30',
-    testo: 'ciao mondo!'
+    testo: 'ciao mondo!',
+    tags: ['notification', 'wallet', 'file-image', 'file-text']
   },
   {
     color: '#f00',
@@ -43,19 +52,40 @@ const data = [
 ];
 
 class AccordionHeader extends React.PureComponent {
+  constructor() {
+    super();
+    this.state = {
+      overing: false,
+      deleting: false
+    };
+  }
+  mouseLeave() {
+    this.setState({ overing: false });
+  }
+
+  mouseEnter() {
+    this.setState({ overing: true });
+  }
+
+  stopPropagation = e => {
+    e.stopPropagation();
+    e.nativeEvent.stopImmediatePropagation();
+  };
+
+  openDeletePopConfirm(e) {
+    console.log(e);
+    this.setState({ deleting: e });
+  }
+  elimina() {
+    console.log('eliminato');
+  }
   render() {
+    console.log(this.props.tags);
     return (
-      <>
-        <Row
-          style={{
-            textAlign: 'left',
-            display: 'flex',
-            alignItems: 'center'
-          }}
-        >
-          <Col span={20}>{this.props.children}</Col>
-          <Col span={4}>giallo</Col>
-        </Row>
+      <div
+        onMouseEnter={this.mouseEnter.bind(this)}
+        onMouseLeave={this.mouseLeave.bind(this)}
+      >
         <div
           style={{
             float: 'left',
@@ -72,34 +102,65 @@ class AccordionHeader extends React.PureComponent {
           <Divider style={{ margin: '4px 0px' }} />
           <Text type="warning">{this.props.dataFine}</Text>
         </div>
+        {(this.state.overing || this.state.deleting) && (
+          <div
+            style={{
+              float: 'right',
+              height: '56px',
+              width: '56px'
+            }}
+          >
+            <Row>giallo</Row>
+            <Row>
+              <Popconfirm
+                title="Sicuro di eliminare questo impegno? (questa azione non è reversibile)"
+                onConfirm={this.elimina.bind(this)}
+                okText="Elimina"
+                cancelText="Annulla"
+                onVisibleChange={this.openDeletePopConfirm.bind(this)}
+              >
+                <Icon
+                  onClick={this.openDeletePopConfirm.bind(this)}
+                  style={{ fontSize: '36px', color: 'red' }}
+                  type="delete"
+                />
+              </Popconfirm>
+            </Row>
+          </div>
+        )}
         <Row
           style={{
             height: '56px',
-            marginLeft: '100px'
+            marginLeft: '100px',
+            marginRight: '56px'
           }}
         >
           <Col
             style={{ textAlign: 'left', padding: '0px 8px', height: '100%' }}
-            span={20}
+            span={24}
           >
             <Row>
-              <Title level={4}>{this.props.titolo}</Title>
+              <Title level={4}>
+                {this.props.titolo}
+                {this.props.tags &&
+                  this.props.tags.map((tag, key) => {
+                    return <Icon key={key} type={tag}></Icon>;
+                  })}
+              </Title>
             </Row>
             <Row>
               <Text>{this.props.prefazione}</Text>
             </Row>
           </Col>
-          <Col style={{ height: '100%' }} span={4}>
-            <Icon type="delete" />
-          </Col>
         </Row>
-      </>
+      </div>
     );
   }
 }
 
 class ListaImpegni extends React.Component {
   render() {
+    console.log(data);
     return (
       <>
         <Collapse style={{}} bordered={false} accordion={true}>
@@ -114,6 +175,7 @@ class ListaImpegni extends React.Component {
                     dataFine={tag.dataFine}
                     titolo={tag.name}
                     prefazione={tag.testo}
+                    tags={tag.tags}
                   ></AccordionHeader>
                 }
                 style={ExternalPanelStyle}
