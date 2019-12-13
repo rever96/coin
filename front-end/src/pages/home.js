@@ -4,6 +4,7 @@ import moment from 'moment';
 import configDatePicker from '../assets/Lang/it-IT/datepicker.json';
 import Filtri from '../components/tags/filtri';
 import ListaImpegni from '../components/collapsables/impegni';
+import CreaImpegnoForm from '../components/forms/crea_impegno';
 
 const { RangePicker } = DatePicker;
 const { Search } = Input;
@@ -36,6 +37,9 @@ class Example extends React.Component {
               placeholder="input search text"
               onSearch={value => console.log(value)}
             />
+            <Divider />
+            <h2>Crea Impegno</h2>
+            <CreaImpegnoForm></CreaImpegnoForm>
           </Col>
           <Col
             style={{

@@ -222,62 +222,6 @@ class ListaImpegni extends React.Component {
             );
           })}
         </Collapse>
-        <Title>10 Ottobre</Title>
-        <Collapse style={{}} bordered={false} accordion={true}>
-          {data.map((tag, key) => {
-            return (
-              <Panel
-                showArrow={false}
-                header={
-                  <AccordionHeader
-                    color={tag.color}
-                    dataInizio={tag.dataInizio}
-                    dataFine={tag.dataFine}
-                    titolo={tag.name}
-                    prefazione={tag.testo}
-                    tags={tag.tags}
-                    handleParentHover={this.handleChildHover.bind(this, key)}
-                  ></AccordionHeader>
-                }
-                style={{
-                  background: this.state.overing === key ? '#aaa' : '#fff',
-                  overflow: 'hidden'
-                }}
-                key={key}
-              >
-                {tag.testo}
-              </Panel>
-            );
-          })}
-        </Collapse>
-        <Title>10 Ottobre</Title>
-        <Collapse style={{}} bordered={false} accordion={true}>
-          {data.map((tag, key) => {
-            return (
-              <Panel
-                showArrow={false}
-                header={
-                  <AccordionHeader
-                    color={tag.color}
-                    dataInizio={tag.dataInizio}
-                    dataFine={tag.dataFine}
-                    titolo={tag.name}
-                    prefazione={tag.testo}
-                    tags={tag.tags}
-                    handleParentHover={this.handleChildHover.bind(this, key)}
-                  ></AccordionHeader>
-                }
-                style={{
-                  background: this.state.overing === key ? '#aaa' : '#fff',
-                  overflow: 'hidden'
-                }}
-                key={key}
-              >
-                {tag.testo}
-              </Panel>
-            );
-          })}
-        </Collapse>
       </>
     );
   }
