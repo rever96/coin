@@ -6,7 +6,7 @@ import Scheduler, {
 } from 'react-big-scheduler';
 import 'react-big-scheduler/lib/css/style.css';
 import moment from 'moment';
-import { Row, Col } from 'antd';
+import withDragDropContext from './withDnDContext';
 
 let schedulerData = new SchedulerData(
   new moment().format(DATE_FORMAT),
@@ -103,20 +103,16 @@ class BigCalendar extends React.Component {
   }
   render() {
     return (
-      <Row>
-        <Col>
-          <Scheduler
-            schedulerData={schedulerData}
-            prevClick={this.prevClick}
-            nextClick={this.nextClick}
-            onSelectDate={this.onSelectDate}
-            onViewChange={this.onViewChange}
-            eventItemClick={this.eventClicked}
-          />
-        </Col>
-      </Row>
+      <Scheduler
+        schedulerData={schedulerData}
+        prevClick={this.prevClick}
+        nextClick={this.nextClick}
+        onSelectDate={this.onSelectDate}
+        onViewChange={this.onViewChange}
+        eventItemClick={this.eventClicked}
+      />
     );
   }
 }
 
-export default BigCalendar;
+export default withDragDropContext(BigCalendar);
