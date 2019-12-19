@@ -26,7 +26,8 @@ class ExampleDnD extends React.Component {
       title: 'evento su più giorni',
       start: moment(moment.now()).toDate(),
       end: moment(moment.now() + 36 * 3600 * 1000).toDate(),
-      example: 'omg'
+      example: 'omg',
+      color: 'green'
     });
     this.state = {
       events
@@ -34,31 +35,30 @@ class ExampleDnD extends React.Component {
   }
 
   onEventResize = ({ event, start, end, allDay }) => {
-    console.log(end);
-
+    const index = this.state.events.findIndex(e => e.id === event.id);
+    const deletedEvent = this.state.events.splice(index, 1)[0];
+    deletedEvent.start = start;
+    deletedEvent.end = end;
     this.setState({
-      events: [
-        {
-          start: start,
-          end: end,
-          title: 'Some title'
-        }
-      ]
+      events: [...this.state.events, deletedEvent]
     });
   };
 
   onEventDrop = ({ event, start, end, allDay }) => {
-    console.log(end);
+    console.log({ ...this.state.events });
+    const index = this.state.events.findIndex(e => e.id === event.id);
+    const deletedEvent = this.state.events.splice(index, 1)[0];
+    deletedEvent.start = start;
+    deletedEvent.end = end;
     this.setState({
-      events: [
-        {
-          start: start,
-          end: end,
-          title: 'Some title'
-        }
-      ]
+      events: [...this.state.events, deletedEvent]
     });
+    console.log({ ...this.state.events });
   };
+
+  onSelectEvent(event) {
+    console.log(event);
+  }
 
   render() {
     return (
@@ -70,8 +70,15 @@ class ExampleDnD extends React.Component {
           localizer={localizer}
           onEventDrop={this.onEventDrop.bind(this)}
           onEventResize={this.onEventResize.bind(this)}
+          onSelectEvent={this.onSelectEvent.bind(this)}
           resizable
           style={{ height: '500px' }}
+          eventPropGetter={(event, start, end, isSelected) => {
+            if (event.color) {
+              return { style: { backgroundColor: event.color } };
+            }
+            return {};
+          }}
         />
       </div>
     );
