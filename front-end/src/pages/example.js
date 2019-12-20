@@ -30,6 +30,7 @@ class ExampleDnD extends React.Component {
       color: 'green'
     });
     this.state = {
+      dayLayoutAlgorithm: 'no-overlap',
       events
     };
   }
@@ -85,4 +86,102 @@ class ExampleDnD extends React.Component {
   }
 }
 
-export default ExampleDnD;
+class CreateEventWithNoOverlap extends React.Component {
+  constructor() {
+    super();
+    const events = [...Array(10).keys()].map(index => {
+      return {
+        id: index,
+        title: 'evento ' + index,
+        start: moment(
+          moment.now() + index * 3 * 3600 * 1000 - 9600000
+        ).toDate(),
+        end: moment(moment.now() + index * 3 * 3600 * 1000).toDate()
+      };
+    });
+    events.push({
+      id: -1,
+      title: 'evento su più giorni',
+      start: moment(moment.now()).toDate(),
+      end: moment(moment.now() + 36 * 3600 * 1000).toDate(),
+      example: 'omg',
+      color: 'green'
+    });
+    this.state = {
+      dayLayoutAlgorithm: 'no-overlap',
+      events
+    };
+  }
+
+  onEventResize = ({ event, start, end, allDay }) => {
+    const index = this.state.events.findIndex(e => e.id === event.id);
+    const deletedEvent = this.state.events.splice(index, 1)[0];
+    deletedEvent.start = start;
+    deletedEvent.end = end;
+    this.setState({
+      events: [...this.state.events, deletedEvent]
+    });
+  };
+
+  onEventDrop = ({ event, start, end, allDay }) => {
+    console.log({ ...this.state.events });
+    const index = this.state.events.findIndex(e => e.id === event.id);
+    const deletedEvent = this.state.events.splice(index, 1)[0];
+    deletedEvent.start = start;
+    deletedEvent.end = end;
+    this.setState({
+      events: [...this.state.events, deletedEvent]
+    });
+    console.log({ ...this.state.events });
+  };
+
+  onSelectEvent(event) {
+    console.log(event);
+  }
+
+  handleSelect = ({ start, end }) => {
+    const title = window.prompt('New Event name');
+    if (title)
+      this.setState({
+        events: [
+          ...this.state.events,
+          {
+            start,
+            end,
+            title
+          }
+        ]
+      });
+  };
+
+  render() {
+    return (
+      <>
+        <DnDCalendar
+          min={new Date(3 * 3600 * 1000)}
+          max={new Date(21 * 3600 * 1000)}
+          defaultDate={new Date()}
+          selectable
+          localizer={localizer}
+          events={this.state.events}
+          defaultView="week"
+          onEventDrop={this.onEventDrop.bind(this)}
+          onEventResize={this.onEventResize.bind(this)}
+          onSelectEvent={event => alert(event.title)}
+          onSelectSlot={this.handleSelect}
+          dayLayoutAlgorithm={this.state.dayLayoutAlgorithm}
+          style={{ height: '500px' }}
+          resizable
+          eventPropGetter={(event, start, end, isSelected) => {
+            if (event.color) {
+              return { style: { backgroundColor: event.color } };
+            }
+            return {};
+          }}
+        />
+      </>
+    );
+  }
+}
+
+export default CreateEventWithNoOverlap;
