@@ -32,6 +32,7 @@ class MyCalendar extends React.Component {
         {
           events: this.props.Eventi.map(e => {
             return {
+              id: e.id,
               title: e.titolo,
               start: moment(e.data_inizio).toDate(),
               end: moment(e.data_fine).toDate()
@@ -57,7 +58,6 @@ class MyCalendar extends React.Component {
   };
 
   onEventDrop = ({ event, start, end, allDay }) => {
-    console.log('drop');
     const events = [...this.state.events];
     const index = events.findIndex(e => e.id === event.id);
     const deletedEvent = events.splice(index, 1)[0];
@@ -67,7 +67,6 @@ class MyCalendar extends React.Component {
     this.setState({
       events
     });
-    console.log({ ...this.state.events });
   };
 
   onSelectEvent(event) {
