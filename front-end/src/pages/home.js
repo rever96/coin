@@ -46,6 +46,7 @@ class MyCalendar extends React.Component {
   }
 
   onEventResize = ({ event, start, end, allDay }) => {
+    console.log('resize');
     const index = this.state.events.findIndex(e => e.id === event.id);
     const deletedEvent = this.state.events.splice(index, 1)[0];
     deletedEvent.start = start;
@@ -56,13 +57,15 @@ class MyCalendar extends React.Component {
   };
 
   onEventDrop = ({ event, start, end, allDay }) => {
-    console.log({ ...this.state.events });
-    const index = this.state.events.findIndex(e => e.id === event.id);
-    const deletedEvent = this.state.events.splice(index, 1)[0];
+    console.log('drop');
+    const events = [...this.state.events];
+    const index = events.findIndex(e => e.id === event.id);
+    const deletedEvent = events.splice(index, 1)[0];
     deletedEvent.start = start;
     deletedEvent.end = end;
+    events.splice(index, 0, deletedEvent);
     this.setState({
-      events: [...this.state.events, deletedEvent]
+      events
     });
     console.log({ ...this.state.events });
   };
