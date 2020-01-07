@@ -30,6 +30,11 @@ exports.create = async function(req, res) {
     note TEXT,
     fk_cliente UUID,
     ruolo TEXT)`;
+  const createStaff = `CREATE TABLE IF NOT EXISTS Staff (
+    idPersone UUID PRIMARY KEY,
+    login TEXT,
+    pass TEXT
+  )`;
   const createClienti = `CREATE TABLE IF NOT EXISTS Clienti (
     id UUID PRIMARY KEY,
     email TEXT,
@@ -48,6 +53,7 @@ exports.create = async function(req, res) {
     data_contatto_futuro TIMESTAMPTZ,
     note TEXT,
     fk_orario UUID,
+    fk_orario_consegne UUID,
     fk_proprietario UUID)`;
   const createVeicoli = `CREATE TABLE IF NOT EXISTS Veicoli (
     id UUID PRIMARY KEY,
@@ -60,14 +66,10 @@ exports.create = async function(req, res) {
     km INTEGER,
     zona_interessata TEXT,
     tipo ENUMDDV,
-    costo_pedaggi NUMERIC,
-    costo_vitto NUMERIC,
     note TEXT,
     fk_veicolo UUID NOT NULL,
     fk_capo_viaggio UUID NOT NULL,
-    fk_assistente UUID,
-    quantita_carburante NUMERIC,
-    costo_carburante NUMERIC)`;
+    fk_assistente UUID)`;
   const createDepositi = `CREATE TABLE IF NOT EXISTS Depositi (
     id UUID PRIMARY KEY,
     luogo TEXT,
@@ -81,6 +83,18 @@ exports.create = async function(req, res) {
     note TEXT,
     tipo TEXT,
     peso_unitario NUMERIC)`;
+  const createProdotti = `CREATE TABLE IF NOT EXISTS Prodotti (
+    id UUID PRIMARY KEY,
+    nome TEXT,
+    data_scadenza TIMESTAMPTZ,
+    data_confezionamento TIMESTAMPTZ,
+    costo_unitario NUMERIC,
+    note TEXT,
+    lotto TEXT,
+    tipo TEXT,
+    quantita INTEGER,
+    peso_unitario NUMERIC,
+    fk_deposito UUID)`;
   const createLavorazioni = `CREATE TABLE IF NOT EXISTS Lavorazioni (
     id UUID PRIMARY KEY,
     data TIMESTAMPTZ,
@@ -166,14 +180,11 @@ exports.create = async function(req, res) {
     fk_vendita UUID,
     fk_DDV UUID,
     fk_cliente UUID)`;
-  const createRegistroCariparma = `CREATE TABLE IF NOT EXISTS RegistroCariparma (
+  const createRegistroEntrateUscite = `CREATE TABLE IF NOT EXISTS RegistroEntrateUscite (
     id UUID PRIMARY KEY,
-    data TIMESTAMPTZ,
-    reparto ENUMREPARTO,
-    importo NUMERIC,
-    beneficiario TEXT,
-    indirizzo TEXT,
-    documento ENUMDOCUMENTOPAGAMENTO,
+    data TIMESTAMPTZ NOT NULL,
+    importo NUMERIC NOT NULL,
+    isEntrata BOOLEAN NOT NULL,
     causale TEXT)`;
   const createEventi = `CREATE TABLE IF NOT EXISTS Eventi (
     id UUID PRIMARY KEY,
@@ -198,12 +209,14 @@ exports.create = async function(req, res) {
     await db.query(createType9);
     await db.query(createType10);
     await db.query(createClienti);
+    await db.query(createStaff);
     await db.query(createClientiCategorie);
     await db.query(createDDV);
     await db.query(createDepositi);
     await db.query(createLavorazioni);
     await db.query(createLavorazioniStaff);
     await db.query(createMerci);
+    await db.query(createProdotti);
     await db.query(createOrdini);
     await db.query(createOrdiniMerci);
     await db.query(createPersone);
@@ -234,6 +247,11 @@ exports.alter = async function(req, res) {
   ON UPDATE CASCADE
   ON DELETE SET NULL`;
   const alterClienti2 = `
+  ALTER TABLE Clienti ADD CONSTRAINT constraint_fk_orario
+  FOREIGN KEY (fk_orario) REFERENCES Settimane(id)
+  ON UPDATE CASCADE
+  ON DELETE SET NULL`;
+  const alterClienti3 = `
   ALTER TABLE Clienti ADD CONSTRAINT constraint_fk_orario
   FOREIGN KEY (fk_orario) REFERENCES Settimane(id)
   ON UPDATE CASCADE
@@ -371,6 +389,7 @@ exports.alter = async function(req, res) {
   try {
     await db.query(alterClienti1);
     await db.query(alterClienti2);
+    await db.query(alterClienti3);
     await db.query(alterClientiCategorie1);
     await db.query(alterClientiCategorie2);
     await db.query(alterDDV1);
