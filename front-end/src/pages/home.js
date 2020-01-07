@@ -4,9 +4,10 @@ import moment from 'moment';
 import withDragAndDrop from 'react-big-calendar/lib/addons/dragAndDrop';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import 'react-big-calendar/lib/addons/dragAndDrop/styles.css';
-import { updateTableRow, deleteTableRow, createTableRow } from '../data/tables';
-import { notification, Typography } from 'antd';
+// import { updateTableRow, deleteTableRow, createTableRow } from '../data/tables';
+import { Typography, Modal } from 'antd';
 import { connect } from 'react-redux';
+import CreaImpegnoForm from '../components/forms/crea_impegno';
 
 const { Title } = Typography;
 
@@ -20,7 +21,9 @@ class MyCalendar extends React.Component {
     this.state = {
       dayLayoutAlgorithm: 'no-overlap',
       events,
-      fetchedEvents: false
+      fetchedEvents: false,
+      visible: false,
+      statoEvento: ''
     };
     this.stillWaitingForData = true;
   }
@@ -69,49 +72,84 @@ class MyCalendar extends React.Component {
     });
   };
 
+  creaEvento = () => {
+    this.setState({
+      visible: true,
+      statoEvento: 'Crea Evento'
+    });
+  };
+
+  handleOk = e => {
+    this.setState({
+      visible: false
+    });
+    document
+      .getElementById('crea_impegno')
+      .dispatchEvent(new Event('submit', { cancelable: true }));
+  };
+
+  handleCancel = e => {
+    console.log(e);
+    this.setState({
+      visible: false
+    });
+  };
+
   onSelectEvent(event) {
     console.log(event);
   }
 
-  handleSelect = ({ start, end }) => {
-    const title = window.prompt('New Event name');
-    if (title) {
-      const row = {
-        data_inizio: start,
-        data_fine: end,
-        titolo: title
-      };
-      createTableRow(this.props.dispatch, 'Eventi', row)
-        .then(id => {
-          //aggiorno questa componente
-          //perchè cambia lo stato del reducer, ma questa componente non è connessa
-          console.log(id);
-          this.setState({
-            events: [
-              ...this.state.events,
-              {
-                start,
-                end,
-                title
-              }
-            ]
-          });
-        })
-        .catch(error => {
-          notification.error({
-            message: `Operazione fallita`,
-            description: error.toString(),
-            placement: 'bottomRight',
-            duration: 0
-          });
-        });
-    }
-  };
+  // handleSelect = ({ start, end }) => {
+  //   const title = window.prompt('New Event name');
+  //   if (title) {
+  //     const row = {
+  //       data_inizio: start,
+  //       data_fine: end,
+  //       titolo: title
+  //     };
+  //     createTableRow(this.props.dispatch, 'Eventi', row)
+  //       .then(id => {
+  //         //aggiorno questa componente
+  //         //perchè cambia lo stato del reducer, ma questa componente non è connessa
+  //         console.log(id);
+  //         this.setState({
+  //           events: [
+  //             ...this.state.events,
+  //             {
+  //               start,
+  //               end,
+  //               title
+  //             }
+  //           ]
+  //         });
+  //       })
+  //       .catch(error => {
+  //         notification.error({
+  //           message: `Operazione fallita`,
+  //           description: error.toString(),
+  //           placement: 'bottomRight',
+  //           duration: 0
+  //         });
+  //       });
+  //   }
+  // };
 
   render() {
     return (
       <>
         {!this.state.fetchedEvents && <Title>Loading</Title>}
+        <Modal
+          title={this.state.statoEvento}
+          visible={this.state.visible}
+          onOk={this.handleOk}
+          onCancel={this.handleCancel}
+        >
+          <CreaImpegnoForm
+            data_inizio={this.state.data_inizio}
+            data_fine={this.state.data_fine}
+            dispatch={this.props.dispatch}
+          ></CreaImpegnoForm>
+        </Modal>
         <DnDCalendar
           min={new Date(3 * 3600 * 1000)}
           max={new Date(21 * 3600 * 1000)}
@@ -123,7 +161,7 @@ class MyCalendar extends React.Component {
           onEventDrop={this.onEventDrop.bind(this)}
           onEventResize={this.onEventResize.bind(this)}
           onSelectEvent={event => alert(event.title)}
-          onSelectSlot={this.handleSelect}
+          onSelectSlot={this.creaEvento}
           dayLayoutAlgorithm={this.state.dayLayoutAlgorithm}
           style={{ height: '500px' }}
           resizable

@@ -1,7 +1,12 @@
 import React from 'react';
-import { Form, Icon, Input, Button, TimePicker, DatePicker } from 'antd';
+import { Form, Icon, Input, TimePicker, DatePicker, notification } from 'antd';
 import moment from 'moment';
 import configDatePicker from '../../assets/Lang/it-IT/datepicker.json';
+import {
+  updateTableRow,
+  deleteTableRow,
+  createTableRow
+} from '../../data/tables';
 
 function hasErrors(fieldsError) {
   return Object.keys(fieldsError).some(field => fieldsError[field]);
@@ -10,14 +15,46 @@ function hasErrors(fieldsError) {
 class CreaImpegno extends React.Component {
   componentDidMount() {
     // To disabled submit button at the beginning.
-    this.props.form.validateFields();
+    // this.props.form.validateFields();
+    document.addEventListener('submit', this.handleSubmit);
   }
 
   handleSubmit = e => {
+    console.log('submit');
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        console.log('Received values of form: ', values);
+        console.log(values);
+        const row = {
+          data_inizio: values.data_inizio,
+          data_fine: values.data_fine,
+          titolo: values.titolo
+        };
+        createTableRow(this.props.dispatch, 'Eventi', row)
+          .then(id => {
+            //aggiorno questa componente
+            //perchè cambia lo stato del reducer, ma questa componente non è connessa
+            console.log(id);
+            this.setState({
+              events: [
+                ...this.state.events,
+                {
+                  id: id,
+                  start: row.data_inizio,
+                  end: row.data_fine,
+                  title: row.titolo
+                }
+              ]
+            });
+          })
+          .catch(error => {
+            notification.error({
+              message: `Operazione fallita`,
+              description: error.toString(),
+              placement: 'bottomRight',
+              duration: 0
+            });
+          });
       }
     });
   };
@@ -33,7 +70,7 @@ class CreaImpegno extends React.Component {
     // Only show error after a field is touched.
     const usernameError = isFieldTouched('titolo') && getFieldError('titolo');
     return (
-      <Form layout="vertical" onSubmit={this.handleSubmit}>
+      <Form id="crea_impegno" layout="vertical" onSubmit={this.handleSubmit}>
         <Form.Item>
           <DatePicker
             defaultValue={moment(moment.now())}
@@ -63,30 +100,13 @@ class CreaImpegno extends React.Component {
         </Form.Item>
         <Form.Item>
           <Input
-            prefix={
-              <Icon type="file-text" style={{ color: 'rgba(0,0,0,.25)' }} />
-            }
-            placeholder="prefazione"
-          />
-        </Form.Item>
-        <Form.Item>
-          <Input
             prefix={<Icon type="edit" style={{ color: 'rgba(0,0,0,.25)' }} />}
             placeholder="contenuto"
           />
-        </Form.Item>
-        <Form.Item>
-          <Button
-            type="primary"
-            htmlType="submit"
-            disabled={hasErrors(getFieldsError())}
-          >
-            Log in
-          </Button>
         </Form.Item>
       </Form>
     );
   }
 }
 
-export default Form.create({ name: 'horizontal_login' })(CreaImpegno);
+export default Form.create()(CreaImpegno);
