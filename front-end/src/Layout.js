@@ -5,6 +5,7 @@ import Routes from './routes';
 import { navigateTo } from './history';
 import { connect } from 'react-redux';
 import { resetTables } from './data/actions';
+import { fetchTable } from './data/tables';
 
 const { Content, Footer, Sider } = Layout;
 const { SubMenu } = Menu;
@@ -15,6 +16,10 @@ class MyLayout extends React.Component {
     this.state = {
       collapsed: false
     };
+  }
+
+  componentDidMount() {
+    fetchTable('Eventi', this.props.dispatch);
   }
 
   onCollapse = collapsed => {

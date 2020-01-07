@@ -181,6 +181,7 @@ class EditableTable extends React.Component {
             });
           });
       } else {
+        console.log(row);
         createTableRow(this.props.dispatch, this.props.titolo, row)
           .then(id => {
             //aggiorno questa componente

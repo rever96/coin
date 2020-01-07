@@ -2,7 +2,7 @@ const db = require('./db');
 
 exports.create = async function(req, res) {
   const deleteTables = `DROP TABLE IF EXISTS TipologieCommerciali, Persone, Clienti, Veicoli, DDV,Depositi,Merci,Lavorazioni,Ordini,OrdiniMerci,
-  Spedizioni,Settimane,StoricoContatti,Vendite,ViaggioClienti,ClientiCategorie,LavorazioniStaff,StoricoMerceUscita,RegistroCariparma`;
+  Spedizioni,Settimane,StoricoContatti,Vendite,ViaggioClienti,ClientiCategorie,LavorazioniStaff,StoricoMerceUscita,RegistroCariparma, Eventi`;
   const deleteTypes = `DROP TYPE IF EXISTS ENUMDIFFICOLTA,ENUMTIPOCLIENTE,ENUMDDV,ENUMLAVORAZIONI,ENUMCONTATTO,ENUMPAGAMENTO,ENUMUSCITAMERCE,
   ENUMREPARTO,ENUMDOCUMENTOPAGAMENTO,ENUMCORRIERE`;
   const createType1 = `CREATE TYPE ENUMDIFFICOLTA AS ENUM('facile', 'medio', 'difficile', 'impossibile')`;
@@ -175,6 +175,14 @@ exports.create = async function(req, res) {
     indirizzo TEXT,
     documento ENUMDOCUMENTOPAGAMENTO,
     causale TEXT)`;
+  const createEventi = `CREATE TABLE IF NOT EXISTS Eventi (
+    id UUID PRIMARY KEY,
+    data_inizio TIMESTAMPTZ NOT NULL,
+    data_fine TIMESTAMPTZ NOT NULL,
+    titolo TEXT,
+    contenuto TEXT,
+    tipo TEXT)`;
+  const deleteEventi = `DROP TABLE IF EXISTS Eventi`;
 
   try {
     await db.query(deleteTables);
@@ -208,6 +216,7 @@ exports.create = async function(req, res) {
     await db.query(createVeicoli);
     await db.query(createVendite);
     await db.query(createViaggioClienti);
+    await db.query(createEventi);
     return res.status(201).send({});
   } catch (error) {
     return res.status(400).send(error);
