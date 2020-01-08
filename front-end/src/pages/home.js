@@ -9,6 +9,10 @@ import { Typography, Modal } from 'antd';
 import { connect } from 'react-redux';
 import CreaImpegnoForm from '../components/forms/crea_impegno';
 
+export const creaEvento = 'Crea Evento';
+export const modificaEvento = 'Modifica Evento';
+export const eliminaEvento = 'Elimina Evento';
+
 const { Title } = Typography;
 
 const localizer = BigCalendar.momentLocalizer(moment);
@@ -72,10 +76,12 @@ class MyCalendar extends React.Component {
     });
   };
 
-  creaEvento = () => {
+  creaEvento = ({ start, end }) => {
     this.setState({
       visible: true,
-      statoEvento: 'Crea Evento'
+      statoEvento: creaEvento,
+      data_inizio: start,
+      data_fine: end
     });
   };
 
@@ -89,7 +95,6 @@ class MyCalendar extends React.Component {
   };
 
   handleCancel = e => {
-    console.log(e);
     this.setState({
       visible: false
     });
@@ -148,6 +153,7 @@ class MyCalendar extends React.Component {
             data_inizio={this.state.data_inizio}
             data_fine={this.state.data_fine}
             dispatch={this.props.dispatch}
+            statoEvento={this.state.statoEvento}
           ></CreaImpegnoForm>
         </Modal>
         <DnDCalendar

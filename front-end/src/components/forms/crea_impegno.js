@@ -1,5 +1,5 @@
 import React from 'react';
-import { Form, Icon, Input, TimePicker, DatePicker, notification } from 'antd';
+import { Form, Input, TimePicker, DatePicker, notification } from 'antd';
 import moment from 'moment';
 import configDatePicker from '../../assets/Lang/it-IT/datepicker.json';
 import {
@@ -7,28 +7,59 @@ import {
   deleteTableRow,
   createTableRow
 } from '../../data/tables';
-
-function hasErrors(fieldsError) {
-  return Object.keys(fieldsError).some(field => fieldsError[field]);
-}
-
+import { creaEvento, modificaEvento, eliminaEvento } from '../../pages/home';
+const { TextArea } = Input;
 class CreaImpegno extends React.Component {
+  constructor() {
+    super();
+    this.state = {
+      submit: null
+    };
+  }
   componentDidMount() {
-    // To disabled submit button at the beginning.
-    // this.props.form.validateFields();
-    document.addEventListener('submit', this.handleSubmit);
+    console.log(this.props.statoEvento);
+    document.addEventListener('submit', this.creaEvento);
+    this.setState({
+      submit: this.creaEvento
+    });
+    // switch (this.props.statoEvento) {
+    //   case creaEvento:
+    //     console.log('omg');
+    //     document.addEventListener('submit', this.creaEvento);
+    //     break;
+    //   case modificaEvento:
+    //     document.addEventListener('submit', this.creaEvento);
+    //     break;
+    //   case eliminaEvento:
+    //     document.addEventListener('submit', this.creaEvento);
+    //     break;
+    //   default:
+    //     break;
+    // }
+  }
+  componentWillUnmount() {
+    console.log('unmount');
+    document.removeEventListener(this.props.statoEvento);
   }
 
-  handleSubmit = e => {
+  componentDidUpdate() {
+    console.log('evento form update');
+  }
+
+  creaEvento = e => {
     console.log('submit');
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        console.log(values);
         const row = {
-          data_inizio: values.data_inizio,
-          data_fine: values.data_fine,
-          titolo: values.titolo
+          data_inizio: moment(values.data)
+            .add(moment(values.ora_inizio))
+            .toDate(),
+          data_fine: moment(values.data)
+            .add(moment(values.ora_fine))
+            .toDate(),
+          titolo: values.titolo,
+          contenuto: values.contenuto
         };
         createTableRow(this.props.dispatch, 'Eventi', row)
           .then(id => {
@@ -62,28 +93,25 @@ class CreaImpegno extends React.Component {
   render() {
     const {
       getFieldDecorator,
-      getFieldsError,
       getFieldError,
       isFieldTouched
     } = this.props.form;
-
     // Only show error after a field is touched.
     const usernameError = isFieldTouched('titolo') && getFieldError('titolo');
     return (
-      <Form id="crea_impegno" layout="vertical" onSubmit={this.handleSubmit}>
-        <Form.Item>
-          <DatePicker
-            defaultValue={moment(moment.now())}
-            locale={configDatePicker}
-          />
-          <TimePicker
-            defaultValue={moment(moment.now() + 1 * 3600 * 1000)}
-            format={'HH:mm'}
-          />
-          <TimePicker
-            defaultValue={moment(moment.now() + 3 * 3600 * 1000)}
-            format={'HH:mm'}
-          />
+      <Form layout="vertical" id="crea_impegno" onSubmit={this.state.submit}>
+        <Form.Item validateStatus={''} help={''}>
+          {getFieldDecorator('data', {
+            initialValue: moment(this.props.data_inizio)
+          })(<DatePicker locale={configDatePicker} />)}
+
+          {getFieldDecorator('ora_inizio', {
+            initialValue: moment(this.props.data_inizio)
+          })(<TimePicker format={'HH:mm'} />)}
+
+          {getFieldDecorator('ora_fine', {
+            initialValue: moment(this.props.data_fine)
+          })(<TimePicker format={'HH:mm'} />)}
         </Form.Item>
         <Form.Item
           validateStatus={usernameError ? 'error' : ''}
@@ -91,18 +119,15 @@ class CreaImpegno extends React.Component {
         >
           {getFieldDecorator('titolo', {
             rules: [{ required: true, message: 'Please input your titolo!' }]
-          })(
-            <Input
-              prefix={<Icon type="info" style={{ color: 'rgba(0,0,0,.25)' }} />}
-              placeholder="titolo"
-            />
-          )}
+          })(<Input placeholder="titolo" />)}
         </Form.Item>
         <Form.Item>
-          <Input
-            prefix={<Icon type="edit" style={{ color: 'rgba(0,0,0,.25)' }} />}
-            placeholder="contenuto"
-          />
+          {getFieldDecorator('contenuto')(
+            <TextArea
+              placeholder="contenuto"
+              autoSize={{ minRows: 2, maxRows: 10 }}
+            />
+          )}
         </Form.Item>
       </Form>
     );
