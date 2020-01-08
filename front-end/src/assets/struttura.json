@@ -1,0 +1,120 @@
+[
+  {
+    "nome": "clienti",
+    "colonne": [
+      {
+        "nome": "email",
+        "editable": true,
+        "not_null": true
+      },
+      {
+        "nome": "indirizzo",
+        "render": "indirizzo",
+        "editable": false
+      },
+      {
+        "nome": "data_inserimento",
+        "editable": false,
+        "render": "data",
+        "width": 150
+      },
+      {
+        "nome": "n_coperti",
+        "width": 100,
+        "editable": true
+      },
+      {
+        "nome": "fk_proprietario",
+        "editable": false,
+        "render": "fk"
+      }
+    ]
+  },
+  {
+    "nome": "persone",
+    "colonne": [
+      {
+        "nome": "nome",
+        "editable": true
+      },
+      {
+        "nome": "cognome",
+        "editable": true
+      },
+      {
+        "nome": "data_nascita",
+        "editable": true
+      },
+      {
+        "nome": "telefono",
+        "editable": true
+      },
+      {
+        "nome": "email",
+        "editable": true
+      },
+      {
+        "nome": "note",
+        "editable": true
+      },
+      {
+        "nome": "ruolo",
+        "editable": true
+      }
+    ]
+  },
+  {
+    "nome": "veicoli",
+    "colonne": [
+      {
+        "nome": "targa",
+        "editable": true
+      },
+      {
+        "nome": "km_litro",
+        "editable": true
+      },
+      {
+        "nome": "note",
+        "editable": true
+      }
+    ]
+  },
+  {
+    "nome": "settimane",
+    "colonne": [
+      {
+        "nome": "lunedi",
+        "editable": true
+      },
+      {
+        "nome": "martedi",
+        "editable": true
+      },
+      {
+        "nome": "mercoledi",
+        "editable": true
+      },
+      {
+        "nome": "giovedi",
+        "editable": true
+      },
+      {
+        "nome": "venerdi",
+        "editable": true
+      },
+      {
+        "nome": "sabato",
+        "editable": true
+      },
+      {
+        "nome": "domenica",
+        "editable": true
+      },
+      {
+        "nome": "note",
+        "editable": true
+      }
+    ]
+  }
+]
