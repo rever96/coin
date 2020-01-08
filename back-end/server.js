@@ -1,14 +1,28 @@
 //Install express server
 const express = require('express');
 const bodyParser = require('body-parser');
+const dotenv = require('dotenv');
+const cors = require('cors');
+const webpush = require('web-push');
 
 const Struttura = require('./controllers/Struttura');
 const Dati = require('./controllers/Dati');
 
-const PushModule = require('./pushNotification');
+const vapidDetails = {
+  subject: 'mailto:rever22411@gmail.com',
+  publicKey:
+    'BAdlD5AG5vjAOgTHSLUiIdan6INo9rY_S_wRYtoaQCYlcOfCJiXL0Z2mCwMOB-5KYKNFIbWTEPiqTCm32Wlj7sk',
+  privateKey: 'Hq2oAYj_G57jbCVcFLIJrKTbIuits8vpmz8hR05ZREc'
+};
+webpush.setVapidDetails(
+  vapidDetails.subject,
+  vapidDetails.publicKey,
+  vapidDetails.privateKey
+);
+
+let listOfSubcriptions = [];
 
 const app = express();
-
 app.use((req, res, next) => {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader(
@@ -28,6 +42,29 @@ app.post('/prova', (req, res) => {
   console.log(req.body);
 });
 
+app.post('/notifications/subscribe', (req, res) => {
+  const subscription = req.body;
+
+  if (listOfSubcriptions.every(s => s.endpoint !== subscription.endpoint)) {
+    listOfSubcriptions.push(subscription);
+    res.status(200).json({ 'nuova subscription': subscription });
+  } else {
+    res.status(200).json({ 'vecchia subscription': subscription });
+  }
+});
+app.post('/api/notify', (req, res) => {
+  const payload = JSON.stringify({
+    title: 'Hello!',
+    body: 'It works.'
+  });
+  listOfSubcriptions.forEach(subscription => {
+    webpush
+      .sendNotification(subscription, payload)
+      .then(result => console.log(result))
+      .catch(e => console.log(e.stack));
+  });
+  res.status(200).json({});
+});
 // ENDPOINT CONTROLLERS DB
 
 // app.post('/api/v1/reflections', Auth.verifyToken, Reflection.create);
@@ -47,7 +84,6 @@ app.post('/api/v3/select', Dati.select);
 app.post('/api/v3/update', Dati.update);
 app.post('/api/v3/create', Dati.create);
 app.post('/api/v3/delete', Dati.delete);
-app.post('/api/v4/push', PushModule.push);
 
 app.listen(8080, () => {
   console.log('online');

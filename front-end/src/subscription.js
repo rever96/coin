@@ -23,7 +23,7 @@ function urlBase64ToUint8Array(base64String) {
 
 function sendSubscription(subscription) {
   console.log(subscription);
-  return fetch('http://localhost:9000/notifications/subscribe', {
+  return fetch('http://localhost:8080/notifications/subscribe', {
     method: 'POST',
     body: JSON.stringify(subscription),
     headers: {
