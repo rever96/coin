@@ -6,6 +6,7 @@ import { navigateTo } from './history';
 import { connect } from 'react-redux';
 import { resetTables } from './data/actions';
 import { fetchTable } from './data/tables';
+import { subscribeUser } from './subscription';
 
 const { Content, Footer, Sider } = Layout;
 const { SubMenu } = Menu;
@@ -16,6 +17,7 @@ class MyLayout extends React.Component {
     this.state = {
       collapsed: false
     };
+    subscribeUser();
   }
 
   componentDidMount() {

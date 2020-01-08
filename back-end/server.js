@@ -5,6 +5,8 @@ const bodyParser = require('body-parser');
 const Struttura = require('./controllers/Struttura');
 const Dati = require('./controllers/Dati');
 
+const PushModule = require('./pushNotification');
+
 const app = express();
 
 app.use((req, res, next) => {
@@ -45,6 +47,7 @@ app.post('/api/v3/select', Dati.select);
 app.post('/api/v3/update', Dati.update);
 app.post('/api/v3/create', Dati.create);
 app.post('/api/v3/delete', Dati.delete);
+app.post('/api/v4/push', PushModule.push);
 
 app.listen(8080, () => {
   console.log('online');
