@@ -4,10 +4,10 @@ import moment from 'moment';
 import withDragAndDrop from 'react-big-calendar/lib/addons/dragAndDrop';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import 'react-big-calendar/lib/addons/dragAndDrop/styles.css';
-// import { updateTableRow, deleteTableRow, createTableRow } from '../data/tables';
-import { Typography, Modal } from 'antd';
+import { updateTableRow, deleteTableRow, createTableRow } from '../data/tables';
+import { Typography, Modal, notification } from 'antd';
 import { connect } from 'react-redux';
-import CreaImpegnoForm from '../components/forms/crea_impegno';
+import EventoForm from '../components/forms/eventoForm';
 
 export const creaEvento = 'Crea Evento';
 export const modificaEvento = 'Modifica Evento';
@@ -27,7 +27,14 @@ class MyCalendar extends React.Component {
       events,
       fetchedEvents: false,
       visible: false,
-      statoEvento: ''
+      statoEvento: '',
+      fields: {
+        data: { value: moment(moment.now()) },
+        ora_inizio: { value: moment(moment.now()) },
+        ora_fine: { value: moment(moment.now()) },
+        titolo: { value: 'moment.now()' },
+        contenuto: { value: 'moment.now()' }
+      }
     };
     this.stillWaitingForData = true;
   }
@@ -42,7 +49,9 @@ class MyCalendar extends React.Component {
               id: e.id,
               title: e.titolo,
               start: moment(e.data_inizio).toDate(),
-              end: moment(e.data_fine).toDate()
+              end: moment(e.data_fine).toDate(),
+              content: e.contenuto
+              // color: e.tipo
             };
           })
         },
@@ -64,7 +73,7 @@ class MyCalendar extends React.Component {
     });
   };
 
-  onEventDrop = ({ event, start, end, allDay }) => {
+  onEventDrop = ({ event, start, end }) => {
     const events = [...this.state.events];
     const index = events.findIndex(e => e.id === event.id);
     const deletedEvent = events.splice(index, 1)[0];
@@ -80,93 +89,234 @@ class MyCalendar extends React.Component {
     this.setState({
       visible: true,
       statoEvento: creaEvento,
-      data_inizio: start,
-      data_fine: end
+      fields: {
+        data: { value: moment(start) },
+        ora_inizio: { value: moment(start) },
+        ora_fine: { value: moment(end) },
+        titolo: { value: '' },
+        contenuto: { value: '' }
+      }
     });
   };
 
-  handleOk = e => {
+  modificaEvento = id => {
+    const evento = this.state.events.find(e => e.id === id);
+    this.setState({
+      visible: true,
+      statoEvento: modificaEvento,
+      fields: {
+        id: id,
+        data: { value: moment(evento.start) },
+        ora_inizio: { value: moment(evento.start) },
+        ora_fine: { value: moment(evento.end) },
+        titolo: { value: evento.title },
+        contenuto: { value: evento.content }
+      }
+    });
+  };
+
+  eliminaEvento = id => {
+    const evento = this.state.events.find(e => e.id === id);
+    this.setState({
+      visible: true,
+      statoEvento: eliminaEvento,
+      fields: {
+        id: id,
+        data: { value: moment(evento.start) },
+        ora_inizio: { value: moment(evento.start) },
+        ora_fine: { value: moment(evento.end) },
+        titolo: { value: evento.title },
+        contenuto: { value: evento.content }
+      }
+    });
+  };
+
+  creaEventoSubmit = () => {
+    const { titolo, data, ora_inizio, ora_fine, contenuto } = this.state.fields;
+    if (titolo.value.length === 0) {
+      return;
+    }
+    this.setState({
+      confirmLoading: true
+    });
+    const evento = {
+      data_inizio: moment(data.value)
+        .hour(0)
+        .minute(0)
+        .add(ora_inizio.value.get('minutes'), 'minutes')
+        .add(ora_inizio.value.get('hours'), 'hours')
+        .toDate(),
+      data_fine: moment(data.value)
+        .hour(0)
+        .minute(0)
+        .add(ora_fine.value.get('minutes'), 'minutes')
+        .add(ora_fine.value.get('hours'), 'hours')
+        .toDate(),
+      titolo: titolo.value,
+      contenuto: contenuto.value
+    };
+    createTableRow(this.props.dispatch, 'Eventi', evento)
+      .then(id => {
+        this.setState({
+          visible: false,
+          confirmLoading: false,
+          events: [
+            ...this.state.events,
+            {
+              id: id,
+              start: evento.data_inizio,
+              end: evento.data_fine,
+              title: evento.titolo,
+              content: evento.contenuto
+            }
+          ]
+        });
+      })
+      .catch(error => {
+        notification.error({
+          message: `Operazione fallita`,
+          description: error.toString(),
+          placement: 'bottomRight',
+          duration: 0
+        });
+      });
+  };
+
+  modificaEventoSubmit = () => {
+    const {
+      id,
+      titolo,
+      data,
+      ora_inizio,
+      ora_fine,
+      contenuto
+    } = this.state.fields;
+    if (titolo.value.length === 0) {
+      return;
+    }
+    this.setState({
+      confirmLoading: true
+    });
+    const evento = {
+      data_inizio: moment(data.value)
+        .hour(0)
+        .minute(0)
+        .add(ora_inizio.value.get('minutes'), 'minutes')
+        .add(ora_inizio.value.get('hours'), 'hours')
+        .toDate(),
+      data_fine: moment(data.value)
+        .hour(0)
+        .minute(0)
+        .add(ora_fine.value.get('minutes'), 'minutes')
+        .add(ora_fine.value.get('hours'), 'hours')
+        .toDate(),
+      titolo: titolo.value,
+      contenuto: contenuto.value
+    };
+    updateTableRow(this.props.dispatch, 'Eventi', id, evento)
+      .then(() => {
+        this.setState({
+          visible: false,
+          confirmLoading: false,
+          events: [
+            ...this.state.events.filter(e => e.id !== id),
+            {
+              id: id,
+              start: evento.data_inizio,
+              end: evento.data_fine,
+              title: evento.titolo,
+              content: evento.contenuto
+            }
+          ]
+        });
+      })
+      .catch(error => {
+        notification.error({
+          message: `Operazione fallita`,
+          description: error.toString(),
+          placement: 'bottomRight',
+          duration: 0
+        });
+      });
+  };
+
+  eliminaEventoSubmit = () => {
+    const { id } = this.state.fields;
+    this.setState({
+      confirmLoading: true
+    });
+    deleteTableRow(this.props.dispatch, 'Eventi', id)
+      .then(() => {
+        this.setState({
+          visible: false,
+          confirmLoading: false,
+          events: [...this.state.events.filter(e => e.id !== id)]
+        });
+      })
+      .catch(error => {
+        notification.error({
+          message: `Operazione fallita`,
+          description: error.toString(),
+          placement: 'bottomRight',
+          duration: 0
+        });
+      });
+  };
+
+  handleOk = () => {
+    switch (this.state.statoEvento) {
+      case creaEvento:
+        this.creaEventoSubmit();
+        break;
+      case modificaEvento:
+        this.modificaEventoSubmit();
+        break;
+      case eliminaEvento:
+        this.eliminaEventoSubmit();
+        break;
+      default:
+        break;
+    }
+  };
+
+  handleCancel = () => {
     this.setState({
       visible: false
     });
-    document
-      .getElementById('crea_impegno')
-      .dispatchEvent(new Event('submit', { cancelable: true }));
   };
 
-  handleCancel = e => {
-    this.setState({
-      visible: false
-    });
+  handleFormChange = changedFields => {
+    this.setState(({ fields }) => ({
+      fields: { ...fields, ...changedFields }
+    }));
   };
-
-  onSelectEvent(event) {
-    console.log(event);
-  }
-
-  // handleSelect = ({ start, end }) => {
-  //   const title = window.prompt('New Event name');
-  //   if (title) {
-  //     const row = {
-  //       data_inizio: start,
-  //       data_fine: end,
-  //       titolo: title
-  //     };
-  //     createTableRow(this.props.dispatch, 'Eventi', row)
-  //       .then(id => {
-  //         //aggiorno questa componente
-  //         //perchè cambia lo stato del reducer, ma questa componente non è connessa
-  //         console.log(id);
-  //         this.setState({
-  //           events: [
-  //             ...this.state.events,
-  //             {
-  //               start,
-  //               end,
-  //               title
-  //             }
-  //           ]
-  //         });
-  //       })
-  //       .catch(error => {
-  //         notification.error({
-  //           message: `Operazione fallita`,
-  //           description: error.toString(),
-  //           placement: 'bottomRight',
-  //           duration: 0
-  //         });
-  //       });
-  //   }
-  // };
 
   render() {
+    const { fields } = this.state;
     return (
       <>
         {!this.state.fetchedEvents && <Title>Loading</Title>}
         <Modal
           title={this.state.statoEvento}
           visible={this.state.visible}
+          confirmLoading={this.state.confirmLoading}
           onOk={this.handleOk}
           onCancel={this.handleCancel}
         >
-          <CreaImpegnoForm
-            data_inizio={this.state.data_inizio}
-            data_fine={this.state.data_fine}
-            dispatch={this.props.dispatch}
-            statoEvento={this.state.statoEvento}
-          ></CreaImpegnoForm>
+          <EventoForm {...fields} onChange={this.handleFormChange} />
         </Modal>
         <DnDCalendar
           min={new Date(3 * 3600 * 1000)}
           max={new Date(21 * 3600 * 1000)}
-          defaultDate={new Date()}
+          defaultDate={moment().toDate()}
           selectable
           localizer={localizer}
           events={this.state.events}
           defaultView="week"
           onEventDrop={this.onEventDrop.bind(this)}
           onEventResize={this.onEventResize.bind(this)}
-          onSelectEvent={event => alert(event.title)}
+          onDoubleClickEvent={e => this.eliminaEvento(e.id)}
+          onSelectEvent={e => this.modificaEvento(e.id)}
           onSelectSlot={this.creaEvento}
           dayLayoutAlgorithm={this.state.dayLayoutAlgorithm}
           style={{ height: '500px' }}

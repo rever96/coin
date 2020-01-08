@@ -3,11 +3,11 @@ import { Form, Input, TimePicker, DatePicker, notification } from 'antd';
 import moment from 'moment';
 import configDatePicker from '../../assets/Lang/it-IT/datepicker.json';
 import {
-  updateTableRow,
-  deleteTableRow,
+  // updateTableRow,
+  // deleteTableRow,
   createTableRow
 } from '../../data/tables';
-import { creaEvento, modificaEvento, eliminaEvento } from '../../pages/home';
+// import { creaEvento, modificaEvento, eliminaEvento } from '../../pages/home';
 const { TextArea } = Input;
 class CreaImpegno extends React.Component {
   constructor() {
