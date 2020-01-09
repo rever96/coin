@@ -6,6 +6,7 @@ import {
   actionCreateTableRow,
   actionDeleteTableRow
 } from './actions';
+import { serverPath } from '../environment';
 
 export function fetchTable(tableName, dispatch) {
   console.log('fetch server table');
@@ -16,7 +17,7 @@ export function fetchTable(tableName, dispatch) {
   };
 
   dispatch(fetchTablePending());
-  fetch('http://localhost:8080/api/v3/select', options)
+  fetch(serverPath + 'api/v3/select', options)
     .then(response => response.json())
     .then(data => {
       dispatch(fetchTableSuccess(data, tableName));
@@ -48,7 +49,7 @@ export function updateTableRow(dispatch, tableName, id, row) {
         condition: "id = '" + id + "'"
       })
     };
-    fetch('http://localhost:8080/api/v3/update', options)
+    fetch(serverPath + 'api/v3/update', options)
       .then(response => response.json())
       .then(() => {
         dispatch(actionUpdateTableRow(tableName, values, id));
@@ -76,7 +77,7 @@ export function createTableRow(dispatch, tableName, row) {
         values
       })
     };
-    fetch('http://localhost:8080/api/v3/create', options)
+    fetch(serverPath + 'api/v3/create', options)
       .then(response => response.json())
       .then(res => {
         if (res.name && res.name === 'error') {
@@ -106,7 +107,7 @@ export function deleteTableRow(dispatch, tableName, id) {
         id
       })
     };
-    fetch('http://localhost:8080/api/v3/delete', options)
+    fetch(serverPath + 'api/v3/delete', options)
       .then(response => response.json())
       .then(res => {
         if (res.name && res.name === 'error') {

@@ -37,6 +37,10 @@ app.use((req, res, next) => {
 });
 app.use(bodyParser.json());
 
+app.get('/', (req, res) => {
+  res.send('Lista di subscriptions:' + JSON.stringify(listOfSubcriptions));
+});
+
 app.post('/prova', (req, res) => {
   console.log('provato');
   console.log(req.body);

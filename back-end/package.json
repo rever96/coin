@@ -3,6 +3,9 @@
   "version": "4.1.0",
   "description": "Coin gestionale rapio server",
   "private": true,
+  "engines": {
+    "node": "10.16.3"
+  },
   "dependencies": {
     "axios": "^0.18.1",
     "bcrypt": "^3.0.6",
@@ -21,10 +24,7 @@
     "web-push": "^3.4.3"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "start": "node server.js"
   },
   "eslintConfig": {
     "extends": "react-app"

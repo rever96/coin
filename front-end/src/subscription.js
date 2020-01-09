@@ -1,3 +1,5 @@
+import { serverPath } from './environment';
+
 const vapidDetails = {
   subject: '',
   publicKey:
@@ -23,7 +25,7 @@ function urlBase64ToUint8Array(base64String) {
 
 function sendSubscription(subscription) {
   console.log(subscription);
-  return fetch('http://localhost:8080/notifications/subscribe', {
+  return fetch(serverPath + 'notifications/subscribe', {
     method: 'POST',
     body: JSON.stringify(subscription),
     headers: {
