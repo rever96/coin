@@ -14,6 +14,8 @@ const vapidDetails = {
     'BAdlD5AG5vjAOgTHSLUiIdan6INo9rY_S_wRYtoaQCYlcOfCJiXL0Z2mCwMOB-5KYKNFIbWTEPiqTCm32Wlj7sk',
   privateKey: 'Hq2oAYj_G57jbCVcFLIJrKTbIuits8vpmz8hR05ZREc'
 };
+const googleCloudMessagingAPIKey = 'AIzaSyClVmd_jkID2oDKdG4XV6bbeFAxndP2QrQ';
+webpush.setGCMAPIKey(googleCloudMessagingAPIKey);
 webpush.setVapidDetails(
   vapidDetails.subject,
   vapidDetails.publicKey,

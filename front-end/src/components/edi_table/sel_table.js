@@ -28,13 +28,16 @@ class SelectRowTable extends React.Component {
       this.stillWaitingForData = false;
       console.log('set selected key');
       const righe = setRows(this.props.tableData);
-      // todo in caso che non ci sia già la chiave esterna?
-      const previuosIndex = righe.findIndex(r => r.id === this.props.id);
-      const selectedRow = righe.splice(previuosIndex, 1)[0];
-      righe.splice(0, 0, selectedRow);
+      let selectedRowKey = undefined;
+      if (this.props.id !== undefined) {
+        const previuosIndex = righe.findIndex(r => r.id === this.props.id);
+        const selectedRow = righe.splice(previuosIndex, 1)[0];
+        righe.splice(0, 0, selectedRow);
+        selectedRowKey = righe[0].key;
+      }
       this.setState({
         righe,
-        selectedRowKey: righe[0].key
+        selectedRowKey
       });
       const colonne = struttura
         .find(tabella => tabella.nome === this.props.tableName)
@@ -56,14 +59,23 @@ class SelectRowTable extends React.Component {
   }
 
   onSelectChange = selectedRowKeys => {
-    const fk = this.state.righe.find(r => r.key === selectedRowKeys[1]).id;
+    if (selectedRowKeys.length === 0) {
+      this.setState({ selectedRowKey: [] });
+      return;
+    }
+    const selectedRowKey =
+      selectedRowKeys.length === 2 ? selectedRowKeys[1] : selectedRowKeys[0];
+    const fk = this.state.righe.find(r => r.key === selectedRowKey).id;
     this.props.changeForeignKey(fk);
-    this.setState({ selectedRowKey: selectedRowKeys[1] });
+    this.setState({ selectedRowKey });
   };
 
   addSelectableFeature() {
     this.rowSelection = {
-      selectedRowKeys: [this.state.selectedRowKey],
+      selectedRowKeys:
+        this.state.selectedRowKey !== undefined
+          ? [this.state.selectedRowKey]
+          : [],
       onChange: this.onSelectChange,
       hideDefaultSelections: true
     };

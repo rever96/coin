@@ -230,6 +230,7 @@ exports.create = async function(req, res) {
     await db.query(createVendite);
     await db.query(createViaggioClienti);
     await db.query(createEventi);
+    await db.query(createRegistroEntrateUscite);
     return res.status(201).send({});
   } catch (error) {
     return res.status(400).send(error);
