@@ -118,134 +118,181 @@ export const FormClienti = Form.create({
   // onValuesChange(_, values) {
   //   console.log(values);
   // }
-})(props => {
-  const { getFieldDecorator } = props.form;
-  const selezionaOrario = fk => {
-    console.log(fk);
-    fk_orario = fk;
+})(props => (
+  <FormClientiStatefull form={{ ...props.form }}></FormClientiStatefull>
+));
+
+class FormClientiStatefull extends React.Component {
+  constructor() {
+    super();
+    this.state = {
+      fk_orario: undefined,
+      fk_orario_consegne: undefined,
+      fk_proprietario: undefined
+    };
+  }
+
+  fk_orarioSET = fk_orario => {
+    this.setState({ fk_orario });
   };
-  let fk_orario = undefined;
-  return (
-    <Form layout="horizontal">
-      <Form.Item validateStatus={''} help={''}>
-        {getFieldDecorator('intestazione_legale')(
-          <Input placeholder="Intestazione Legale" />
-        )}
-        {/* </Form.Item>
+  fk_orario_consegneSET = fk_orario_consegne => {
+    this.setState({ fk_orario_consegne });
+  };
+  fk_proprietarioSET = fk_proprietario => {
+    this.setState({ fk_proprietario });
+  };
+
+  render() {
+    const { getFieldDecorator } = this.props.form;
+    return (
+      <Form layout="horizontal">
+        <Form.Item validateStatus={''} help={''}>
+          {getFieldDecorator('intestazione_legale')(
+            <Input placeholder="Intestazione Legale" />
+          )}
+          {/* </Form.Item>
       <Form.Item> */}
-        {getFieldDecorator('indirizzo_sede_legale')(
-          <Input placeholder="Indirizzo Sede Legale" />
-        )}
-      </Form.Item>
-      <Form.Item validateStatus={''} help={''}>
-        {getFieldDecorator('telefono')(<Input placeholder="telefono" />)}
-        {/* </Form.Item>
+          {getFieldDecorator('indirizzo_sede_legale')(
+            <Input placeholder="Indirizzo Sede Legale" />
+          )}
+        </Form.Item>
+        <Form.Item validateStatus={''} help={''}>
+          {getFieldDecorator('telefono')(<Input placeholder="telefono" />)}
+          {/* </Form.Item>
       <Form.Item> */}
-        {getFieldDecorator('email')(<Input placeholder="email" />)}
-      </Form.Item>
-      <Form.Item validateStatus={''} help={''}>
-        {getFieldDecorator('indirizzo')(<Input placeholder="Indirizzo" />)}
-        {/* </Form.Item>
+          {getFieldDecorator('email')(<Input placeholder="email" />)}
+        </Form.Item>
+        <Form.Item validateStatus={''} help={''}>
+          {getFieldDecorator('indirizzo')(<Input placeholder="Indirizzo" />)}
+          {/* </Form.Item>
       <Form.Item> */}
-        {getFieldDecorator('gmap')(
-          <Input placeholder="Coordinate Google Maps" />
-        )}
-      </Form.Item>
-      <Form.Item
-        label="N coperti"
-        labelAlign="left"
-        labelCol={{ span: 4 }}
-        wrapperCol={{ span: 12 }}
-      >
-        {getFieldDecorator('n_coperti')(<InputNumber />)}
-      </Form.Item>
-      <Form.Item>
-        {getFieldDecorator('attivita_fruitrice')(
-          <Input placeholder="Attivita Fruitrice" />
-        )}
-      </Form.Item>
-      <Form.Item>
-        {getFieldDecorator('partita_iva')(<Input placeholder="Partita Iva" />)}
-      </Form.Item>
-      <Form.Item>
-        {getFieldDecorator('codice_univoco')(
-          <Input placeholder="Codice Univoco" />
-        )}
-      </Form.Item>
-      <Form.Item
-        labelAlign="left"
-        label="Accessibilita Consegne"
-        labelCol={{ span: 8 }}
-        wrapperCol={{ span: 12 }}
-      >
-        {getFieldDecorator('accessibilita_consegne')(
-          <Radio.Group>
-            <Radio.Button value="facile">facile</Radio.Button>
-            <Radio.Button value="medio">medio</Radio.Button>
-            <Radio.Button value="difficile">difficile</Radio.Button>
-            <Radio.Button value="impossibile">impossibile</Radio.Button>
-          </Radio.Group>
-        )}
-      </Form.Item>
-      <Form.Item
-        labelAlign="left"
-        label="Tipo Cliente"
-        labelCol={{ span: 8 }}
-        wrapperCol={{ span: 12 }}
-      >
-        {getFieldDecorator('tipo_cliente')(
-          <Radio.Group>
-            <Radio.Button value="facile">cliente</Radio.Button>
-            <Radio.Button value="potenziale cliente">
-              potenziale cliente
-            </Radio.Button>
-            <Radio.Button value="oppositore">oppositore</Radio.Button>
-            <Radio.Button value="oppositore perdi tempo">
-              oppositore perdi tempo
-            </Radio.Button>
-            <Radio.Button value="ex cliente">ex cliente</Radio.Button>
-          </Radio.Group>
-        )}
-      </Form.Item>
-      <Form.Item
-        labelCol={{ span: 8 }}
-        wrapperCol={{ span: 12 }}
-        label="Data Contatto futuro"
-        labelAlign="left"
-      >
-        {getFieldDecorator('data_contatto_futuro')(
-          <DatePicker locale={configDatePicker} />
-        )}
-      </Form.Item>
-      <Form.Item>
-        {getFieldDecorator('note')(
-          <TextArea placeholder="note" autoSize={{ minRows: 2, maxRows: 10 }} />
-        )}
-      </Form.Item>
-      <Form.Item
-        labelCol={{ span: 8 }}
-        wrapperCol={{ span: 12 }}
-        label="Data Di Inserimento"
-        labelAlign="left"
-      >
-        {getFieldDecorator('data_inserimento')(
-          <DatePicker disabled locale={configDatePicker} />
-        )}
-      </Form.Item>
-      <Form.Item
-        labelCol={{ span: 8 }}
-        wrapperCol={{ span: 12 }}
-        label="orario"
-        labelAlign="left"
-      >
-        {getFieldDecorator('orario')(
+          {getFieldDecorator('gmap')(
+            <Input placeholder="Coordinate Google Maps" />
+          )}
+        </Form.Item>
+        <Form.Item
+          label="N coperti"
+          labelAlign="left"
+          labelCol={{ span: 4 }}
+          wrapperCol={{ span: 12 }}
+        >
+          {getFieldDecorator('n_coperti')(<InputNumber />)}
+        </Form.Item>
+        <Form.Item>
+          {getFieldDecorator('attivita_fruitrice')(
+            <Input placeholder="Attivita Fruitrice" />
+          )}
+        </Form.Item>
+        <Form.Item>
+          {getFieldDecorator('partita_iva')(
+            <Input placeholder="Partita Iva" />
+          )}
+        </Form.Item>
+        <Form.Item>
+          {getFieldDecorator('codice_univoco')(
+            <Input placeholder="Codice Univoco" />
+          )}
+        </Form.Item>
+        <Form.Item
+          labelAlign="left"
+          label="Accessibilita Consegne"
+          labelCol={{ span: 8 }}
+          wrapperCol={{ span: 12 }}
+        >
+          {getFieldDecorator('accessibilita_consegne')(
+            <Radio.Group>
+              <Radio.Button value="facile">facile</Radio.Button>
+              <Radio.Button value="medio">medio</Radio.Button>
+              <Radio.Button value="difficile">difficile</Radio.Button>
+              <Radio.Button value="impossibile">impossibile</Radio.Button>
+            </Radio.Group>
+          )}
+        </Form.Item>
+        <Form.Item
+          labelAlign="left"
+          label="Tipo Cliente"
+          labelCol={{ span: 8 }}
+          wrapperCol={{ span: 12 }}
+        >
+          {getFieldDecorator('tipo_cliente')(
+            <Radio.Group>
+              <Radio.Button value="facile">cliente</Radio.Button>
+              <Radio.Button value="potenziale cliente">
+                potenziale cliente
+              </Radio.Button>
+              <Radio.Button value="oppositore">oppositore</Radio.Button>
+              <Radio.Button value="oppositore perdi tempo">
+                oppositore perdi tempo
+              </Radio.Button>
+              <Radio.Button value="ex cliente">ex cliente</Radio.Button>
+            </Radio.Group>
+          )}
+        </Form.Item>
+        <Form.Item
+          labelCol={{ span: 8 }}
+          wrapperCol={{ span: 12 }}
+          label="Data Contatto futuro"
+          labelAlign="left"
+        >
+          {getFieldDecorator('data_contatto_futuro')(
+            <DatePicker locale={configDatePicker} />
+          )}
+        </Form.Item>
+        <Form.Item>
+          {getFieldDecorator('note')(
+            <TextArea
+              placeholder="note"
+              autoSize={{ minRows: 2, maxRows: 10 }}
+            />
+          )}
+        </Form.Item>
+        <Form.Item
+          labelCol={{ span: 8 }}
+          wrapperCol={{ span: 12 }}
+          label="Data Di Inserimento"
+          labelAlign="left"
+        >
+          {getFieldDecorator('data_inserimento')(
+            <DatePicker disabled locale={configDatePicker} />
+          )}
+        </Form.Item>
+        <Form.Item
+          labelCol={{ span: 8 }}
+          wrapperCol={{ span: 12 }}
+          label="orario"
+          labelAlign="left"
+        >
           <ModalSelectRow
             childTableName={'settimane'}
-            fk={fk_orario}
-            handleOK={selezionaOrario}
+            fk={this.state.fk_orario}
+            handleOk={this.fk_orarioSET}
           ></ModalSelectRow>
-        )}
-      </Form.Item>
-    </Form>
-  );
-});
+        </Form.Item>
+        <Form.Item
+          labelCol={{ span: 8 }}
+          wrapperCol={{ span: 12 }}
+          label="orario consegne"
+          labelAlign="left"
+        >
+          <ModalSelectRow
+            childTableName={'settimane'}
+            fk={this.state.fk_orario_consegne}
+            handleOk={this.fk_orario_consegneSET}
+          ></ModalSelectRow>
+        </Form.Item>
+        <Form.Item
+          labelCol={{ span: 8 }}
+          wrapperCol={{ span: 12 }}
+          label="proprietario"
+          labelAlign="left"
+        >
+          <ModalSelectRow
+            childTableName={'persone'}
+            fk={this.state.fk_proprietario}
+            handleOk={this.fk_proprietarioSET}
+          ></ModalSelectRow>
+        </Form.Item>
+      </Form>
+    );
+  }
+}
