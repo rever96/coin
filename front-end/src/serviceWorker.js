@@ -22,9 +22,10 @@ const isLocalhost = Boolean(
 
 export function register(config) {
   const swFileName =
-    process.env.NODE_ENV === 'production'
-      ? 'service-worker.js'
-      : 'custom-sw.js';
+    // process.env.NODE_ENV === 'production'
+    //   ? 'service-worker.js'
+    //   : 'custom-sw.js';
+    'custom-sw.js';
   if ('serviceWorker' in navigator) {
     // The URL constructor is available in all browsers that support SW.
     const publicUrl = new URL(process.env.PUBLIC_URL, window.location.href);
@@ -58,6 +59,7 @@ export function register(config) {
 }
 
 function registerValidSW(swUrl, config) {
+  console.log(swUrl);
   navigator.serviceWorker
     .register(swUrl)
     .then(registration => {

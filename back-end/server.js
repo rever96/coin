@@ -67,9 +67,9 @@ app.post('/api/notify', (req, res) => {
     webpush
       .sendNotification(subscription, payload)
       .then(result => console.log(result))
-      .catch(e => console.log(e.stack));
+      .catch(e => console.error(e.stack));
   });
-  res.status(200).json({});
+  res.status(200).json({ push: listOfSubcriptions.length });
 });
 // ENDPOINT CONTROLLERS DB
 
