@@ -56,7 +56,6 @@ class ModalSelectRow extends React.Component {
   };
 
   render() {
-    console.log(this.props);
     const { visible } = this.state;
     const { childTableName } = this.props;
     return (

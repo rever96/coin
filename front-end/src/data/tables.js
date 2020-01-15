@@ -8,6 +8,13 @@ import {
 } from './actions';
 import { serverPath } from '../environment';
 
+export const TABLENAME = {
+  CLIENTI: 'clienti',
+  VEICOLI: 'veicoli',
+  PERSONE: 'persone',
+  SETTIMANE: 'settimane'
+};
+
 export function fetchTable(tableName, dispatch) {
   console.log('fetch server table');
   const options = {
@@ -165,7 +172,6 @@ export function setRows(tableData) {
         rifColumn: 'fk_proprietario'
       };
     }
-    console.log(cr);
     return cr;
   });
   return [...rows];

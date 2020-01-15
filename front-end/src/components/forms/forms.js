@@ -103,9 +103,10 @@ export const FormClienti = Form.create({
     props.onChange(changedFields);
   },
   mapPropsToFields(props) {
+    console.log(props);
     const fields = {};
     for (const fieldName in props) {
-      if (fieldName === 'onChange') {
+      if (fieldName === 'onChange' || fieldName.startsWith('fk')) {
         continue;
       }
       fields[fieldName] = Form.createFormField({
@@ -119,29 +120,13 @@ export const FormClienti = Form.create({
   //   console.log(values);
   // }
 })(props => (
-  <FormClientiStatefull form={{ ...props.form }}></FormClientiStatefull>
+  <FormClientiStatefull
+    {...props}
+    form={{ ...props.form }}
+  ></FormClientiStatefull>
 ));
 
 class FormClientiStatefull extends React.Component {
-  constructor() {
-    super();
-    this.state = {
-      fk_orario: undefined,
-      fk_orario_consegne: undefined,
-      fk_proprietario: undefined
-    };
-  }
-
-  fk_orarioSET = fk_orario => {
-    this.setState({ fk_orario });
-  };
-  fk_orario_consegneSET = fk_orario_consegne => {
-    this.setState({ fk_orario_consegne });
-  };
-  fk_proprietarioSET = fk_proprietario => {
-    this.setState({ fk_proprietario });
-  };
-
   render() {
     const { getFieldDecorator } = this.props.form;
     return (
@@ -216,7 +201,7 @@ class FormClientiStatefull extends React.Component {
         >
           {getFieldDecorator('tipo_cliente')(
             <Radio.Group>
-              <Radio.Button value="facile">cliente</Radio.Button>
+              <Radio.Button value="cliente">cliente</Radio.Button>
               <Radio.Button value="potenziale cliente">
                 potenziale cliente
               </Radio.Button>
@@ -264,11 +249,11 @@ class FormClientiStatefull extends React.Component {
         >
           <ModalSelectRow
             childTableName={'settimane'}
-            fk={this.state.fk_orario}
-            handleOk={this.fk_orarioSET}
+            fk={this.props.fk_orario}
+            handleOk={this.props.fk_orarioSET}
           ></ModalSelectRow>
         </Form.Item>
-        <Form.Item
+        {/* <Form.Item
           labelCol={{ span: 8 }}
           wrapperCol={{ span: 12 }}
           label="orario consegne"
@@ -276,10 +261,10 @@ class FormClientiStatefull extends React.Component {
         >
           <ModalSelectRow
             childTableName={'settimane'}
-            fk={this.state.fk_orario_consegne}
-            handleOk={this.fk_orario_consegneSET}
+            fk={this.props.fk_orario_consegne}
+            handleOk={this.props.fk_orario_consegneSET}
           ></ModalSelectRow>
-        </Form.Item>
+        </Form.Item> */}
         <Form.Item
           labelCol={{ span: 8 }}
           wrapperCol={{ span: 12 }}
@@ -288,8 +273,8 @@ class FormClientiStatefull extends React.Component {
         >
           <ModalSelectRow
             childTableName={'persone'}
-            fk={this.state.fk_proprietario}
-            handleOk={this.fk_proprietarioSET}
+            fk={this.props.fk_proprietario}
+            handleOk={this.props.fk_proprietarioSET}
           ></ModalSelectRow>
         </Form.Item>
       </Form>
