@@ -2,6 +2,7 @@ import React from 'react';
 import { Form, Input, DatePicker, InputNumber, Radio } from 'antd';
 import ModalSelectRow from '../modals/modal_fk';
 import configDatePicker from '../../assets/Lang/it-IT/datepicker.json';
+import { TABLENAME } from '../../data/tables';
 
 const { TextArea } = Input;
 
@@ -92,6 +93,18 @@ export const FormPersone = Form.create({
         {getFieldDecorator('note')(
           <TextArea placeholder="note" autoSize={{ minRows: 2, maxRows: 10 }} />
         )}
+      </Form.Item>
+      <Form.Item
+        labelCol={{ span: 8 }}
+        wrapperCol={{ span: 12 }}
+        label="cliente"
+        labelAlign="left"
+      >
+        <ModalSelectRow
+          childTableName={TABLENAME.CLIENTI}
+          fk={props.fk_cliente}
+          handleOk={props.fk_clienteSET}
+        ></ModalSelectRow>
       </Form.Item>
     </Form>
   );

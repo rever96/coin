@@ -5,7 +5,8 @@ import struttura from '../assets/struttura.json';
 import {
   FormVeicoli,
   // FormPersone,
-  FormClienti
+  FormClienti,
+  FormPersone
 } from '../components/forms/forms';
 import { Modal, notification, Icon, Row, Col, Card, Tooltip } from 'antd';
 import moment from 'moment';
@@ -71,9 +72,12 @@ class Esempio extends React.Component {
     struttura
       .find(tabella => tabella.nome === tableName)
       .colonne.forEach(colonna => {
+        if (colonna.nome === 'data_inserimento') {
+          activeTable['data_inserimento'] = { value: moment(moment.now()) };
+          return;
+        }
         activeTable[colonna.nome] = { value: undefined };
       });
-    activeTable['data_inserimento'] = { value: moment(moment.now()) };
     switch (tableName) {
       case TABLENAME.VEICOLI:
         formContent = (
@@ -94,6 +98,15 @@ class Esempio extends React.Component {
           ></FormClienti>
         );
         break;
+      case TABLENAME.PERSONE:
+        formContent = (
+          <FormPersone
+            {...activeTable}
+            onChange={this.handleFormChange}
+            fk_clienteSET={value => this.setFK('fk_cliente', value)}
+          ></FormPersone>
+        );
+        break;
       default:
         break;
     }
@@ -111,10 +124,10 @@ class Esempio extends React.Component {
     const row = {};
     for (const columnName in activeTable) {
       if (typeof activeTable[columnName] === 'undefined') {
+        console.log('AAAAAAA');
         continue;
-      } else if (typeof activeTable[columnName] === 'string') {
-        row[columnName] = activeTable[columnName]; //fks
-      } else if (activeTable[columnName].value) {
+      }
+      if (activeTable[columnName].value) {
         row[columnName] = activeTable[columnName].value;
       }
     }
@@ -192,9 +205,19 @@ class Esempio extends React.Component {
             </Tooltip>
           </Col>
           <Col xs={12} sm={8} md={6} lg={4}>
-            <Card bordered={false}>
-              <Icon style={{ fontSize: '64px' }} type="ellipsis" />
-            </Card>
+            <Tooltip placement="bottom" title={TABLENAME.PERSONE}>
+              <Card
+                hoverable
+                onClick={() =>
+                  mode === 'add'
+                    ? this.showModal(TABLENAME.PERSONE)
+                    : navigateTo('/table/' + TABLENAME.PERSONE)
+                }
+                bordered={false}
+              >
+                <Icon style={{ fontSize: '64px' }} type="user" />
+              </Card>
+            </Tooltip>
           </Col>
           <Col xs={12} sm={8} md={6} lg={4}>
             <Card bordered={false}>
