@@ -120,6 +120,179 @@
     ]
   },
   {
+    "nome": "ddv",
+    "colonne": [
+      {
+        "nome": "data"
+      },
+      {
+        "nome": "km"
+      },
+      {
+        "nome": "zona_interessata"
+      },
+      {
+        "nome": "tipo"
+      },
+      {
+        "nome": "note"
+      },
+      {
+        "nome": "fk_veicolo"
+      },
+      {
+        "nome": "fk_capo_viaggio"
+      },
+      {
+        "nome": "fk_assistente"
+      }
+    ]
+  },
+  {
+    "nome": "depositi",
+    "colonne": [
+      {
+        "nome": "luogo"
+      },
+      {
+        "nome": "capienza"
+      },
+      {
+        "nome": "note"
+      }
+    ]
+  },
+  {
+    "nome": "merci",
+    "colonne": [
+      {
+        "nome": "nome"
+      },
+      {
+        "nome": "scadenza"
+      },
+      {
+        "nome": "costo_unitario"
+      },
+      {
+        "nome": "note"
+      },
+      {
+        "nome": "tipo"
+      },
+      {
+        "nome": "peso_unitario"
+      }
+    ]
+  },
+  {
+    "nome": "prodotti",
+    "colonne": [
+      {
+        "nome": "nome"
+      },
+      {
+        "nome": "data_scadenza"
+      },
+      {
+        "nome": "data_confezionamento"
+      },
+      {
+        "nome": "costo_unitario"
+      },
+      {
+        "nome": "note"
+      },
+      {
+        "nome": "lotto"
+      },
+      {
+        "nome": "tipo"
+      },
+      {
+        "nome": "quantita"
+      },
+      {
+        "nome": "peso_unitario"
+      },
+      {
+        "nome": "fk_deposito"
+      }
+    ]
+  },
+  {
+    "nome": "lavorazioni",
+    "colonne": [
+      {
+        "nome": "data"
+      },
+      {
+        "nome": "tipo"
+      },
+      {
+        "nome": "quantita"
+      },
+      {
+        "nome": "note"
+      },
+      {
+        "nome": "fk_deposito_prima"
+      },
+      {
+        "nome": "fk_deposito_dopo"
+      },
+      {
+        "nome": "fk_merce_prima"
+      },
+      {
+        "nome": "fk_merce_dopo"
+      }
+    ]
+  },
+  {
+    "nome": "ordini",
+    "colonne": [
+      {
+        "nome": "data_ordine"
+      },
+      {
+        "nome": "data_prevista_consegna"
+      },
+      {
+        "nome": "come_effettuato"
+      },
+      {
+        "nome": "data_ultima"
+      },
+      {
+        "nome": "note"
+      },
+      {
+        "nome": "fk_responsabile"
+      },
+      {
+        "nome": "fk_cliente"
+      }
+    ]
+  },
+  {
+    "nome": "spedizioni",
+    "colonne": [
+      {
+        "nome": "servizio"
+      },
+      {
+        "nome": "data_ritiro"
+      },
+      {
+        "nome": "note"
+      },
+      {
+        "nome": "fk_responsabile"
+      }
+    ]
+  },
+  {
     "nome": "settimane",
     "colonne": [
       {

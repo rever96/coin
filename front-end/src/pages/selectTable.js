@@ -4,14 +4,22 @@ import struttura from '../assets/struttura.json';
 
 import {
   FormVeicoli,
-  // FormPersone,
   FormClienti,
-  FormPersone
+  FormPersone,
+  FormDDV,
+  FormDepositi,
+  FormMerci,
+  FormProdotti,
+  FormLavorazioni
 } from '../components/forms/forms';
 import { Modal, notification, Icon, Row, Col, Card, Tooltip } from 'antd';
 import moment from 'moment';
 import { connect } from 'react-redux';
-import { createTableRow, TABLENAME, fetchTableIfMissing } from '../data/tables';
+import {
+  createTableRow,
+  TABLENAMES,
+  fetchTableIfMissing
+} from '../data/tables';
 
 class Esempio extends React.Component {
   constructor() {
@@ -79,7 +87,7 @@ class Esempio extends React.Component {
         activeTable[colonna.nome] = { value: undefined };
       });
     switch (tableName) {
-      case TABLENAME.VEICOLI:
+      case TABLENAMES.VEICOLI:
         formContent = (
           <FormVeicoli
             {...activeTable}
@@ -87,7 +95,7 @@ class Esempio extends React.Component {
           ></FormVeicoli>
         );
         break;
-      case TABLENAME.CLIENTI:
+      case TABLENAMES.CLIENTI:
         formContent = (
           <FormClienti
             {...activeTable}
@@ -98,13 +106,63 @@ class Esempio extends React.Component {
           ></FormClienti>
         );
         break;
-      case TABLENAME.PERSONE:
+      case TABLENAMES.PERSONE:
         formContent = (
           <FormPersone
             {...activeTable}
             onChange={this.handleFormChange}
             fk_clienteSET={value => this.setFK('fk_cliente', value)}
           ></FormPersone>
+        );
+        break;
+      case TABLENAMES.DDV:
+        formContent = (
+          <FormDDV
+            {...activeTable}
+            onChange={this.handleFormChange}
+            fk_veicoloSET={value => this.setFK('fk_veicolo', value)}
+            fk_capo_viaggioSET={value => this.setFK('fk_capo_viaggio', value)}
+            fk_assistenteSET={value => this.setFK('fk_assistente', value)}
+          ></FormDDV>
+        );
+        break;
+      case TABLENAMES.DEPOSITI:
+        formContent = (
+          <FormDepositi
+            {...activeTable}
+            onChange={this.handleFormChange}
+          ></FormDepositi>
+        );
+        break;
+      case TABLENAMES.MERCI:
+        formContent = (
+          <FormMerci
+            {...activeTable}
+            onChange={this.handleFormChange}
+          ></FormMerci>
+        );
+        break;
+      case TABLENAMES.PRODOTTI:
+        formContent = (
+          <FormProdotti
+            {...activeTable}
+            onChange={this.handleFormChange}
+            fk_depositoSET={value => this.setFK('fk_deposito', value)}
+          ></FormProdotti>
+        );
+        break;
+      case TABLENAMES.LAVORAZIONI:
+        formContent = (
+          <FormLavorazioni
+            {...activeTable}
+            onChange={this.handleFormChange}
+            fk_deposito_primaSET={value =>
+              this.setFK('fk_deposito_prima', value)
+            }
+            fk_deposito_dopoSET={value => this.setFK('fk_deposito_dopo', value)}
+            fk_merce_primaSET={value => this.setFK('fk_merce_prima', value)}
+            fk_merce_dopoSET={value => this.setFK('fk_merce_dopo', value)}
+          ></FormLavorazioni>
         );
         break;
       default:
@@ -179,10 +237,10 @@ class Esempio extends React.Component {
         </Modal>
         <Row gutter={[16, 16]}>
           <Col xs={12} sm={8} md={6} lg={4}>
-            <Tooltip placement="bottom" title={TABLENAME.VEICOLI}>
+            <Tooltip placement="bottom" title={TABLENAMES.VEICOLI}>
               <Card
                 hoverable
-                onClick={() => this.showModal(TABLENAME.VEICOLI)}
+                onClick={() => this.showModal(TABLENAMES.VEICOLI)}
                 bordered={false}
               >
                 <Icon style={{ fontSize: '64px' }} type="car" />
@@ -190,28 +248,28 @@ class Esempio extends React.Component {
             </Tooltip>
           </Col>
           <Col xs={12} sm={8} md={6} lg={4}>
-            <Tooltip placement="bottom" title={TABLENAME.CLIENTI}>
+            <Tooltip placement="bottom" title={TABLENAMES.CLIENTI}>
               <Card
                 hoverable
                 onClick={() =>
                   mode === 'add'
-                    ? this.showModal(TABLENAME.CLIENTI)
-                    : navigateTo('/table/' + TABLENAME.CLIENTI)
+                    ? this.showModal(TABLENAMES.CLIENTI)
+                    : navigateTo('/table/' + TABLENAMES.CLIENTI)
                 }
                 bordered={false}
               >
-                <Icon style={{ fontSize: '64px' }} type="solution" />
+                <Icon style={{ fontSize: '64px' }} type="shop" />
               </Card>
             </Tooltip>
           </Col>
           <Col xs={12} sm={8} md={6} lg={4}>
-            <Tooltip placement="bottom" title={TABLENAME.PERSONE}>
+            <Tooltip placement="bottom" title={TABLENAMES.PERSONE}>
               <Card
                 hoverable
                 onClick={() =>
                   mode === 'add'
-                    ? this.showModal(TABLENAME.PERSONE)
-                    : navigateTo('/table/' + TABLENAME.PERSONE)
+                    ? this.showModal(TABLENAMES.PERSONE)
+                    : navigateTo('/table/' + TABLENAMES.PERSONE)
                 }
                 bordered={false}
               >
@@ -220,19 +278,79 @@ class Esempio extends React.Component {
             </Tooltip>
           </Col>
           <Col xs={12} sm={8} md={6} lg={4}>
-            <Card bordered={false}>
-              <Icon style={{ fontSize: '64px' }} type="ellipsis" />
-            </Card>
+            <Tooltip placement="bottom" title={TABLENAMES.DDV}>
+              <Card
+                hoverable
+                onClick={() =>
+                  mode === 'add'
+                    ? this.showModal(TABLENAMES.DDV)
+                    : navigateTo('/table/' + TABLENAMES.DDV)
+                }
+                bordered={false}
+              >
+                <Icon style={{ fontSize: '64px' }} type="heat-map" />
+              </Card>
+            </Tooltip>
           </Col>
           <Col xs={12} sm={8} md={6} lg={4}>
-            <Card bordered={false}>
-              <Icon style={{ fontSize: '64px' }} type="ellipsis" />
-            </Card>
+            <Tooltip placement="bottom" title={TABLENAMES.DEPOSITI}>
+              <Card
+                hoverable
+                onClick={() =>
+                  mode === 'add'
+                    ? this.showModal(TABLENAMES.DEPOSITI)
+                    : navigateTo('/table/' + TABLENAMES.DEPOSITI)
+                }
+                bordered={false}
+              >
+                <Icon style={{ fontSize: '64px' }} type="appstore" />
+              </Card>
+            </Tooltip>
           </Col>
           <Col xs={12} sm={8} md={6} lg={4}>
-            <Card bordered={false}>
-              <Icon style={{ fontSize: '64px' }} type="ellipsis" />
-            </Card>
+            <Tooltip placement="bottom" title={TABLENAMES.MERCI}>
+              <Card
+                hoverable
+                onClick={() =>
+                  mode === 'add'
+                    ? this.showModal(TABLENAMES.MERCI)
+                    : navigateTo('/table/' + TABLENAMES.MERCI)
+                }
+                bordered={false}
+              >
+                <Icon style={{ fontSize: '64px' }} type="tags" />
+              </Card>
+            </Tooltip>
+          </Col>
+          <Col xs={12} sm={8} md={6} lg={4}>
+            <Tooltip placement="bottom" title={TABLENAMES.PRODOTTI}>
+              <Card
+                hoverable
+                onClick={() =>
+                  mode === 'add'
+                    ? this.showModal(TABLENAMES.PRODOTTI)
+                    : navigateTo('/table/' + TABLENAMES.PRODOTTI)
+                }
+                bordered={false}
+              >
+                <Icon style={{ fontSize: '64px' }} type="shopping" />
+              </Card>
+            </Tooltip>
+          </Col>
+          <Col xs={12} sm={8} md={6} lg={4}>
+            <Tooltip placement="bottom" title={TABLENAMES.LAVORAZIONI}>
+              <Card
+                hoverable
+                onClick={() =>
+                  mode === 'add'
+                    ? this.showModal(TABLENAMES.LAVORAZIONI)
+                    : navigateTo('/table/' + TABLENAMES.LAVORAZIONI)
+                }
+                bordered={false}
+              >
+                <Icon style={{ fontSize: '64px' }} type="funnel-plot" />
+              </Card>
+            </Tooltip>
           </Col>
         </Row>
       </>

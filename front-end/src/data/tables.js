@@ -8,10 +8,17 @@ import {
 } from './actions';
 import { serverPath } from '../environment';
 
-export const TABLENAME = {
+export const TABLENAMES = {
   CLIENTI: 'clienti',
   VEICOLI: 'veicoli',
   PERSONE: 'persone',
+  DDV: 'ddv',
+  DEPOSITI: 'depositi',
+  MERCI: 'merci',
+  PRODOTTI: 'prodotti',
+  LAVORAZIONI: 'lavorazioni',
+  ORDINI: 'ordini',
+  SPEDIZIONI: 'spedizioni',
   SETTIMANE: 'settimane'
 };
 

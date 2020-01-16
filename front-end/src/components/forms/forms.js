@@ -2,7 +2,7 @@ import React from 'react';
 import { Form, Input, DatePicker, InputNumber, Radio } from 'antd';
 import ModalSelectRow from '../modals/modal_fk';
 import configDatePicker from '../../assets/Lang/it-IT/datepicker.json';
-import { TABLENAME } from '../../data/tables';
+import { TABLENAMES } from '../../data/tables';
 
 const { TextArea } = Input;
 
@@ -101,7 +101,7 @@ export const FormPersone = Form.create({
         labelAlign="left"
       >
         <ModalSelectRow
-          childTableName={TABLENAME.CLIENTI}
+          childTableName={TABLENAMES.CLIENTI}
           fk={props.fk_cliente}
           handleOk={props.fk_clienteSET}
         ></ModalSelectRow>
@@ -294,3 +294,420 @@ class FormClientiStatefull extends React.Component {
     );
   }
 }
+
+export const FormDDV = Form.create({
+  name: 'global_state',
+  onFieldsChange(props, changedFields) {
+    props.onChange(changedFields);
+  },
+  mapPropsToFields(props) {
+    const fields = {};
+    for (const fieldName in props) {
+      if (fieldName === 'onChange') {
+        continue;
+      }
+      fields[fieldName] = Form.createFormField({
+        ...props[fieldName],
+        value: props[fieldName].value
+      });
+    }
+    return fields;
+  }
+  // onValuesChange(_, values) {
+  //   console.log(values);
+  // }
+})(props => {
+  const { getFieldDecorator } = props.form;
+  return (
+    <Form layout="vertical">
+      <Form.Item
+        labelCol={{ span: 8 }}
+        wrapperCol={{ span: 12 }}
+        label="Data"
+        labelAlign="left"
+      >
+        {getFieldDecorator('data')(<DatePicker locale={configDatePicker} />)}
+      </Form.Item>
+      <Form.Item
+        label="km percorsi"
+        labelAlign="left"
+        labelCol={{ span: 4 }}
+        wrapperCol={{ span: 12 }}
+      >
+        {getFieldDecorator('km')(<InputNumber />)}
+      </Form.Item>
+      <Form.Item>
+        {getFieldDecorator('zona_interessata')(
+          <Input placeholder="Zona interessata" />
+        )}
+      </Form.Item>
+      <Form.Item>
+        {getFieldDecorator('tipo')(<Input placeholder="Tipo" />)}
+      </Form.Item>
+      <Form.Item>
+        {getFieldDecorator('note')(
+          <TextArea placeholder="note" autoSize={{ minRows: 2, maxRows: 10 }} />
+        )}
+      </Form.Item>
+      <Form.Item
+        labelCol={{ span: 8 }}
+        wrapperCol={{ span: 12 }}
+        label="veicolo"
+        labelAlign="left"
+      >
+        <ModalSelectRow
+          childTableName={TABLENAMES.VEICOLI}
+          fk={props.fk_veicolo}
+          handleOk={props.fk_veicoloSET}
+        ></ModalSelectRow>
+      </Form.Item>
+      <Form.Item
+        labelCol={{ span: 8 }}
+        wrapperCol={{ span: 12 }}
+        label="capo viaggio"
+        labelAlign="left"
+      >
+        <ModalSelectRow
+          childTableName={TABLENAMES.PERSONE}
+          fk={props.fk_capo_viaggio}
+          handleOk={props.fk_capo_viaggioSET}
+        ></ModalSelectRow>
+      </Form.Item>
+      <Form.Item
+        labelCol={{ span: 8 }}
+        wrapperCol={{ span: 12 }}
+        label="assistente"
+        labelAlign="left"
+      >
+        <ModalSelectRow
+          childTableName={TABLENAMES.PERSONE}
+          fk={props.fk_assistente}
+          handleOk={props.fk_assistenteSET}
+        ></ModalSelectRow>
+      </Form.Item>
+    </Form>
+  );
+});
+
+export const FormDepositi = Form.create({
+  name: 'global_state',
+  onFieldsChange(props, changedFields) {
+    props.onChange(changedFields);
+  },
+  mapPropsToFields(props) {
+    const fields = {};
+    for (const fieldName in props) {
+      if (fieldName === 'onChange') {
+        continue;
+      }
+      fields[fieldName] = Form.createFormField({
+        ...props[fieldName],
+        value: props[fieldName].value
+      });
+    }
+    return fields;
+  }
+  // onValuesChange(_, values) {
+  //   console.log(values);
+  // }
+})(props => {
+  const { getFieldDecorator } = props.form;
+  return (
+    <Form layout="vertical">
+      <Form.Item>
+        {getFieldDecorator('luogo')(<Input placeholder="luogo" />)}
+      </Form.Item>
+      <Form.Item
+        label="capienza"
+        labelAlign="left"
+        labelCol={{ span: 4 }}
+        wrapperCol={{ span: 12 }}
+      >
+        {getFieldDecorator('capienza')(<InputNumber />)}
+      </Form.Item>
+      <Form.Item>
+        {getFieldDecorator('note')(
+          <TextArea placeholder="note" autoSize={{ minRows: 2, maxRows: 10 }} />
+        )}
+      </Form.Item>
+    </Form>
+  );
+});
+
+export const FormMerci = Form.create({
+  name: 'global_state',
+  onFieldsChange(props, changedFields) {
+    props.onChange(changedFields);
+  },
+  mapPropsToFields(props) {
+    const fields = {};
+    for (const fieldName in props) {
+      if (fieldName === 'onChange') {
+        continue;
+      }
+      fields[fieldName] = Form.createFormField({
+        ...props[fieldName],
+        value: props[fieldName].value
+      });
+    }
+    return fields;
+  }
+  // onValuesChange(_, values) {
+  //   console.log(values);
+  // }
+})(props => {
+  const { getFieldDecorator } = props.form;
+  return (
+    <Form layout="vertical">
+      <Form.Item>
+        {getFieldDecorator('nome')(<Input placeholder="Nome" />)}
+      </Form.Item>
+      <Form.Item
+        labelCol={{ span: 8 }}
+        wrapperCol={{ span: 12 }}
+        label="Data scadenza"
+        labelAlign="left"
+      >
+        {getFieldDecorator('scadenza')(
+          <DatePicker locale={configDatePicker} />
+        )}
+      </Form.Item>
+      <Form.Item
+        label="Costo unitario"
+        labelAlign="left"
+        labelCol={{ span: 4 }}
+        wrapperCol={{ span: 12 }}
+      >
+        {getFieldDecorator('costo_unitario')(<InputNumber />)}
+      </Form.Item>
+      <Form.Item
+        label="Peso unitario"
+        labelAlign="left"
+        labelCol={{ span: 4 }}
+        wrapperCol={{ span: 12 }}
+      >
+        {getFieldDecorator('peso_unitario')(<InputNumber />)}
+      </Form.Item>
+      <Form.Item>
+        {getFieldDecorator('tipo')(<Input placeholder="Tipo" />)}
+      </Form.Item>
+      <Form.Item>
+        {getFieldDecorator('note')(
+          <TextArea placeholder="note" autoSize={{ minRows: 2, maxRows: 10 }} />
+        )}
+      </Form.Item>
+    </Form>
+  );
+});
+
+export const FormProdotti = Form.create({
+  name: 'global_state',
+  onFieldsChange(props, changedFields) {
+    props.onChange(changedFields);
+  },
+  mapPropsToFields(props) {
+    const fields = {};
+    for (const fieldName in props) {
+      if (fieldName === 'onChange') {
+        continue;
+      }
+      fields[fieldName] = Form.createFormField({
+        ...props[fieldName],
+        value: props[fieldName].value
+      });
+    }
+    return fields;
+  }
+  // onValuesChange(_, values) {
+  //   console.log(values);
+  // }
+})(props => {
+  const { getFieldDecorator } = props.form;
+  return (
+    <Form layout="vertical">
+      <Form.Item>
+        {getFieldDecorator('nome')(<Input placeholder="Nome" />)}
+      </Form.Item>
+      <Form.Item
+        labelCol={{ span: 8 }}
+        wrapperCol={{ span: 12 }}
+        label="Data scadenza"
+        labelAlign="left"
+      >
+        {getFieldDecorator('data_scadenza')(
+          <DatePicker locale={configDatePicker} />
+        )}
+      </Form.Item>
+      <Form.Item
+        labelCol={{ span: 8 }}
+        wrapperCol={{ span: 12 }}
+        label="Data confezionamento"
+        labelAlign="left"
+      >
+        {getFieldDecorator('data_confezionamento')(
+          <DatePicker locale={configDatePicker} />
+        )}
+      </Form.Item>
+      <Form.Item
+        label="Costo unitario"
+        labelAlign="left"
+        labelCol={{ span: 4 }}
+        wrapperCol={{ span: 12 }}
+      >
+        {getFieldDecorator('costo_unitario')(<InputNumber />)}
+      </Form.Item>
+      <Form.Item
+        label="Peso unitario"
+        labelAlign="left"
+        labelCol={{ span: 4 }}
+        wrapperCol={{ span: 12 }}
+      >
+        {getFieldDecorator('peso_unitario')(<InputNumber />)}
+      </Form.Item>
+      <Form.Item
+        label="Quantità"
+        labelAlign="left"
+        labelCol={{ span: 4 }}
+        wrapperCol={{ span: 12 }}
+      >
+        {getFieldDecorator('quantita')(<InputNumber />)}
+      </Form.Item>
+      <Form.Item>
+        {getFieldDecorator('tipo')(<Input placeholder="Tipo" />)}
+      </Form.Item>
+      <Form.Item>
+        {getFieldDecorator('lotto')(<Input placeholder="Lotto" />)}
+      </Form.Item>
+      <Form.Item>
+        {getFieldDecorator('note')(
+          <TextArea placeholder="note" autoSize={{ minRows: 2, maxRows: 10 }} />
+        )}
+      </Form.Item>
+      <Form.Item
+        labelCol={{ span: 8 }}
+        wrapperCol={{ span: 12 }}
+        label="Deposito"
+        labelAlign="left"
+      >
+        <ModalSelectRow
+          childTableName={TABLENAMES.DEPOSITI}
+          fk={props.fk_deposito}
+          handleOk={props.fk_depositoSET}
+        ></ModalSelectRow>
+      </Form.Item>
+    </Form>
+  );
+});
+
+export const FormLavorazioni = Form.create({
+  name: 'global_state',
+  onFieldsChange(props, changedFields) {
+    props.onChange(changedFields);
+  },
+  mapPropsToFields(props) {
+    const fields = {};
+    for (const fieldName in props) {
+      if (fieldName === 'onChange') {
+        continue;
+      }
+      fields[fieldName] = Form.createFormField({
+        ...props[fieldName],
+        value: props[fieldName].value
+      });
+    }
+    return fields;
+  }
+  // onValuesChange(_, values) {
+  //   console.log(values);
+  // }
+})(props => {
+  const { getFieldDecorator } = props.form;
+  return (
+    <Form layout="vertical">
+      <Form.Item
+        labelCol={{ span: 8 }}
+        wrapperCol={{ span: 12 }}
+        label="Data"
+        labelAlign="left"
+      >
+        {getFieldDecorator('data')(<DatePicker locale={configDatePicker} />)}
+      </Form.Item>
+      <Form.Item
+        labelAlign="left"
+        label="Tipo"
+        labelCol={{ span: 8 }}
+        wrapperCol={{ span: 12 }}
+      >
+        {getFieldDecorator('tipo')(
+          <Radio.Group>
+            <Radio.Button value="mov1">mov1</Radio.Button>
+            <Radio.Button value="mov2">mov2</Radio.Button>
+            <Radio.Button value="op1">op1</Radio.Button>
+            <Radio.Button value="altro">altro</Radio.Button>
+          </Radio.Group>
+        )}
+      </Form.Item>
+      <Form.Item
+        label="Quantità"
+        labelAlign="left"
+        labelCol={{ span: 4 }}
+        wrapperCol={{ span: 12 }}
+      >
+        {getFieldDecorator('quantita')(<InputNumber />)}
+      </Form.Item>
+      <Form.Item>
+        {getFieldDecorator('note')(
+          <TextArea placeholder="note" autoSize={{ minRows: 2, maxRows: 10 }} />
+        )}
+      </Form.Item>
+      <Form.Item
+        labelCol={{ span: 8 }}
+        wrapperCol={{ span: 12 }}
+        label="Deposito prima"
+        labelAlign="left"
+      >
+        <ModalSelectRow
+          childTableName={TABLENAMES.DEPOSITI}
+          fk={props.fk_deposito_prima}
+          handleOk={props.fk_deposito_primaSET}
+        ></ModalSelectRow>
+      </Form.Item>
+      <Form.Item
+        labelCol={{ span: 8 }}
+        wrapperCol={{ span: 12 }}
+        label="Deposito dopo"
+        labelAlign="left"
+      >
+        <ModalSelectRow
+          childTableName={TABLENAMES.DEPOSITI}
+          fk={props.fk_deposito_dopo}
+          handleOk={props.fk_deposito_dopoSET}
+        ></ModalSelectRow>
+      </Form.Item>
+      <Form.Item
+        labelCol={{ span: 8 }}
+        wrapperCol={{ span: 12 }}
+        label="Merce prima"
+        labelAlign="left"
+      >
+        <ModalSelectRow
+          childTableName={TABLENAMES.MERCI}
+          fk={props.fk_merce_prima}
+          handleOk={props.fk_merce_primaSET}
+        ></ModalSelectRow>
+      </Form.Item>
+      <Form.Item
+        labelCol={{ span: 8 }}
+        wrapperCol={{ span: 12 }}
+        label="Merce dopo"
+        labelAlign="left"
+      >
+        <ModalSelectRow
+          childTableName={TABLENAMES.MERCI}
+          fk={props.fk_merce_dopo}
+          handleOk={props.fk_merce_dopoSET}
+        ></ModalSelectRow>
+      </Form.Item>
+    </Form>
+  );
+});
