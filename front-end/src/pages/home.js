@@ -317,6 +317,7 @@ class MyCalendar extends React.Component {
                   </Button>
                 ]
           }
+          onCancel={this.handleCancel}
         >
           <EventoForm {...fields} onChange={this.handleFormChange} />
         </Modal>

@@ -8,7 +8,7 @@ class ModalSelectRow extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      fk: props.fk,
+      fk: props.fk.value,
       visible: false,
       confirmLoading: false
     };
@@ -32,7 +32,7 @@ class ModalSelectRow extends React.Component {
   };
 
   handleOk = () => {
-    if (this.props.fk !== this.state.fk) {
+    if (this.props.fk.value !== this.state.fk) {
       this.setState({
         confirmLoading: true
       });
@@ -50,7 +50,7 @@ class ModalSelectRow extends React.Component {
 
   handleCancel = () => {
     this.setState({
-      fk: this.props.fk,
+      fk: this.props.fk.value,
       visible: false
     });
   };
@@ -75,7 +75,7 @@ class ModalSelectRow extends React.Component {
         >
           <SelectRowTable
             tableName={childTableName}
-            id={this.props.fk}
+            id={this.props.fk.value}
             visible={visible}
             dispatch={this.props.dispatch}
             changeForeignKey={this.changeForeignKey.bind(this)}

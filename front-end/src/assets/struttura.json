@@ -3,6 +3,42 @@
     "nome": "clienti",
     "colonne": [
       {
+        "nome": "intestazione_legale"
+      },
+      {
+        "nome": "indirizzo_sede_legale"
+      },
+      {
+        "nome": "telefono"
+      },
+      {
+        "nome": "gmap"
+      },
+      {
+        "nome": "attivita_fruitrice"
+      },
+      {
+        "nome": "partita_iva"
+      },
+      {
+        "nome": "codice_univoco"
+      },
+      {
+        "nome": "accessibilita_consegne"
+      },
+      {
+        "nome": "tipo_cliente"
+      },
+      {
+        "nome": "data_contatto_futuro"
+      },
+      {
+        "nome": "note"
+      },
+      {
+        "nome": "fk_orario"
+      },
+      {
         "nome": "email",
         "editable": true,
         "not_null": true

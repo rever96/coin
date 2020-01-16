@@ -1,5 +1,6 @@
 import React from 'react';
 import history, { navigateTo } from '../history';
+import struttura from '../assets/struttura.json';
 
 import {
   FormVeicoli,
@@ -52,38 +53,29 @@ class Esempio extends React.Component {
     return false;
   }
 
-  fk_orarioSET = fk_orario => {
+  setFK = (name, fk) => {
     const activeTable = this.state.activeTable;
-    activeTable['fk_orario'] = fk_orario;
-    this.setState({ activeTable });
-  };
-  // fk_orario_consegneSET = fk_orario_consegne => {
-  //   const clienti = this.state.clienti;
-  //   clienti['fk_orario_consegne'] = fk_orario_consegne;
-  //   this.setState({ clienti });
-  // };
-  fk_proprietarioSET = fk_proprietario => {
-    const activeTable = this.state.activeTable;
-    activeTable['fk_proprietario'] = fk_proprietario;
+    activeTable[name] = fk;
     this.setState({ activeTable });
   };
 
   showModal = tableName => {
     console.log(tableName);
     let formContent = undefined;
-    let activeTable = undefined;
+    let activeTable = {};
     fetchTableIfMissing(
       tableName,
       this.props.dispatch,
       this.props.fetchedTables
     );
+    struttura
+      .find(tabella => tabella.nome === tableName)
+      .colonne.forEach(colonna => {
+        activeTable[colonna.nome] = { value: undefined };
+      });
+    activeTable['data_inserimento'] = { value: moment(moment.now()) };
     switch (tableName) {
       case TABLENAME.VEICOLI:
-        activeTable = {
-          targa: { value: undefined },
-          km_litro: { value: undefined },
-          note: { value: undefined }
-        };
         formContent = (
           <FormVeicoli
             {...activeTable}
@@ -92,33 +84,13 @@ class Esempio extends React.Component {
         );
         break;
       case TABLENAME.CLIENTI:
-        activeTable = {
-          data_inserimento: { value: moment(moment.now()) },
-          intestazione_legale: { value: undefined },
-          indirizzo_sede_legale: { value: undefined },
-          telefono: { value: undefined },
-          email: { value: undefined },
-          indirizzo: { value: undefined },
-          gmap: { value: undefined },
-          n_coperti: { value: undefined },
-          attivita_fruitrice: { value: undefined },
-          partita_iva: { value: undefined },
-          codice_univoco: { value: undefined },
-          accessibilita_consegne: { value: undefined },
-          tipo_cliente: { value: undefined },
-          data_contatto_futuro: { value: undefined },
-          note: { value: undefined },
-          fk_orario: undefined,
-          // fk_orario_consegne: undefined,
-          fk_proprietario: undefined
-        };
         formContent = (
           <FormClienti
             {...activeTable}
             onChange={this.handleFormChange}
-            fk_orarioSET={this.fk_orarioSET.bind(this)}
+            fk_orarioSET={value => this.setFK('fk_orario', value)}
             // fk_orario_consegneSET={this.fk_orario_consegneSET.bind(this)}
-            fk_proprietarioSET={this.fk_proprietarioSET.bind(this)}
+            fk_proprietarioSET={value => this.setFK('fk_proprietario', value)}
           ></FormClienti>
         );
         break;
