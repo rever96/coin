@@ -18,12 +18,28 @@ const localizer = BigCalendar.momentLocalizer(moment);
 const DnDCalendar = withDragAndDrop(BigCalendar);
 
 class MyCalendar extends React.Component {
-  constructor() {
-    super();
-    const events = [];
+  constructor(props) {
+    super(props);
+    let events = [];
+    let fetchedEvents = false;
+    this.stillWaitingForData = true;
+    if (props.Eventi) {
+      events = props.Eventi.map(e => {
+        return {
+          id: e.id,
+          title: e.titolo,
+          start: moment(e.data_inizio).toDate(),
+          end: moment(e.data_fine).toDate(),
+          content: e.contenuto
+          // color: e.tipo
+        };
+      });
+      fetchedEvents = true;
+      this.stillWaitingForData = false;
+    }
     this.state = {
       events,
-      fetchedEvents: false,
+      fetchedEvents,
       visible: false,
       statoEvento: '',
       fields: {
@@ -34,10 +50,10 @@ class MyCalendar extends React.Component {
         contenuto: { value: 'moment.now()' }
       }
     };
-    this.stillWaitingForData = true;
   }
 
   componentDidUpdate() {
+    console.log(this.state);
     if (this.stillWaitingForData && this.props.Eventi) {
       this.stillWaitingForData = false;
       this.setState(
@@ -274,6 +290,7 @@ class MyCalendar extends React.Component {
 
   render() {
     const { fields } = this.state;
+    console.log(this.state);
     return (
       <>
         {!this.state.fetchedEvents && <Title>Loading</Title>}
