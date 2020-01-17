@@ -711,3 +711,232 @@ export const FormLavorazioni = Form.create({
     </Form>
   );
 });
+
+export const FormOrdini = Form.create({
+  name: 'global_state',
+  onFieldsChange(props, changedFields) {
+    props.onChange(changedFields);
+  },
+  mapPropsToFields(props) {
+    const fields = {};
+    for (const fieldName in props) {
+      if (fieldName === 'onChange') {
+        continue;
+      }
+      fields[fieldName] = Form.createFormField({
+        ...props[fieldName],
+        value: props[fieldName].value
+      });
+    }
+    return fields;
+  }
+  // onValuesChange(_, values) {
+  //   console.log(values);
+  // }
+})(props => {
+  const { getFieldDecorator } = props.form;
+  return (
+    <Form layout="vertical">
+      <Form.Item
+        labelCol={{ span: 8 }}
+        wrapperCol={{ span: 12 }}
+        label="Data Ordine"
+        labelAlign="left"
+      >
+        {getFieldDecorator('data_ordine')(
+          <DatePicker locale={configDatePicker} />
+        )}
+      </Form.Item>
+      <Form.Item
+        labelCol={{ span: 8 }}
+        wrapperCol={{ span: 12 }}
+        label="Data consegna prevista"
+        labelAlign="left"
+      >
+        {getFieldDecorator('data_prevista_consegna')(
+          <DatePicker locale={configDatePicker} />
+        )}
+      </Form.Item>
+      <Form.Item
+        labelAlign="left"
+        label="Come effettuato"
+        labelCol={{ span: 8 }}
+        wrapperCol={{ span: 12 }}
+      >
+        {getFieldDecorator('come_effettuato')(
+          <Radio.Group>
+            <Radio.Button value="telefono">telefono</Radio.Button>
+            <Radio.Button value="whatsapp">whatsapp</Radio.Button>
+            <Radio.Button value="email">email</Radio.Button>
+            <Radio.Button value="persona">persona</Radio.Button>
+          </Radio.Group>
+        )}
+      </Form.Item>
+      <Form.Item
+        labelCol={{ span: 8 }}
+        wrapperCol={{ span: 12 }}
+        label="Data consegna ultima"
+        labelAlign="left"
+      >
+        {getFieldDecorator('data_ultima')(
+          <DatePicker locale={configDatePicker} />
+        )}
+      </Form.Item>
+      <Form.Item>
+        {getFieldDecorator('note')(
+          <TextArea placeholder="note" autoSize={{ minRows: 2, maxRows: 10 }} />
+        )}
+      </Form.Item>
+      <Form.Item
+        labelCol={{ span: 8 }}
+        wrapperCol={{ span: 12 }}
+        label="Responsabile"
+        labelAlign="left"
+      >
+        <ModalSelectRow
+          childTableName={TABLENAMES.PERSONE}
+          fk={props.fk_responsabile}
+          handleOk={props.fk_responsabileSET}
+        ></ModalSelectRow>
+      </Form.Item>
+      <Form.Item
+        labelCol={{ span: 8 }}
+        wrapperCol={{ span: 12 }}
+        label="Cliente"
+        labelAlign="left"
+      >
+        <ModalSelectRow
+          childTableName={TABLENAMES.CLIENTI}
+          fk={props.fk_cliente}
+          handleOk={props.fk_clienteSET}
+        ></ModalSelectRow>
+      </Form.Item>
+    </Form>
+  );
+});
+
+export const FormSpedizioni = Form.create({
+  name: 'global_state',
+  onFieldsChange(props, changedFields) {
+    props.onChange(changedFields);
+  },
+  mapPropsToFields(props) {
+    const fields = {};
+    for (const fieldName in props) {
+      if (fieldName === 'onChange') {
+        continue;
+      }
+      fields[fieldName] = Form.createFormField({
+        ...props[fieldName],
+        value: props[fieldName].value
+      });
+    }
+    return fields;
+  }
+  // onValuesChange(_, values) {
+  //   console.log(values);
+  // }
+})(props => {
+  const { getFieldDecorator } = props.form;
+  return (
+    <Form layout="vertical">
+      <Form.Item
+        labelCol={{ span: 8 }}
+        wrapperCol={{ span: 12 }}
+        label="Data Ritiro"
+        labelAlign="left"
+      >
+        {getFieldDecorator('data_ritiro')(
+          <DatePicker locale={configDatePicker} />
+        )}
+      </Form.Item>
+      <Form.Item
+        labelAlign="left"
+        label="Servizio"
+        labelCol={{ span: 8 }}
+        wrapperCol={{ span: 12 }}
+      >
+        {getFieldDecorator('servizio')(
+          <Radio.Group>
+            <Radio.Button value="telefono">telefono</Radio.Button>
+            <Radio.Button value="whatsapp">whatsapp</Radio.Button>
+            <Radio.Button value="email">email</Radio.Button>
+            <Radio.Button value="persona">persona</Radio.Button>
+          </Radio.Group>
+        )}
+      </Form.Item>
+      <Form.Item>
+        {getFieldDecorator('note')(
+          <TextArea placeholder="note" autoSize={{ minRows: 2, maxRows: 10 }} />
+        )}
+      </Form.Item>
+      <Form.Item
+        labelCol={{ span: 8 }}
+        wrapperCol={{ span: 12 }}
+        label="Responsabile"
+        labelAlign="left"
+      >
+        <ModalSelectRow
+          childTableName={TABLENAMES.PERSONE}
+          fk={props.fk_responsabile}
+          handleOk={props.fk_responsabileSET}
+        ></ModalSelectRow>
+      </Form.Item>
+    </Form>
+  );
+});
+
+export const FormSettimane = Form.create({
+  name: 'global_state',
+  onFieldsChange(props, changedFields) {
+    props.onChange(changedFields);
+  },
+  mapPropsToFields(props) {
+    const fields = {};
+    for (const fieldName in props) {
+      if (fieldName === 'onChange') {
+        continue;
+      }
+      fields[fieldName] = Form.createFormField({
+        ...props[fieldName],
+        value: props[fieldName].value
+      });
+    }
+    return fields;
+  }
+  // onValuesChange(_, values) {
+  //   console.log(values);
+  // }
+})(props => {
+  const { getFieldDecorator } = props.form;
+  return (
+    <Form layout="vertical">
+      <Form.Item>
+        {getFieldDecorator('lunedi')(<Input placeholder="Lunedì" />)}
+      </Form.Item>
+      <Form.Item>
+        {getFieldDecorator('martedi')(<Input placeholder="Martedì" />)}
+      </Form.Item>
+      <Form.Item>
+        {getFieldDecorator('mercoledi')(<Input placeholder="Mercoledì" />)}
+      </Form.Item>
+      <Form.Item>
+        {getFieldDecorator('giovedi')(<Input placeholder="Giovedì" />)}
+      </Form.Item>
+      <Form.Item>
+        {getFieldDecorator('venerdi')(<Input placeholder="Venerdì" />)}
+      </Form.Item>
+      <Form.Item>
+        {getFieldDecorator('sabato')(<Input placeholder="Sabato" />)}
+      </Form.Item>
+      <Form.Item>
+        {getFieldDecorator('domenica')(<Input placeholder="Domenica" />)}
+      </Form.Item>
+      <Form.Item>
+        {getFieldDecorator('note')(
+          <TextArea placeholder="note" autoSize={{ minRows: 2, maxRows: 10 }} />
+        )}
+      </Form.Item>
+    </Form>
+  );
+});

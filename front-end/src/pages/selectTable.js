@@ -10,7 +10,10 @@ import {
   FormDepositi,
   FormMerci,
   FormProdotti,
-  FormLavorazioni
+  FormLavorazioni,
+  FormOrdini,
+  FormSpedizioni,
+  FormSettimane
 } from '../components/forms/forms';
 import { Modal, notification, Icon, Row, Col, Card, Tooltip } from 'antd';
 import moment from 'moment';
@@ -163,6 +166,33 @@ class Esempio extends React.Component {
             fk_merce_primaSET={value => this.setFK('fk_merce_prima', value)}
             fk_merce_dopoSET={value => this.setFK('fk_merce_dopo', value)}
           ></FormLavorazioni>
+        );
+        break;
+      case TABLENAMES.ORDINI:
+        formContent = (
+          <FormOrdini
+            {...activeTable}
+            onChange={this.handleFormChange}
+            fk_responsabileSET={value => this.setFK('fk_responsabile', value)}
+            fk_clienteSET={value => this.setFK('fk_cliente', value)}
+          ></FormOrdini>
+        );
+        break;
+      case TABLENAMES.SPEDIZIONI:
+        formContent = (
+          <FormSpedizioni
+            {...activeTable}
+            onChange={this.handleFormChange}
+            fk_responsabileSET={value => this.setFK('fk_responsabile', value)}
+          ></FormSpedizioni>
+        );
+        break;
+      case TABLENAMES.SETTIMANE:
+        formContent = (
+          <FormSettimane
+            {...activeTable}
+            onChange={this.handleFormChange}
+          ></FormSettimane>
         );
         break;
       default:
@@ -349,6 +379,51 @@ class Esempio extends React.Component {
                 bordered={false}
               >
                 <Icon style={{ fontSize: '64px' }} type="funnel-plot" />
+              </Card>
+            </Tooltip>
+          </Col>
+          <Col xs={12} sm={8} md={6} lg={4}>
+            <Tooltip placement="bottom" title={TABLENAMES.ORDINI}>
+              <Card
+                hoverable
+                onClick={() =>
+                  mode === 'add'
+                    ? this.showModal(TABLENAMES.ORDINI)
+                    : navigateTo('/table/' + TABLENAMES.ORDINI)
+                }
+                bordered={false}
+              >
+                <Icon style={{ fontSize: '64px' }} type="shopping-cart" />
+              </Card>
+            </Tooltip>
+          </Col>
+          <Col xs={12} sm={8} md={6} lg={4}>
+            <Tooltip placement="bottom" title={TABLENAMES.SPEDIZIONI}>
+              <Card
+                hoverable
+                onClick={() =>
+                  mode === 'add'
+                    ? this.showModal(TABLENAMES.SPEDIZIONI)
+                    : navigateTo('/table/' + TABLENAMES.SPEDIZIONI)
+                }
+                bordered={false}
+              >
+                <Icon style={{ fontSize: '64px' }} type="rocket" />
+              </Card>
+            </Tooltip>
+          </Col>
+          <Col xs={12} sm={8} md={6} lg={4}>
+            <Tooltip placement="bottom" title={TABLENAMES.SETTIMANE}>
+              <Card
+                hoverable
+                onClick={() =>
+                  mode === 'add'
+                    ? this.showModal(TABLENAMES.SETTIMANE)
+                    : navigateTo('/table/' + TABLENAMES.SETTIMANE)
+                }
+                bordered={false}
+              >
+                <Icon style={{ fontSize: '64px' }} type="hourglass" />
               </Card>
             </Tooltip>
           </Col>
