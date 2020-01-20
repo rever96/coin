@@ -1,5 +1,5 @@
 import React from 'react';
-import { Modal, Button } from 'antd';
+import { Modal, Button, Icon } from 'antd';
 import SelectRowTable from '../edi_table/sel_table';
 import { fetchTableIfMissing } from '../../data/tables';
 import { connect } from 'react-redux';
@@ -61,7 +61,8 @@ class ModalSelectRow extends React.Component {
     return (
       <div>
         <Button type="primary" onClick={this.showModal}>
-          Riferimento a {childTableName}
+          {this.state.fk && <Icon type="check" />}
+          {!this.state.fk && 'Inserire ' + childTableName}
         </Button>
         <Modal
           title={'Seleziona riferimento a ' + childTableName}

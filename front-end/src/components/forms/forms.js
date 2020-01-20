@@ -1,10 +1,11 @@
 import React from 'react';
-import { Form, Input, DatePicker, InputNumber, Radio } from 'antd';
+import { Form, Input, DatePicker, InputNumber, Select } from 'antd';
 import ModalSelectRow from '../modals/modal_fk';
 import configDatePicker from '../../assets/Lang/it-IT/datepicker.json';
 import { TABLENAMES } from '../../data/tables';
 
 const { TextArea } = Input;
+const { Option } = Select;
 
 export const FormVeicoli = Form.create({
   name: 'global_state',
@@ -32,11 +33,13 @@ export const FormVeicoli = Form.create({
   return (
     <Form layout="vertical">
       <Form.Item>
-        {getFieldDecorator('targa')(<Input placeholder="targa" />)}
+        {getFieldDecorator('targa')(
+          <Input autoComplete="new-" placeholder="targa" />
+        )}
       </Form.Item>
       <Form.Item>
         {getFieldDecorator('km_litro')(
-          <Input type="number" placeholder="km al litro" />
+          <Input autoComplete="new-" type="number" placeholder="km al litro" />
         )}
       </Form.Item>
       <Form.Item>
@@ -74,8 +77,12 @@ export const FormPersone = Form.create({
   return (
     <Form layout="vertical">
       <Form.Item validateStatus={''} help={''}>
-        {getFieldDecorator('nome')(<Input placeholder="nome" />)}
-        {getFieldDecorator('cognome')(<Input placeholder="cognome" />)}
+        {getFieldDecorator('nome')(
+          <Input autoComplete="new-" placeholder="nome" />
+        )}
+        {getFieldDecorator('cognome')(
+          <Input autoComplete="new-" placeholder="cognome" />
+        )}
       </Form.Item>
       <Form.Item>
         {getFieldDecorator('data_nascita')(
@@ -83,11 +90,17 @@ export const FormPersone = Form.create({
         )}
       </Form.Item>
       <Form.Item validateStatus={''} help={''}>
-        {getFieldDecorator('telefono')(<Input placeholder="telefono" />)}
-        {getFieldDecorator('email')(<Input placeholder="email" />)}
+        {getFieldDecorator('telefono')(
+          <Input autoComplete="new-" placeholder="telefono" />
+        )}
+        {getFieldDecorator('email')(
+          <Input autoComplete="new-" placeholder="email" />
+        )}
       </Form.Item>
       <Form.Item validateStatus={''} help={''}>
-        {getFieldDecorator('ruolo')(<Input placeholder="ruolo" />)}
+        {getFieldDecorator('ruolo')(
+          <Input autoComplete="new-" placeholder="ruolo" />
+        )}
       </Form.Item>
       <Form.Item>
         {getFieldDecorator('note')(
@@ -146,26 +159,32 @@ class FormClientiStatefull extends React.Component {
       <Form layout="horizontal">
         <Form.Item validateStatus={''} help={''}>
           {getFieldDecorator('intestazione_legale')(
-            <Input placeholder="Intestazione Legale" />
+            <Input autoComplete="new-" placeholder="Intestazione Legale" />
           )}
           {/* </Form.Item>
       <Form.Item> */}
           {getFieldDecorator('indirizzo_sede_legale')(
-            <Input placeholder="Indirizzo Sede Legale" />
+            <Input autoComplete="new-" placeholder="Indirizzo Sede Legale" />
           )}
         </Form.Item>
         <Form.Item validateStatus={''} help={''}>
-          {getFieldDecorator('telefono')(<Input placeholder="telefono" />)}
+          {getFieldDecorator('telefono')(
+            <Input autoComplete="new-" placeholder="telefono" />
+          )}
           {/* </Form.Item>
       <Form.Item> */}
-          {getFieldDecorator('email')(<Input placeholder="email" />)}
+          {getFieldDecorator('email')(
+            <Input autoComplete="new-" placeholder="email" />
+          )}
         </Form.Item>
         <Form.Item validateStatus={''} help={''}>
-          {getFieldDecorator('indirizzo')(<Input placeholder="Indirizzo" />)}
+          {getFieldDecorator('indirizzo')(
+            <Input autoComplete="new-" placeholder="Indirizzo" />
+          )}
           {/* </Form.Item>
       <Form.Item> */}
           {getFieldDecorator('gmap')(
-            <Input placeholder="Coordinate Google Maps" />
+            <Input autoComplete="new-" placeholder="Coordinate Google Maps" />
           )}
         </Form.Item>
         <Form.Item
@@ -174,21 +193,21 @@ class FormClientiStatefull extends React.Component {
           labelCol={{ span: 4 }}
           wrapperCol={{ span: 12 }}
         >
-          {getFieldDecorator('n_coperti')(<InputNumber />)}
+          {getFieldDecorator('n_coperti')(<InputNumber autoComplete="new-" />)}
         </Form.Item>
         <Form.Item>
           {getFieldDecorator('attivita_fruitrice')(
-            <Input placeholder="Attivita Fruitrice" />
+            <Input autoComplete="new-" placeholder="Attivita Fruitrice" />
           )}
         </Form.Item>
         <Form.Item>
           {getFieldDecorator('partita_iva')(
-            <Input placeholder="Partita Iva" />
+            <Input autoComplete="new-" placeholder="Partita Iva" />
           )}
         </Form.Item>
         <Form.Item>
           {getFieldDecorator('codice_univoco')(
-            <Input placeholder="Codice Univoco" />
+            <Input autoComplete="new-" placeholder="Codice Univoco" />
           )}
         </Form.Item>
         <Form.Item
@@ -198,12 +217,12 @@ class FormClientiStatefull extends React.Component {
           wrapperCol={{ span: 12 }}
         >
           {getFieldDecorator('accessibilita_consegne')(
-            <Radio.Group>
-              <Radio.Button value="facile">facile</Radio.Button>
-              <Radio.Button value="medio">medio</Radio.Button>
-              <Radio.Button value="difficile">difficile</Radio.Button>
-              <Radio.Button value="impossibile">impossibile</Radio.Button>
-            </Radio.Group>
+            <Select>
+              <Option value="facile">facile</Option>
+              <Option value="medio">medio</Option>
+              <Option value="difficile">difficile</Option>
+              <Option value="impossibile">impossibile</Option>
+            </Select>
           )}
         </Form.Item>
         <Form.Item
@@ -213,17 +232,15 @@ class FormClientiStatefull extends React.Component {
           wrapperCol={{ span: 12 }}
         >
           {getFieldDecorator('tipo_cliente')(
-            <Radio.Group>
-              <Radio.Button value="cliente">cliente</Radio.Button>
-              <Radio.Button value="potenziale cliente">
-                potenziale cliente
-              </Radio.Button>
-              <Radio.Button value="oppositore">oppositore</Radio.Button>
-              <Radio.Button value="oppositore perdi tempo">
+            <Select>
+              <Option value="cliente">cliente</Option>
+              <Option value="potenziale cliente">potenziale cliente</Option>
+              <Option value="oppositore">oppositore</Option>
+              <Option value="oppositore perdi tempo">
                 oppositore perdi tempo
-              </Radio.Button>
-              <Radio.Button value="ex cliente">ex cliente</Radio.Button>
-            </Radio.Group>
+              </Option>
+              <Option value="ex cliente">ex cliente</Option>
+            </Select>
           )}
         </Form.Item>
         <Form.Item
@@ -334,15 +351,27 @@ export const FormDDV = Form.create({
         labelCol={{ span: 4 }}
         wrapperCol={{ span: 12 }}
       >
-        {getFieldDecorator('km')(<InputNumber />)}
+        {getFieldDecorator('km')(<InputNumber autoComplete="new-" />)}
       </Form.Item>
       <Form.Item>
         {getFieldDecorator('zona_interessata')(
-          <Input placeholder="Zona interessata" />
+          <Input autoComplete="new-" placeholder="Zona interessata" />
         )}
       </Form.Item>
-      <Form.Item>
-        {getFieldDecorator('tipo')(<Input placeholder="Tipo" />)}
+      <Form.Item
+        labelAlign="left"
+        label="Tipo"
+        labelCol={{ span: 8 }}
+        wrapperCol={{ span: 12 }}
+      >
+        {getFieldDecorator('tipo')(
+          <Select>
+            <Option value="vendita">vendita</Option>
+            <Option value="conoscenza">conoscenza</Option>
+            <Option value="visita">visita</Option>
+            <Option value="altro">altro</Option>
+          </Select>
+        )}
       </Form.Item>
       <Form.Item>
         {getFieldDecorator('note')(
@@ -415,7 +444,9 @@ export const FormDepositi = Form.create({
   return (
     <Form layout="vertical">
       <Form.Item>
-        {getFieldDecorator('luogo')(<Input placeholder="luogo" />)}
+        {getFieldDecorator('luogo')(
+          <Input autoComplete="new-" placeholder="luogo" />
+        )}
       </Form.Item>
       <Form.Item
         label="capienza"
@@ -423,7 +454,7 @@ export const FormDepositi = Form.create({
         labelCol={{ span: 4 }}
         wrapperCol={{ span: 12 }}
       >
-        {getFieldDecorator('capienza')(<InputNumber />)}
+        {getFieldDecorator('capienza')(<InputNumber autoComplete="new-" />)}
       </Form.Item>
       <Form.Item>
         {getFieldDecorator('note')(
@@ -460,7 +491,9 @@ export const FormMerci = Form.create({
   return (
     <Form layout="vertical">
       <Form.Item>
-        {getFieldDecorator('nome')(<Input placeholder="Nome" />)}
+        {getFieldDecorator('nome')(
+          <Input autoComplete="new-" placeholder="Nome" />
+        )}
       </Form.Item>
       <Form.Item
         labelCol={{ span: 8 }}
@@ -478,7 +511,9 @@ export const FormMerci = Form.create({
         labelCol={{ span: 4 }}
         wrapperCol={{ span: 12 }}
       >
-        {getFieldDecorator('costo_unitario')(<InputNumber />)}
+        {getFieldDecorator('costo_unitario')(
+          <InputNumber autoComplete="new-" />
+        )}
       </Form.Item>
       <Form.Item
         label="Peso unitario"
@@ -486,10 +521,14 @@ export const FormMerci = Form.create({
         labelCol={{ span: 4 }}
         wrapperCol={{ span: 12 }}
       >
-        {getFieldDecorator('peso_unitario')(<InputNumber />)}
+        {getFieldDecorator('peso_unitario')(
+          <InputNumber autoComplete="new-" />
+        )}
       </Form.Item>
       <Form.Item>
-        {getFieldDecorator('tipo')(<Input placeholder="Tipo" />)}
+        {getFieldDecorator('tipo')(
+          <Input autoComplete="new-" placeholder="Tipo" />
+        )}
       </Form.Item>
       <Form.Item>
         {getFieldDecorator('note')(
@@ -526,7 +565,9 @@ export const FormProdotti = Form.create({
   return (
     <Form layout="vertical">
       <Form.Item>
-        {getFieldDecorator('nome')(<Input placeholder="Nome" />)}
+        {getFieldDecorator('nome')(
+          <Input autoComplete="new-" placeholder="Nome" />
+        )}
       </Form.Item>
       <Form.Item
         labelCol={{ span: 8 }}
@@ -554,7 +595,9 @@ export const FormProdotti = Form.create({
         labelCol={{ span: 4 }}
         wrapperCol={{ span: 12 }}
       >
-        {getFieldDecorator('costo_unitario')(<InputNumber />)}
+        {getFieldDecorator('costo_unitario')(
+          <InputNumber autoComplete="new-" />
+        )}
       </Form.Item>
       <Form.Item
         label="Peso unitario"
@@ -562,7 +605,9 @@ export const FormProdotti = Form.create({
         labelCol={{ span: 4 }}
         wrapperCol={{ span: 12 }}
       >
-        {getFieldDecorator('peso_unitario')(<InputNumber />)}
+        {getFieldDecorator('peso_unitario')(
+          <InputNumber autoComplete="new-" />
+        )}
       </Form.Item>
       <Form.Item
         label="Quantità"
@@ -570,13 +615,17 @@ export const FormProdotti = Form.create({
         labelCol={{ span: 4 }}
         wrapperCol={{ span: 12 }}
       >
-        {getFieldDecorator('quantita')(<InputNumber />)}
+        {getFieldDecorator('quantita')(<InputNumber autoComplete="new-" />)}
       </Form.Item>
       <Form.Item>
-        {getFieldDecorator('tipo')(<Input placeholder="Tipo" />)}
+        {getFieldDecorator('tipo')(
+          <Input autoComplete="new-" placeholder="Tipo" />
+        )}
       </Form.Item>
       <Form.Item>
-        {getFieldDecorator('lotto')(<Input placeholder="Lotto" />)}
+        {getFieldDecorator('lotto')(
+          <Input autoComplete="new-" placeholder="Lotto" />
+        )}
       </Form.Item>
       <Form.Item>
         {getFieldDecorator('note')(
@@ -639,12 +688,12 @@ export const FormLavorazioni = Form.create({
         wrapperCol={{ span: 12 }}
       >
         {getFieldDecorator('tipo')(
-          <Radio.Group>
-            <Radio.Button value="mov1">mov1</Radio.Button>
-            <Radio.Button value="mov2">mov2</Radio.Button>
-            <Radio.Button value="op1">op1</Radio.Button>
-            <Radio.Button value="altro">altro</Radio.Button>
-          </Radio.Group>
+          <Select>
+            <Option value="mov1">mov1</Option>
+            <Option value="mov2">mov2</Option>
+            <Option value="op1">op1</Option>
+            <Option value="altro">altro</Option>
+          </Select>
         )}
       </Form.Item>
       <Form.Item
@@ -764,12 +813,12 @@ export const FormOrdini = Form.create({
         wrapperCol={{ span: 12 }}
       >
         {getFieldDecorator('come_effettuato')(
-          <Radio.Group>
-            <Radio.Button value="telefono">telefono</Radio.Button>
-            <Radio.Button value="whatsapp">whatsapp</Radio.Button>
-            <Radio.Button value="email">email</Radio.Button>
-            <Radio.Button value="persona">persona</Radio.Button>
-          </Radio.Group>
+          <Select>
+            <Option value="telefono">telefono</Option>
+            <Option value="whatsapp">whatsapp</Option>
+            <Option value="email">email</Option>
+            <Option value="persona">persona</Option>
+          </Select>
         )}
       </Form.Item>
       <Form.Item
@@ -857,12 +906,11 @@ export const FormSpedizioni = Form.create({
         wrapperCol={{ span: 12 }}
       >
         {getFieldDecorator('servizio')(
-          <Radio.Group>
-            <Radio.Button value="telefono">telefono</Radio.Button>
-            <Radio.Button value="whatsapp">whatsapp</Radio.Button>
-            <Radio.Button value="email">email</Radio.Button>
-            <Radio.Button value="persona">persona</Radio.Button>
-          </Radio.Group>
+          <Select>
+            <Option value="gls">gls</Option>
+            <Option value="brt">brt</Option>
+            <Option value="altro">altro</Option>
+          </Select>
         )}
       </Form.Item>
       <Form.Item>
@@ -912,25 +960,39 @@ export const FormSettimane = Form.create({
   return (
     <Form layout="vertical">
       <Form.Item>
-        {getFieldDecorator('lunedi')(<Input placeholder="Lunedì" />)}
+        {getFieldDecorator('lunedi')(
+          <Input autoComplete="new-" placeholder="Lunedì" />
+        )}
       </Form.Item>
       <Form.Item>
-        {getFieldDecorator('martedi')(<Input placeholder="Martedì" />)}
+        {getFieldDecorator('martedi')(
+          <Input autoComplete="new-" placeholder="Martedì" />
+        )}
       </Form.Item>
       <Form.Item>
-        {getFieldDecorator('mercoledi')(<Input placeholder="Mercoledì" />)}
+        {getFieldDecorator('mercoledi')(
+          <Input autoComplete="new-" placeholder="Mercoledì" />
+        )}
       </Form.Item>
       <Form.Item>
-        {getFieldDecorator('giovedi')(<Input placeholder="Giovedì" />)}
+        {getFieldDecorator('giovedi')(
+          <Input autoComplete="new-" placeholder="Giovedì" />
+        )}
       </Form.Item>
       <Form.Item>
-        {getFieldDecorator('venerdi')(<Input placeholder="Venerdì" />)}
+        {getFieldDecorator('venerdi')(
+          <Input autoComplete="new-" placeholder="Venerdì" />
+        )}
       </Form.Item>
       <Form.Item>
-        {getFieldDecorator('sabato')(<Input placeholder="Sabato" />)}
+        {getFieldDecorator('sabato')(
+          <Input autoComplete="new-" placeholder="Sabato" />
+        )}
       </Form.Item>
       <Form.Item>
-        {getFieldDecorator('domenica')(<Input placeholder="Domenica" />)}
+        {getFieldDecorator('domenica')(
+          <Input autoComplete="new-" placeholder="Domenica" />
+        )}
       </Form.Item>
       <Form.Item>
         {getFieldDecorator('note')(

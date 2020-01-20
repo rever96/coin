@@ -30,7 +30,10 @@
         "nome": "tipo_cliente"
       },
       {
-        "nome": "data_contatto_futuro"
+        "nome": "data_contatto_futuro",
+        "editable": false,
+        "render": "data",
+        "width": 150
       },
       {
         "nome": "note"
@@ -79,7 +82,9 @@
       },
       {
         "nome": "data_nascita",
-        "editable": true
+        "editable": false,
+        "render": "data",
+        "width": 150
       },
       {
         "nome": "telefono",
@@ -123,7 +128,10 @@
     "nome": "ddv",
     "colonne": [
       {
-        "nome": "data"
+        "nome": "data",
+        "editable": false,
+        "render": "data",
+        "width": 150
       },
       {
         "nome": "km"
@@ -169,7 +177,10 @@
         "nome": "nome"
       },
       {
-        "nome": "scadenza"
+        "nome": "scadenza",
+        "editable": false,
+        "render": "data",
+        "width": 150
       },
       {
         "nome": "costo_unitario"
@@ -192,10 +203,16 @@
         "nome": "nome"
       },
       {
-        "nome": "data_scadenza"
+        "nome": "data_scadenza",
+        "editable": false,
+        "render": "data",
+        "width": 150
       },
       {
-        "nome": "data_confezionamento"
+        "nome": "data_confezionamento",
+        "editable": false,
+        "render": "data",
+        "width": 150
       },
       {
         "nome": "costo_unitario"
@@ -224,7 +241,10 @@
     "nome": "lavorazioni",
     "colonne": [
       {
-        "nome": "data"
+        "nome": "data",
+        "editable": false,
+        "render": "data",
+        "width": 150
       },
       {
         "nome": "tipo"
@@ -253,16 +273,25 @@
     "nome": "ordini",
     "colonne": [
       {
-        "nome": "data_ordine"
+        "nome": "data_ordine",
+        "editable": false,
+        "render": "data",
+        "width": 150
       },
       {
-        "nome": "data_prevista_consegna"
+        "nome": "data_prevista_consegna",
+        "editable": false,
+        "render": "data",
+        "width": 150
       },
       {
         "nome": "come_effettuato"
       },
       {
-        "nome": "data_ultima"
+        "nome": "data_ultima",
+        "editable": false,
+        "render": "data",
+        "width": 150
       },
       {
         "nome": "note"
@@ -282,7 +311,10 @@
         "nome": "servizio"
       },
       {
-        "nome": "data_ritiro"
+        "nome": "data_ritiro",
+        "editable": false,
+        "render": "data",
+        "width": 150
       },
       {
         "nome": "note"

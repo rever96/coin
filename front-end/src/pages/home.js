@@ -176,6 +176,7 @@ class MyCalendar extends React.Component {
       contenuto: contenuto.value,
       tipo: colore.value
     };
+    console.log(evento);
     createTableRow(this.props.dispatch, 'Eventi', evento)
       .then(id => {
         this.setState({
@@ -384,7 +385,9 @@ class MyCalendar extends React.Component {
             events={this.state.events}
             defaultView={this.currentView}
             date={this.state.shownDate}
-            onNavigate={() => {}}
+            onNavigate={shownDate => {
+              this.setState({ shownDate });
+            }}
             onEventDrop={this.onEventDrop.bind(this)}
             onEventResize={this.onEventResize.bind(this)}
             onSelectEvent={e => this.modificaEvento(e.id)}

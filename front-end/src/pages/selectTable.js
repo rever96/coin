@@ -67,7 +67,7 @@ class Esempio extends React.Component {
 
   setFK = (name, fk) => {
     const activeTable = this.state.activeTable;
-    activeTable[name] = fk;
+    activeTable[name] = { value: fk };
     this.setState({ activeTable });
   };
 
@@ -211,8 +211,14 @@ class Esempio extends React.Component {
     const { tableName, activeTable } = this.state;
     const row = {};
     for (const columnName in activeTable) {
+      console.log(columnName);
+      console.log(activeTable[columnName]);
       if (typeof activeTable[columnName] === 'undefined') {
-        console.log('AAAAAAA');
+        console.error('AAAAAAA');
+        continue;
+      }
+      if (moment.isMoment(activeTable[columnName].value)) {
+        row[columnName] = activeTable[columnName].value.toDate();
         continue;
       }
       if (activeTable[columnName].value) {

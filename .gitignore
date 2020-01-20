@@ -58,6 +58,7 @@ typings/
 .env
 
 .firebase
+front-end/.firebase
 
 # next.js build output
 .next

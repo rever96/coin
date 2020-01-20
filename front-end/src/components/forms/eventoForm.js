@@ -1,9 +1,10 @@
 import React from 'react';
-import { Form, Input, TimePicker, DatePicker, Radio } from 'antd';
+import { Form, Input, TimePicker, DatePicker, Select } from 'antd';
 // import moment from 'moment';
 import configDatePicker from '../../assets/Lang/it-IT/datepicker.json';
 
 const { TextArea } = Input;
+const { Option } = Select;
 
 export default Form.create({
   name: 'global_state',
@@ -76,13 +77,13 @@ export default Form.create({
         wrapperCol={{ span: 12 }}
       >
         {getFieldDecorator('colore')(
-          <Radio.Group>
-            <Radio.Button value="blue">blue</Radio.Button>
-            <Radio.Button value="yellow">yellow</Radio.Button>
-            <Radio.Button value="green">green</Radio.Button>
-            <Radio.Button value="red">red</Radio.Button>
-            <Radio.Button value="gray">gray</Radio.Button>
-          </Radio.Group>
+          <Select>
+            <Option value="blue">blue</Option>
+            <Option value="yellow">yellow</Option>
+            <Option value="green">green</Option>
+            <Option value="red">red</Option>
+            <Option value="gray">gray</Option>
+          </Select>
         )}
       </Form.Item>
     </Form>
