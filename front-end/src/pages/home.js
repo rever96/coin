@@ -35,8 +35,8 @@ class MyCalendar extends React.Component {
           title: e.titolo,
           start: moment(e.data_inizio).toDate(),
           end: moment(e.data_fine).toDate(),
-          content: e.contenuto
-          // color: e.tipo
+          content: e.contenuto,
+          color: e.tipo
         };
       });
       fetchedEvents = true;
@@ -47,13 +47,6 @@ class MyCalendar extends React.Component {
       fetchedEvents,
       visible: false,
       statoEvento: '',
-      fields: {
-        data: { value: moment(moment.now()) },
-        ora_inizio: { value: moment(moment.now()) },
-        ora_fine: { value: moment(moment.now()) },
-        titolo: { value: 'moment.now()' },
-        contenuto: { value: 'moment.now()' }
-      },
       shownDate: moment().toDate()
     };
   }
@@ -69,8 +62,8 @@ class MyCalendar extends React.Component {
               title: e.titolo,
               start: moment(e.data_inizio).toDate(),
               end: moment(e.data_fine).toDate(),
-              content: e.contenuto
-              // color: e.tipo
+              content: e.contenuto,
+              color: e.tipo
             };
           })
         },
@@ -128,7 +121,8 @@ class MyCalendar extends React.Component {
         ora_inizio: { value: moment(start) },
         ora_fine: { value: moment(end) },
         titolo: { value: '' },
-        contenuto: { value: '' }
+        contenuto: { value: '' },
+        colore: { value: 'gray' }
       }
     });
   };
@@ -144,70 +138,20 @@ class MyCalendar extends React.Component {
         ora_inizio: { value: moment(evento.start) },
         ora_fine: { value: moment(evento.end) },
         titolo: { value: evento.title },
-        contenuto: { value: evento.content }
+        contenuto: { value: evento.content },
+        colore: { value: evento.color }
       }
     });
   };
 
   creaEventoSubmit = () => {
-    const { titolo, data, ora_inizio, ora_fine, contenuto } = this.state.fields;
-    if (titolo.value.length === 0) {
-      return;
-    }
-    this.setState({
-      confirmLoading: true
-    });
-    const evento = {
-      data_inizio: moment(data.value)
-        .hour(0)
-        .minute(0)
-        .add(ora_inizio.value.get('minutes'), 'minutes')
-        .add(ora_inizio.value.get('hours'), 'hours')
-        .toDate(),
-      data_fine: moment(data.value)
-        .hour(0)
-        .minute(0)
-        .add(ora_fine.value.get('minutes'), 'minutes')
-        .add(ora_fine.value.get('hours'), 'hours')
-        .toDate(),
-      titolo: titolo.value,
-      contenuto: contenuto.value
-    };
-    createTableRow(this.props.dispatch, 'Eventi', evento)
-      .then(id => {
-        this.setState({
-          visible: false,
-          confirmLoading: false,
-          events: [
-            ...this.state.events,
-            {
-              id: id,
-              start: evento.data_inizio,
-              end: evento.data_fine,
-              title: evento.titolo,
-              content: evento.contenuto
-            }
-          ]
-        });
-      })
-      .catch(error => {
-        notification.error({
-          message: `Operazione fallita`,
-          description: error.toString(),
-          placement: 'bottomRight',
-          duration: 0
-        });
-      });
-  };
-
-  modificaEventoSubmit = () => {
     const {
-      id,
       titolo,
       data,
       ora_inizio,
       ora_fine,
-      contenuto
+      contenuto,
+      colore
     } = this.state.fields;
     if (titolo.value.length === 0) {
       return;
@@ -229,7 +173,69 @@ class MyCalendar extends React.Component {
         .add(ora_fine.value.get('hours'), 'hours')
         .toDate(),
       titolo: titolo.value,
-      contenuto: contenuto.value
+      contenuto: contenuto.value,
+      tipo: colore.value
+    };
+    createTableRow(this.props.dispatch, 'Eventi', evento)
+      .then(id => {
+        this.setState({
+          visible: false,
+          confirmLoading: false,
+          events: [
+            ...this.state.events,
+            {
+              id: id,
+              start: evento.data_inizio,
+              end: evento.data_fine,
+              title: evento.titolo,
+              content: evento.contenuto,
+              color: evento.tipo
+            }
+          ]
+        });
+      })
+      .catch(error => {
+        notification.error({
+          message: `Operazione fallita`,
+          description: error.toString(),
+          placement: 'bottomRight',
+          duration: 0
+        });
+      });
+  };
+
+  modificaEventoSubmit = () => {
+    const {
+      id,
+      titolo,
+      data,
+      ora_inizio,
+      ora_fine,
+      contenuto,
+      colore
+    } = this.state.fields;
+    if (titolo.value.length === 0) {
+      return;
+    }
+    this.setState({
+      confirmLoading: true
+    });
+    const evento = {
+      data_inizio: moment(data.value)
+        .hour(0)
+        .minute(0)
+        .add(ora_inizio.value.get('minutes'), 'minutes')
+        .add(ora_inizio.value.get('hours'), 'hours')
+        .toDate(),
+      data_fine: moment(data.value)
+        .hour(0)
+        .minute(0)
+        .add(ora_fine.value.get('minutes'), 'minutes')
+        .add(ora_fine.value.get('hours'), 'hours')
+        .toDate(),
+      titolo: titolo.value,
+      contenuto: contenuto.value,
+      tipo: colore.value
     };
     updateTableRow(this.props.dispatch, 'Eventi', id, evento)
       .then(() => {
@@ -243,7 +249,8 @@ class MyCalendar extends React.Component {
               start: evento.data_inizio,
               end: evento.data_fine,
               title: evento.titolo,
-              content: evento.contenuto
+              content: evento.contenuto,
+              color: evento.tipo
             }
           ]
         });

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Form, Input, TimePicker, DatePicker } from 'antd';
+import { Form, Input, TimePicker, DatePicker, Radio } from 'antd';
 // import moment from 'moment';
 import configDatePicker from '../../assets/Lang/it-IT/datepicker.json';
 
@@ -31,6 +31,10 @@ export default Form.create({
       contenuto: Form.createFormField({
         ...props.contenuto,
         value: props.contenuto.value
+      }),
+      colore: Form.createFormField({
+        ...props.colore,
+        value: props.colore.value
       })
     };
   }
@@ -63,6 +67,22 @@ export default Form.create({
             placeholder="contenuto"
             autoSize={{ minRows: 2, maxRows: 10 }}
           />
+        )}
+      </Form.Item>
+      <Form.Item
+        labelAlign="left"
+        label="Colore"
+        labelCol={{ span: 8 }}
+        wrapperCol={{ span: 12 }}
+      >
+        {getFieldDecorator('colore')(
+          <Radio.Group>
+            <Radio.Button value="blue">blue</Radio.Button>
+            <Radio.Button value="yellow">yellow</Radio.Button>
+            <Radio.Button value="green">green</Radio.Button>
+            <Radio.Button value="red">red</Radio.Button>
+            <Radio.Button value="gray">gray</Radio.Button>
+          </Radio.Group>
         )}
       </Form.Item>
     </Form>
