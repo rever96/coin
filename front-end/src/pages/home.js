@@ -5,17 +5,21 @@ import withDragAndDrop from 'react-big-calendar/lib/addons/dragAndDrop';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import 'react-big-calendar/lib/addons/dragAndDrop/styles.css';
 import { updateTableRow, deleteTableRow, createTableRow } from '../data/tables';
-import { Typography, Modal, notification, Button } from 'antd';
+import { Modal, notification, Button } from 'antd';
 import { connect } from 'react-redux';
 import EventoForm from '../components/forms/eventoForm';
+import { Swipeable } from 'react-swipeable';
 
 const creaEvento = 'Crea Evento';
 const modificaEvento = 'Modifica Evento';
 
-const { Title } = Typography;
-
 const localizer = BigCalendar.momentLocalizer(moment);
 const DnDCalendar = withDragAndDrop(BigCalendar);
+
+const SWIPE = {
+  LEFT: 'LEFT',
+  RIGHT: 'RIGHT'
+};
 
 class MyCalendar extends React.Component {
   constructor(props) {
@@ -23,6 +27,7 @@ class MyCalendar extends React.Component {
     let events = [];
     let fetchedEvents = false;
     this.stillWaitingForData = true;
+    this.currentView = 'week';
     if (props.Eventi) {
       events = props.Eventi.map(e => {
         return {
@@ -48,12 +53,12 @@ class MyCalendar extends React.Component {
         ora_fine: { value: moment(moment.now()) },
         titolo: { value: 'moment.now()' },
         contenuto: { value: 'moment.now()' }
-      }
+      },
+      shownDate: moment().toDate()
     };
   }
 
   componentDidUpdate() {
-    console.log(this.state);
     if (this.stillWaitingForData && this.props.Eventi) {
       this.stillWaitingForData = false;
       this.setState(
@@ -288,12 +293,28 @@ class MyCalendar extends React.Component {
     }));
   };
 
+  changeWeek(swipe) {
+    if (this.currentView === 'agenda') {
+      return;
+    }
+    let { shownDate } = this.state;
+    shownDate =
+      swipe === SWIPE.LEFT
+        ? moment(shownDate)
+            .subtract(1, this.currentView)
+            .toDate()
+        : moment(shownDate)
+            .add(1, this.currentView)
+            .toDate();
+    this.setState({ shownDate });
+  }
+
   render() {
     const { fields } = this.state;
     console.log(this.state);
+
     return (
       <>
-        {!this.state.fetchedEvents && <Title>Loading</Title>}
         <Modal
           title={this.state.statoEvento}
           visible={this.state.visible}
@@ -338,34 +359,41 @@ class MyCalendar extends React.Component {
         >
           <EventoForm {...fields} onChange={this.handleFormChange} />
         </Modal>
-        <DnDCalendar
-          min={moment()
-            .hour(4)
-            .minute(0)
-            .toDate()}
-          max={moment()
-            .hour(23)
-            .minute(0)
-            .toDate()}
-          defaultDate={moment().toDate()}
-          selectable
-          localizer={localizer}
-          events={this.state.events}
-          defaultView="week"
-          onEventDrop={this.onEventDrop.bind(this)}
-          onEventResize={this.onEventResize.bind(this)}
-          onSelectEvent={e => this.modificaEvento(e.id)}
-          onSelectSlot={this.creaEvento}
-          dayLayoutAlgorithm="no-overlap"
-          style={{ height: '500px' }}
-          resizable
-          eventPropGetter={(event, start, end, isSelected) => {
-            if (event.color) {
-              return { style: { backgroundColor: event.color } };
-            }
-            return {};
-          }}
-        />
+        <Swipeable
+          onSwipedLeft={() => this.changeWeek(SWIPE.RIGHT)}
+          onSwipedRight={() => this.changeWeek(SWIPE.LEFT)}
+        >
+          <DnDCalendar
+            min={moment()
+              .hour(4)
+              .minute(0)
+              .toDate()}
+            max={moment()
+              .hour(23)
+              .minute(0)
+              .toDate()}
+            selectable
+            localizer={localizer}
+            events={this.state.events}
+            defaultView={this.currentView}
+            date={this.state.shownDate}
+            onNavigate={() => {}}
+            onEventDrop={this.onEventDrop.bind(this)}
+            onEventResize={this.onEventResize.bind(this)}
+            onSelectEvent={e => this.modificaEvento(e.id)}
+            onView={view => (this.currentView = view)}
+            onSelectSlot={this.creaEvento}
+            dayLayoutAlgorithm="no-overlap"
+            style={{ height: '500px' }}
+            resizable
+            eventPropGetter={(event, start, end, isSelected) => {
+              if (event.color) {
+                return { style: { backgroundColor: event.color } };
+              }
+              return {};
+            }}
+          />
+        </Swipeable>
       </>
     );
   }
