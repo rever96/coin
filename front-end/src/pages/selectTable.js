@@ -83,8 +83,11 @@ class Esempio extends React.Component {
     struttura
       .find(tabella => tabella.nome === tableName)
       .colonne.forEach(colonna => {
-        if (colonna.nome === 'data_inserimento') {
-          activeTable['data_inserimento'] = { value: moment(moment.now()) };
+        if (
+          colonna.nome === 'data_inserimento' ||
+          colonna.nome === 'data_ordine'
+        ) {
+          activeTable[colonna.nome] = { value: moment(moment.now()) };
           return;
         }
         activeTable[colonna.nome] = { value: undefined };
@@ -273,18 +276,18 @@ class Esempio extends React.Component {
         </Modal>
         <Row gutter={[16, 16]}>
           <Col xs={12} sm={8} md={6} lg={4}>
-            <Tooltip placement="bottom" title={TABLENAMES.VEICOLI}>
+            <Tooltip placement='bottom' title={TABLENAMES.VEICOLI}>
               <Card
                 hoverable
                 onClick={() => this.showModal(TABLENAMES.VEICOLI)}
                 bordered={false}
               >
-                <Icon style={{ fontSize: '64px' }} type="car" />
+                <Icon style={{ fontSize: '64px' }} type='car' />
               </Card>
             </Tooltip>
           </Col>
           <Col xs={12} sm={8} md={6} lg={4}>
-            <Tooltip placement="bottom" title={TABLENAMES.CLIENTI}>
+            <Tooltip placement='bottom' title={TABLENAMES.CLIENTI}>
               <Card
                 hoverable
                 onClick={() =>
@@ -294,12 +297,12 @@ class Esempio extends React.Component {
                 }
                 bordered={false}
               >
-                <Icon style={{ fontSize: '64px' }} type="shop" />
+                <Icon style={{ fontSize: '64px' }} type='shop' />
               </Card>
             </Tooltip>
           </Col>
           <Col xs={12} sm={8} md={6} lg={4}>
-            <Tooltip placement="bottom" title={TABLENAMES.PERSONE}>
+            <Tooltip placement='bottom' title={TABLENAMES.PERSONE}>
               <Card
                 hoverable
                 onClick={() =>
@@ -309,12 +312,12 @@ class Esempio extends React.Component {
                 }
                 bordered={false}
               >
-                <Icon style={{ fontSize: '64px' }} type="user" />
+                <Icon style={{ fontSize: '64px' }} type='user' />
               </Card>
             </Tooltip>
           </Col>
           <Col xs={12} sm={8} md={6} lg={4}>
-            <Tooltip placement="bottom" title={TABLENAMES.DDV}>
+            <Tooltip placement='bottom' title={TABLENAMES.DDV}>
               <Card
                 hoverable
                 onClick={() =>
@@ -324,12 +327,12 @@ class Esempio extends React.Component {
                 }
                 bordered={false}
               >
-                <Icon style={{ fontSize: '64px' }} type="heat-map" />
+                <Icon style={{ fontSize: '64px' }} type='heat-map' />
               </Card>
             </Tooltip>
           </Col>
           <Col xs={12} sm={8} md={6} lg={4}>
-            <Tooltip placement="bottom" title={TABLENAMES.DEPOSITI}>
+            <Tooltip placement='bottom' title={TABLENAMES.DEPOSITI}>
               <Card
                 hoverable
                 onClick={() =>
@@ -339,12 +342,12 @@ class Esempio extends React.Component {
                 }
                 bordered={false}
               >
-                <Icon style={{ fontSize: '64px' }} type="appstore" />
+                <Icon style={{ fontSize: '64px' }} type='appstore' />
               </Card>
             </Tooltip>
           </Col>
           <Col xs={12} sm={8} md={6} lg={4}>
-            <Tooltip placement="bottom" title={TABLENAMES.MERCI}>
+            <Tooltip placement='bottom' title={TABLENAMES.MERCI}>
               <Card
                 hoverable
                 onClick={() =>
@@ -354,12 +357,12 @@ class Esempio extends React.Component {
                 }
                 bordered={false}
               >
-                <Icon style={{ fontSize: '64px' }} type="tags" />
+                <Icon style={{ fontSize: '64px' }} type='tags' />
               </Card>
             </Tooltip>
           </Col>
           <Col xs={12} sm={8} md={6} lg={4}>
-            <Tooltip placement="bottom" title={TABLENAMES.PRODOTTI}>
+            <Tooltip placement='bottom' title={TABLENAMES.PRODOTTI}>
               <Card
                 hoverable
                 onClick={() =>
@@ -369,12 +372,12 @@ class Esempio extends React.Component {
                 }
                 bordered={false}
               >
-                <Icon style={{ fontSize: '64px' }} type="shopping" />
+                <Icon style={{ fontSize: '64px' }} type='shopping' />
               </Card>
             </Tooltip>
           </Col>
           <Col xs={12} sm={8} md={6} lg={4}>
-            <Tooltip placement="bottom" title={TABLENAMES.LAVORAZIONI}>
+            <Tooltip placement='bottom' title={TABLENAMES.LAVORAZIONI}>
               <Card
                 hoverable
                 onClick={() =>
@@ -384,12 +387,12 @@ class Esempio extends React.Component {
                 }
                 bordered={false}
               >
-                <Icon style={{ fontSize: '64px' }} type="funnel-plot" />
+                <Icon style={{ fontSize: '64px' }} type='funnel-plot' />
               </Card>
             </Tooltip>
           </Col>
           <Col xs={12} sm={8} md={6} lg={4}>
-            <Tooltip placement="bottom" title={TABLENAMES.ORDINI}>
+            <Tooltip placement='bottom' title={TABLENAMES.ORDINI}>
               <Card
                 hoverable
                 onClick={() =>
@@ -399,12 +402,12 @@ class Esempio extends React.Component {
                 }
                 bordered={false}
               >
-                <Icon style={{ fontSize: '64px' }} type="shopping-cart" />
+                <Icon style={{ fontSize: '64px' }} type='shopping-cart' />
               </Card>
             </Tooltip>
           </Col>
           <Col xs={12} sm={8} md={6} lg={4}>
-            <Tooltip placement="bottom" title={TABLENAMES.SPEDIZIONI}>
+            <Tooltip placement='bottom' title={TABLENAMES.SPEDIZIONI}>
               <Card
                 hoverable
                 onClick={() =>
@@ -414,12 +417,12 @@ class Esempio extends React.Component {
                 }
                 bordered={false}
               >
-                <Icon style={{ fontSize: '64px' }} type="rocket" />
+                <Icon style={{ fontSize: '64px' }} type='rocket' />
               </Card>
             </Tooltip>
           </Col>
           <Col xs={12} sm={8} md={6} lg={4}>
-            <Tooltip placement="bottom" title={TABLENAMES.SETTIMANE}>
+            <Tooltip placement='bottom' title={TABLENAMES.SETTIMANE}>
               <Card
                 hoverable
                 onClick={() =>
@@ -429,7 +432,7 @@ class Esempio extends React.Component {
                 }
                 bordered={false}
               >
-                <Icon style={{ fontSize: '64px' }} type="hourglass" />
+                <Icon style={{ fontSize: '64px' }} type='hourglass' />
               </Card>
             </Tooltip>
           </Col>

@@ -4,17 +4,28 @@ import moment from 'moment';
 import withDragAndDrop from 'react-big-calendar/lib/addons/dragAndDrop';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import 'react-big-calendar/lib/addons/dragAndDrop/styles.css';
-import { updateTableRow, deleteTableRow, createTableRow } from '../data/tables';
-import { Modal, notification, Button } from 'antd';
+import {
+  updateTableRow,
+  deleteTableRow,
+  createTableRow,
+  TABLENAMES
+} from '../data/tables';
+import { Modal, notification, Button, Select, Row, Col } from 'antd';
 import { connect } from 'react-redux';
 import EventoForm from '../components/forms/eventoForm';
+import { FormOrdini } from '../components/forms/forms';
 import { Swipeable } from 'react-swipeable';
+import struttura from '../assets/struttura.json';
 
-const creaEvento = 'Crea Evento';
-const modificaEvento = 'Modifica Evento';
+const { Option } = Select;
 
 const localizer = BigCalendar.momentLocalizer(moment);
 const DnDCalendar = withDragAndDrop(BigCalendar);
+
+const FORMSTATE = {
+  CREA: 'Crea',
+  MODIFICA: 'Modifica'
+};
 
 const SWIPE = {
   LEFT: 'LEFT',
@@ -28,8 +39,8 @@ class MyCalendar extends React.Component {
     let fetchedEvents = false;
     this.stillWaitingForData = true;
     this.currentView = 'week';
-    if (props.Eventi) {
-      events = props.Eventi.map(e => {
+    if (props.eventi) {
+      events = props.eventi.map(e => {
         return {
           id: e.id,
           title: e.titolo,
@@ -44,33 +55,44 @@ class MyCalendar extends React.Component {
     }
     this.state = {
       events,
+      fields: {},
       fetchedEvents,
       visible: false,
-      statoEvento: '',
+      formState: FORMSTATE.CREA,
+      formTable: TABLENAMES.EVENTI,
       shownDate: moment().toDate()
     };
   }
 
   componentDidUpdate() {
-    if (this.stillWaitingForData && this.props.Eventi) {
+    if (this.stillWaitingForData && this.props.eventi && this.props.ordini) {
       this.stillWaitingForData = false;
-      this.setState(
-        {
-          events: this.props.Eventi.map(e => {
+      let events = this.props.eventi
+        .map(e => {
+          return {
+            id: e.id,
+            title: e.titolo,
+            start: moment(e.data_inizio).toDate(),
+            end: moment(e.data_fine).toDate(),
+            content: e.contenuto,
+            color: e.tipo,
+            table: TABLENAMES.EVENTI
+          };
+        })
+        .concat(
+          this.props.ordini.map(e => {
             return {
               id: e.id,
-              title: e.titolo,
-              start: moment(e.data_inizio).toDate(),
-              end: moment(e.data_fine).toDate(),
-              content: e.contenuto,
-              color: e.tipo
+              title: 'Ordine di ' + e.fk_cliente,
+              start: moment(e.data_prevista_consegna).toDate(),
+              end: moment(e.data_prevista_consegna).toDate(),
+              color: 'green',
+              table: TABLENAMES.ORDINI
             };
           })
-        },
-        () => {
-          this.setState({ fetchedEvents: true });
-        }
-      );
+        );
+
+      this.setState({ events, fetchedEvents: true });
     }
   }
 
@@ -84,9 +106,10 @@ class MyCalendar extends React.Component {
       data_inizio: start,
       data_fine: end,
       titolo: event.title,
-      contenuto: event.content
+      contenuto: event.content,
+      colore: event.color
     };
-    updateTableRow(this.props.dispatch, 'Eventi', event.id, evento)
+    updateTableRow(this.props.dispatch, TABLENAMES.EVENTI, event.id, evento)
       .then(() => {
         this.setState({
           fetchedEvents: true,
@@ -97,7 +120,8 @@ class MyCalendar extends React.Component {
               start: evento.data_inizio,
               end: evento.data_fine,
               title: evento.titolo,
-              content: evento.contenuto
+              content: evento.contenuto,
+              color: evento.colore
             }
           ]
         });
@@ -115,7 +139,8 @@ class MyCalendar extends React.Component {
   creaEvento = ({ start, end }) => {
     this.setState({
       visible: true,
-      statoEvento: creaEvento,
+      formState: FORMSTATE.CREA,
+      formTable: TABLENAMES.EVENTI,
       fields: {
         data: { value: moment(start) },
         ora_inizio: { value: moment(start) },
@@ -127,13 +152,27 @@ class MyCalendar extends React.Component {
     });
   };
 
-  modificaEvento = id => {
-    const evento = this.state.events.find(e => e.id === id);
+  onSelectEvent = evento => {
+    this.setState({
+      formTable: evento.table
+    });
+    switch (evento.table) {
+      case TABLENAMES.EVENTI:
+        this.modificaEvento(evento);
+        break;
+      case TABLENAMES.ORDINI:
+        break;
+      default:
+        break;
+    }
+  };
+
+  modificaEvento = evento => {
     this.setState({
       visible: true,
-      statoEvento: modificaEvento,
+      formState: FORMSTATE.MODIFICA,
       fields: {
-        id: id,
+        id: evento.id,
         data: { value: moment(evento.start) },
         ora_inizio: { value: moment(evento.start) },
         ora_fine: { value: moment(evento.end) },
@@ -176,8 +215,7 @@ class MyCalendar extends React.Component {
       contenuto: contenuto.value,
       tipo: colore.value
     };
-    console.log(evento);
-    createTableRow(this.props.dispatch, 'Eventi', evento)
+    createTableRow(this.props.dispatch, TABLENAMES.EVENTI, evento)
       .then(id => {
         this.setState({
           visible: false,
@@ -238,7 +276,7 @@ class MyCalendar extends React.Component {
       contenuto: contenuto.value,
       tipo: colore.value
     };
-    updateTableRow(this.props.dispatch, 'Eventi', id, evento)
+    updateTableRow(this.props.dispatch, TABLENAMES.EVENTI, id, evento)
       .then(() => {
         this.setState({
           visible: false,
@@ -266,12 +304,12 @@ class MyCalendar extends React.Component {
       });
   };
 
-  eliminaEventoSubmit = () => {
+  eliminaSubmit = () => {
     const { id } = this.state.fields;
     this.setState({
       confirmLoading: true
     });
-    deleteTableRow(this.props.dispatch, 'Eventi', id)
+    deleteTableRow(this.props.dispatch, this.state.formTable, id)
       .then(() => {
         this.setState({
           visible: false,
@@ -301,6 +339,44 @@ class MyCalendar extends React.Component {
     }));
   };
 
+  modificaFormFields = formTable => {
+    const { data } = this.state.fields;
+    let fields = {};
+    switch (formTable) {
+      case TABLENAMES.EVENTI:
+        fields = {
+          data: { value: moment.now() },
+          ora_inizio: { value: moment.now() },
+          ora_fine: { value: moment.now() },
+          titolo: { value: '' },
+          contenuto: { value: '' },
+          colore: { value: 'gray' }
+        };
+        break;
+      case TABLENAMES.ORDINI:
+        struttura
+          .find(tabella => tabella.nome === formTable)
+          .colonne.forEach(colonna => {
+            if (colonna.nome === 'data_ordine') {
+              fields[colonna.nome] = { value: moment(moment.now()) };
+              return;
+            }
+            if (colonna.nome === 'data_prevista_consegna') {
+              fields[colonna.nome] = { value: data.value };
+              return;
+            }
+            fields[colonna.nome] = { value: undefined };
+          });
+        break;
+      default:
+        break;
+    }
+    this.setState({
+      fields,
+      formTable
+    });
+  };
+
   changeWeek(swipe) {
     if (this.currentView === 'agenda') {
       return;
@@ -324,16 +400,37 @@ class MyCalendar extends React.Component {
     return (
       <>
         <Modal
-          title={this.state.statoEvento}
+          title={
+            <Row>
+              <Col span={12}>
+                <Select value={this.state.formState} disabled>
+                  <Option value={FORMSTATE.CREA}>{FORMSTATE.CREA}</Option>
+                  <Option value={FORMSTATE.MODIFICA}>
+                    {FORMSTATE.MODIFICA}
+                  </Option>
+                </Select>
+              </Col>
+              <Col span={12}>
+                <Select
+                  disabled={this.state.formState === FORMSTATE.MODIFICA}
+                  value={TABLENAMES.EVENTI}
+                  onChange={value => this.modificaFormFields(value)}
+                >
+                  <Option value={TABLENAMES.EVENTI}>Evento</Option>
+                  <Option value={TABLENAMES.ORDINI}>Ordine</Option>
+                </Select>
+              </Col>
+            </Row>
+          }
           visible={this.state.visible}
           footer={
-            this.state.statoEvento === modificaEvento
+            this.state.formState === FORMSTATE.MODIFICA
               ? [
                   <Button
-                    type="danger"
+                    type='danger'
                     key={0}
                     loading={this.state.confirmLoading}
-                    onClick={this.eliminaEventoSubmit}
+                    onClick={this.eliminaSubmit}
                   >
                     Elimina
                   </Button>,
@@ -342,7 +439,7 @@ class MyCalendar extends React.Component {
                   </Button>,
                   <Button
                     key={2}
-                    type="primary"
+                    type='primary'
                     loading={this.state.confirmLoading}
                     onClick={this.modificaEventoSubmit}
                   >
@@ -355,7 +452,7 @@ class MyCalendar extends React.Component {
                   </Button>,
                   <Button
                     key={2}
-                    type="primary"
+                    type='primary'
                     loading={this.state.confirmLoading}
                     onClick={this.creaEventoSubmit}
                   >
@@ -365,7 +462,12 @@ class MyCalendar extends React.Component {
           }
           onCancel={this.handleCancel}
         >
-          <EventoForm {...fields} onChange={this.handleFormChange} />
+          {this.state.formTable === TABLENAMES.EVENTI && (
+            <EventoForm {...fields} onChange={this.handleFormChange} />
+          )}
+          {this.state.formTable === TABLENAMES.ORDINI && (
+            <FormOrdini {...fields} onChange={this.handleFormChange} />
+          )}
         </Modal>
         <Swipeable
           onSwipedLeft={() => this.changeWeek(SWIPE.RIGHT)}
@@ -390,11 +492,11 @@ class MyCalendar extends React.Component {
             }}
             onEventDrop={this.onEventDrop.bind(this)}
             onEventResize={this.onEventResize.bind(this)}
-            onSelectEvent={e => this.modificaEvento(e.id)}
+            onSelectEvent={e => this.onSelectEvent(e)}
             onView={view => (this.currentView = view)}
             onSelectSlot={this.creaEvento}
-            dayLayoutAlgorithm="no-overlap"
-            style={{ height: '500px' }}
+            dayLayoutAlgorithm='no-overlap'
+            style={{ height: 'calc(100vh - 64px - 90px - 16px)' }}
             resizable
             eventPropGetter={(event, start, end, isSelected) => {
               if (event.color) {
@@ -410,9 +512,14 @@ class MyCalendar extends React.Component {
 }
 
 const mapStateToProps = (state, ownProps) => {
-  if (state.tableData && state.tableData['Eventi']) {
+  if (
+    state.tableData &&
+    state.tableData[TABLENAMES.EVENTI] &&
+    state.tableData[TABLENAMES.ORDINI]
+  ) {
     return {
-      Eventi: state.tableData['Eventi']
+      eventi: state.tableData[TABLENAMES.EVENTI],
+      ordini: state.tableData[TABLENAMES.ORDINI]
     };
   }
   return {};

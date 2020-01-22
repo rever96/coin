@@ -19,7 +19,8 @@ export const TABLENAMES = {
   LAVORAZIONI: 'lavorazioni',
   ORDINI: 'ordini',
   SPEDIZIONI: 'spedizioni',
-  SETTIMANE: 'settimane'
+  SETTIMANE: 'settimane',
+  EVENTI: 'eventi'
 };
 
 export function fetchTable(tableName, dispatch) {

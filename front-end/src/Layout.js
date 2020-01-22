@@ -7,6 +7,8 @@ import { resetTables } from './data/actions';
 import { fetchTable } from './data/tables';
 import { subscribeUser } from './subscription';
 
+import { TABLENAMES } from './data/tables';
+
 const { Content, Footer, Header } = Layout;
 
 class MyLayout extends React.Component {
@@ -19,7 +21,8 @@ class MyLayout extends React.Component {
   }
 
   componentDidMount() {
-    fetchTable('Eventi', this.props.dispatch);
+    fetchTable(TABLENAMES.EVENTI, this.props.dispatch);
+    fetchTable(TABLENAMES.ORDINI, this.props.dispatch);
   }
 
   onCollapse = collapsed => {
@@ -33,33 +36,33 @@ class MyLayout extends React.Component {
 
   render() {
     return (
-      <Layout className="layout" style={{ minHeight: '100vh' }}>
+      <Layout className='layout' style={{ minHeight: '100vh' }}>
         <Header style={{ padding: '0px' }}>
-          <div className="logo" />
+          <div className='logo' />
           <Menu
-            theme="dark"
+            theme='dark'
             defaultSelectedKeys={['0']}
-            mode="horizontal"
+            mode='horizontal'
             style={{ lineHeight: '64px' }}
           >
-            <Menu.Item onClick={() => navigateTo('/dashboard')} key="0">
-              <Icon type="desktop" />
+            <Menu.Item onClick={() => navigateTo('/dashboard')} key='0'>
+              <Icon type='desktop' />
               <span>Calendario</span>
             </Menu.Item>
-            <Menu.Item onClick={() => navigateTo('/tables/add')} key="1">
-              <Icon type="pie-chart" />
+            <Menu.Item onClick={() => navigateTo('/tables/add')} key='1'>
+              <Icon type='pie-chart' />
               <span>Aggiungi</span>
             </Menu.Item>
-            <Menu.Item onClick={() => navigateTo('/tables/view')} key="2">
-              <Icon type="pie-chart" />
+            <Menu.Item onClick={() => navigateTo('/tables/view')} key='2'>
+              <Icon type='pie-chart' />
               <span>Visualizza</span>
             </Menu.Item>
-            <Menu.Item onClick={() => navigateTo('/example')} key="3">
-              <Icon type="file" />
+            <Menu.Item onClick={() => navigateTo('/example')} key='3'>
+              <Icon type='file' />
               <span>Esempio</span>
             </Menu.Item>
-            <Menu.Item onClick={this.onReset.bind(this)} key="9">
-              <Icon type="file" />
+            <Menu.Item onClick={this.onReset.bind(this)} key='9'>
+              <Icon type='file' />
               <span>Reset</span>
             </Menu.Item>
           </Menu>

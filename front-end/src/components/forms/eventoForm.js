@@ -1,6 +1,5 @@
 import React from 'react';
 import { Form, Input, TimePicker, DatePicker, Select } from 'antd';
-// import moment from 'moment';
 import configDatePicker from '../../assets/Lang/it-IT/datepicker.json';
 
 const { TextArea } = Input;
@@ -46,7 +45,7 @@ export default Form.create({
   const { getFieldDecorator, getFieldError, isFieldTouched } = props.form;
   const usernameError = isFieldTouched('titolo') && getFieldError('titolo');
   return (
-    <Form layout="vertical">
+    <Form layout='vertical'>
       <Form.Item validateStatus={''} help={''}>
         {getFieldDecorator('data')(<DatePicker locale={configDatePicker} />)}
 
@@ -60,29 +59,29 @@ export default Form.create({
       >
         {getFieldDecorator('titolo', {
           rules: [{ required: true, message: 'Please input your titolo!' }]
-        })(<Input placeholder="titolo" />)}
+        })(<Input placeholder='titolo' />)}
       </Form.Item>
       <Form.Item>
         {getFieldDecorator('contenuto')(
           <TextArea
-            placeholder="contenuto"
+            placeholder='contenuto'
             autoSize={{ minRows: 2, maxRows: 10 }}
           />
         )}
       </Form.Item>
       <Form.Item
-        labelAlign="left"
-        label="Colore"
+        labelAlign='left'
+        label='Colore'
         labelCol={{ span: 8 }}
         wrapperCol={{ span: 12 }}
       >
         {getFieldDecorator('colore')(
           <Select>
-            <Option value="blue">blue</Option>
-            <Option value="yellow">yellow</Option>
-            <Option value="green">green</Option>
-            <Option value="red">red</Option>
-            <Option value="gray">gray</Option>
+            <Option value='blue'>blue</Option>
+            <Option value='yellow'>yellow</Option>
+            <Option value='green'>green</Option>
+            <Option value='red'>red</Option>
+            <Option value='gray'>gray</Option>
           </Select>
         )}
       </Form.Item>

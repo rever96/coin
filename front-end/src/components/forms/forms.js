@@ -31,20 +31,20 @@ export const FormVeicoli = Form.create({
 })(props => {
   const { getFieldDecorator } = props.form;
   return (
-    <Form layout="vertical">
+    <Form layout='vertical'>
       <Form.Item>
         {getFieldDecorator('targa')(
-          <Input autoComplete="new-" placeholder="targa" />
+          <Input autoComplete='new-' placeholder='targa' />
         )}
       </Form.Item>
       <Form.Item>
         {getFieldDecorator('km_litro')(
-          <Input autoComplete="new-" type="number" placeholder="km al litro" />
+          <Input autoComplete='new-' type='number' placeholder='km al litro' />
         )}
       </Form.Item>
       <Form.Item>
         {getFieldDecorator('note')(
-          <TextArea placeholder="note" autoSize={{ minRows: 2, maxRows: 10 }} />
+          <TextArea placeholder='note' autoSize={{ minRows: 2, maxRows: 10 }} />
         )}
       </Form.Item>
     </Form>
@@ -75,43 +75,43 @@ export const FormPersone = Form.create({
 })(props => {
   const { getFieldDecorator } = props.form;
   return (
-    <Form layout="vertical">
+    <Form layout='vertical'>
       <Form.Item validateStatus={''} help={''}>
         {getFieldDecorator('nome')(
-          <Input autoComplete="new-" placeholder="nome" />
+          <Input autoComplete='new-' placeholder='nome' />
         )}
         {getFieldDecorator('cognome')(
-          <Input autoComplete="new-" placeholder="cognome" />
+          <Input autoComplete='new-' placeholder='cognome' />
         )}
       </Form.Item>
       <Form.Item>
         {getFieldDecorator('data_nascita')(
-          <DatePicker locale={configDatePicker} placeholder="data di nascita" />
+          <DatePicker locale={configDatePicker} placeholder='data di nascita' />
         )}
       </Form.Item>
       <Form.Item validateStatus={''} help={''}>
         {getFieldDecorator('telefono')(
-          <Input autoComplete="new-" placeholder="telefono" />
+          <Input autoComplete='new-' placeholder='telefono' />
         )}
         {getFieldDecorator('email')(
-          <Input autoComplete="new-" placeholder="email" />
+          <Input autoComplete='new-' placeholder='email' />
         )}
       </Form.Item>
       <Form.Item validateStatus={''} help={''}>
         {getFieldDecorator('ruolo')(
-          <Input autoComplete="new-" placeholder="ruolo" />
+          <Input autoComplete='new-' placeholder='ruolo' />
         )}
       </Form.Item>
       <Form.Item>
         {getFieldDecorator('note')(
-          <TextArea placeholder="note" autoSize={{ minRows: 2, maxRows: 10 }} />
+          <TextArea placeholder='note' autoSize={{ minRows: 2, maxRows: 10 }} />
         )}
       </Form.Item>
       <Form.Item
         labelCol={{ span: 8 }}
         wrapperCol={{ span: 12 }}
-        label="cliente"
-        labelAlign="left"
+        label='cliente'
+        labelAlign='left'
       >
         <ModalSelectRow
           childTableName={TABLENAMES.CLIENTI}
@@ -156,98 +156,98 @@ class FormClientiStatefull extends React.Component {
   render() {
     const { getFieldDecorator } = this.props.form;
     return (
-      <Form layout="horizontal">
+      <Form layout='horizontal'>
         <Form.Item validateStatus={''} help={''}>
           {getFieldDecorator('intestazione_legale')(
-            <Input autoComplete="new-" placeholder="Intestazione Legale" />
+            <Input autoComplete='new-' placeholder='Intestazione Legale' />
           )}
           {/* </Form.Item>
       <Form.Item> */}
           {getFieldDecorator('indirizzo_sede_legale')(
-            <Input autoComplete="new-" placeholder="Indirizzo Sede Legale" />
+            <Input autoComplete='new-' placeholder='Indirizzo Sede Legale' />
           )}
         </Form.Item>
         <Form.Item validateStatus={''} help={''}>
           {getFieldDecorator('telefono')(
-            <Input autoComplete="new-" placeholder="telefono" />
+            <Input autoComplete='new-' placeholder='telefono' />
           )}
           {/* </Form.Item>
       <Form.Item> */}
           {getFieldDecorator('email')(
-            <Input autoComplete="new-" placeholder="email" />
+            <Input autoComplete='new-' placeholder='email' />
           )}
         </Form.Item>
         <Form.Item validateStatus={''} help={''}>
           {getFieldDecorator('indirizzo')(
-            <Input autoComplete="new-" placeholder="Indirizzo" />
+            <Input autoComplete='new-' placeholder='Indirizzo' />
           )}
           {/* </Form.Item>
       <Form.Item> */}
           {getFieldDecorator('gmap')(
-            <Input autoComplete="new-" placeholder="Coordinate Google Maps" />
+            <Input autoComplete='new-' placeholder='Coordinate Google Maps' />
           )}
         </Form.Item>
         <Form.Item
-          label="N coperti"
-          labelAlign="left"
+          label='N coperti'
+          labelAlign='left'
           labelCol={{ span: 4 }}
           wrapperCol={{ span: 12 }}
         >
-          {getFieldDecorator('n_coperti')(<InputNumber autoComplete="new-" />)}
+          {getFieldDecorator('n_coperti')(<InputNumber autoComplete='new-' />)}
         </Form.Item>
         <Form.Item>
           {getFieldDecorator('attivita_fruitrice')(
-            <Input autoComplete="new-" placeholder="Attivita Fruitrice" />
+            <Input autoComplete='new-' placeholder='Attivita Fruitrice' />
           )}
         </Form.Item>
         <Form.Item>
           {getFieldDecorator('partita_iva')(
-            <Input autoComplete="new-" placeholder="Partita Iva" />
+            <Input autoComplete='new-' placeholder='Partita Iva' />
           )}
         </Form.Item>
         <Form.Item>
           {getFieldDecorator('codice_univoco')(
-            <Input autoComplete="new-" placeholder="Codice Univoco" />
+            <Input autoComplete='new-' placeholder='Codice Univoco' />
           )}
         </Form.Item>
         <Form.Item
-          labelAlign="left"
-          label="Accessibilita Consegne"
+          labelAlign='left'
+          label='Accessibilita Consegne'
           labelCol={{ span: 8 }}
           wrapperCol={{ span: 12 }}
         >
           {getFieldDecorator('accessibilita_consegne')(
             <Select>
-              <Option value="facile">facile</Option>
-              <Option value="medio">medio</Option>
-              <Option value="difficile">difficile</Option>
-              <Option value="impossibile">impossibile</Option>
+              <Option value='facile'>facile</Option>
+              <Option value='medio'>medio</Option>
+              <Option value='difficile'>difficile</Option>
+              <Option value='impossibile'>impossibile</Option>
             </Select>
           )}
         </Form.Item>
         <Form.Item
-          labelAlign="left"
-          label="Tipo Cliente"
+          labelAlign='left'
+          label='Tipo Cliente'
           labelCol={{ span: 8 }}
           wrapperCol={{ span: 12 }}
         >
           {getFieldDecorator('tipo_cliente')(
             <Select>
-              <Option value="cliente">cliente</Option>
-              <Option value="potenziale cliente">potenziale cliente</Option>
-              <Option value="oppositore">oppositore</Option>
-              <Option value="oppositore perdi tempo">
+              <Option value='cliente'>cliente</Option>
+              <Option value='potenziale cliente'>potenziale cliente</Option>
+              <Option value='oppositore'>oppositore</Option>
+              <Option value='oppositore perdi tempo'>
                 oppositore perdi tempo
               </Option>
-              <Option value="ex cliente">ex cliente</Option>
+              <Option value='ex cliente'>ex cliente</Option>
             </Select>
           )}
         </Form.Item>
         <Form.Item
           labelCol={{ span: 8 }}
           wrapperCol={{ span: 12 }}
-          label="Data Contatto futuro"
-          labelAlign="left"
+          label='Data Contatto futuro'
+          labelAlign='left'
         >
           {getFieldDecorator('data_contatto_futuro')(
             <DatePicker locale={configDatePicker} />
@@ -256,7 +256,7 @@ class FormClientiStatefull extends React.Component {
         <Form.Item>
           {getFieldDecorator('note')(
             <TextArea
-              placeholder="note"
+              placeholder='note'
               autoSize={{ minRows: 2, maxRows: 10 }}
             />
           )}
@@ -264,8 +264,8 @@ class FormClientiStatefull extends React.Component {
         <Form.Item
           labelCol={{ span: 8 }}
           wrapperCol={{ span: 12 }}
-          label="Data Di Inserimento"
-          labelAlign="left"
+          label='Data Di Inserimento'
+          labelAlign='left'
         >
           {getFieldDecorator('data_inserimento')(
             <DatePicker disabled locale={configDatePicker} />
@@ -274,8 +274,8 @@ class FormClientiStatefull extends React.Component {
         <Form.Item
           labelCol={{ span: 8 }}
           wrapperCol={{ span: 12 }}
-          label="orario"
-          labelAlign="left"
+          label='orario'
+          labelAlign='left'
         >
           <ModalSelectRow
             childTableName={'settimane'}
@@ -298,8 +298,8 @@ class FormClientiStatefull extends React.Component {
         <Form.Item
           labelCol={{ span: 8 }}
           wrapperCol={{ span: 12 }}
-          label="proprietario"
-          labelAlign="left"
+          label='proprietario'
+          labelAlign='left'
         >
           <ModalSelectRow
             childTableName={'persone'}
@@ -336,53 +336,53 @@ export const FormDDV = Form.create({
 })(props => {
   const { getFieldDecorator } = props.form;
   return (
-    <Form layout="vertical">
+    <Form layout='vertical'>
       <Form.Item
         labelCol={{ span: 8 }}
         wrapperCol={{ span: 12 }}
-        label="Data"
-        labelAlign="left"
+        label='Data'
+        labelAlign='left'
       >
         {getFieldDecorator('data')(<DatePicker locale={configDatePicker} />)}
       </Form.Item>
       <Form.Item
-        label="km percorsi"
-        labelAlign="left"
+        label='km percorsi'
+        labelAlign='left'
         labelCol={{ span: 4 }}
         wrapperCol={{ span: 12 }}
       >
-        {getFieldDecorator('km')(<InputNumber autoComplete="new-" />)}
+        {getFieldDecorator('km')(<InputNumber autoComplete='new-' />)}
       </Form.Item>
       <Form.Item>
         {getFieldDecorator('zona_interessata')(
-          <Input autoComplete="new-" placeholder="Zona interessata" />
+          <Input autoComplete='new-' placeholder='Zona interessata' />
         )}
       </Form.Item>
       <Form.Item
-        labelAlign="left"
-        label="Tipo"
+        labelAlign='left'
+        label='Tipo'
         labelCol={{ span: 8 }}
         wrapperCol={{ span: 12 }}
       >
         {getFieldDecorator('tipo')(
           <Select>
-            <Option value="vendita">vendita</Option>
-            <Option value="conoscenza">conoscenza</Option>
-            <Option value="visita">visita</Option>
-            <Option value="altro">altro</Option>
+            <Option value='vendita'>vendita</Option>
+            <Option value='conoscenza'>conoscenza</Option>
+            <Option value='visita'>visita</Option>
+            <Option value='altro'>altro</Option>
           </Select>
         )}
       </Form.Item>
       <Form.Item>
         {getFieldDecorator('note')(
-          <TextArea placeholder="note" autoSize={{ minRows: 2, maxRows: 10 }} />
+          <TextArea placeholder='note' autoSize={{ minRows: 2, maxRows: 10 }} />
         )}
       </Form.Item>
       <Form.Item
         labelCol={{ span: 8 }}
         wrapperCol={{ span: 12 }}
-        label="veicolo"
-        labelAlign="left"
+        label='veicolo'
+        labelAlign='left'
       >
         <ModalSelectRow
           childTableName={TABLENAMES.VEICOLI}
@@ -393,8 +393,8 @@ export const FormDDV = Form.create({
       <Form.Item
         labelCol={{ span: 8 }}
         wrapperCol={{ span: 12 }}
-        label="capo viaggio"
-        labelAlign="left"
+        label='capo viaggio'
+        labelAlign='left'
       >
         <ModalSelectRow
           childTableName={TABLENAMES.PERSONE}
@@ -405,8 +405,8 @@ export const FormDDV = Form.create({
       <Form.Item
         labelCol={{ span: 8 }}
         wrapperCol={{ span: 12 }}
-        label="assistente"
-        labelAlign="left"
+        label='assistente'
+        labelAlign='left'
       >
         <ModalSelectRow
           childTableName={TABLENAMES.PERSONE}
@@ -442,23 +442,23 @@ export const FormDepositi = Form.create({
 })(props => {
   const { getFieldDecorator } = props.form;
   return (
-    <Form layout="vertical">
+    <Form layout='vertical'>
       <Form.Item>
         {getFieldDecorator('luogo')(
-          <Input autoComplete="new-" placeholder="luogo" />
+          <Input autoComplete='new-' placeholder='luogo' />
         )}
       </Form.Item>
       <Form.Item
-        label="capienza"
-        labelAlign="left"
+        label='capienza'
+        labelAlign='left'
         labelCol={{ span: 4 }}
         wrapperCol={{ span: 12 }}
       >
-        {getFieldDecorator('capienza')(<InputNumber autoComplete="new-" />)}
+        {getFieldDecorator('capienza')(<InputNumber autoComplete='new-' />)}
       </Form.Item>
       <Form.Item>
         {getFieldDecorator('note')(
-          <TextArea placeholder="note" autoSize={{ minRows: 2, maxRows: 10 }} />
+          <TextArea placeholder='note' autoSize={{ minRows: 2, maxRows: 10 }} />
         )}
       </Form.Item>
     </Form>
@@ -489,50 +489,50 @@ export const FormMerci = Form.create({
 })(props => {
   const { getFieldDecorator } = props.form;
   return (
-    <Form layout="vertical">
+    <Form layout='vertical'>
       <Form.Item>
         {getFieldDecorator('nome')(
-          <Input autoComplete="new-" placeholder="Nome" />
+          <Input autoComplete='new-' placeholder='Nome' />
         )}
       </Form.Item>
       <Form.Item
         labelCol={{ span: 8 }}
         wrapperCol={{ span: 12 }}
-        label="Data scadenza"
-        labelAlign="left"
+        label='Data scadenza'
+        labelAlign='left'
       >
         {getFieldDecorator('scadenza')(
           <DatePicker locale={configDatePicker} />
         )}
       </Form.Item>
       <Form.Item
-        label="Costo unitario"
-        labelAlign="left"
+        label='Costo unitario'
+        labelAlign='left'
         labelCol={{ span: 4 }}
         wrapperCol={{ span: 12 }}
       >
         {getFieldDecorator('costo_unitario')(
-          <InputNumber autoComplete="new-" />
+          <InputNumber autoComplete='new-' />
         )}
       </Form.Item>
       <Form.Item
-        label="Peso unitario"
-        labelAlign="left"
+        label='Peso unitario'
+        labelAlign='left'
         labelCol={{ span: 4 }}
         wrapperCol={{ span: 12 }}
       >
         {getFieldDecorator('peso_unitario')(
-          <InputNumber autoComplete="new-" />
+          <InputNumber autoComplete='new-' />
         )}
       </Form.Item>
       <Form.Item>
         {getFieldDecorator('tipo')(
-          <Input autoComplete="new-" placeholder="Tipo" />
+          <Input autoComplete='new-' placeholder='Tipo' />
         )}
       </Form.Item>
       <Form.Item>
         {getFieldDecorator('note')(
-          <TextArea placeholder="note" autoSize={{ minRows: 2, maxRows: 10 }} />
+          <TextArea placeholder='note' autoSize={{ minRows: 2, maxRows: 10 }} />
         )}
       </Form.Item>
     </Form>
@@ -563,17 +563,17 @@ export const FormProdotti = Form.create({
 })(props => {
   const { getFieldDecorator } = props.form;
   return (
-    <Form layout="vertical">
+    <Form layout='vertical'>
       <Form.Item>
         {getFieldDecorator('nome')(
-          <Input autoComplete="new-" placeholder="Nome" />
+          <Input autoComplete='new-' placeholder='Nome' />
         )}
       </Form.Item>
       <Form.Item
         labelCol={{ span: 8 }}
         wrapperCol={{ span: 12 }}
-        label="Data scadenza"
-        labelAlign="left"
+        label='Data scadenza'
+        labelAlign='left'
       >
         {getFieldDecorator('data_scadenza')(
           <DatePicker locale={configDatePicker} />
@@ -582,61 +582,61 @@ export const FormProdotti = Form.create({
       <Form.Item
         labelCol={{ span: 8 }}
         wrapperCol={{ span: 12 }}
-        label="Data confezionamento"
-        labelAlign="left"
+        label='Data confezionamento'
+        labelAlign='left'
       >
         {getFieldDecorator('data_confezionamento')(
           <DatePicker locale={configDatePicker} />
         )}
       </Form.Item>
       <Form.Item
-        label="Costo unitario"
-        labelAlign="left"
+        label='Costo unitario'
+        labelAlign='left'
         labelCol={{ span: 4 }}
         wrapperCol={{ span: 12 }}
       >
         {getFieldDecorator('costo_unitario')(
-          <InputNumber autoComplete="new-" />
+          <InputNumber autoComplete='new-' />
         )}
       </Form.Item>
       <Form.Item
-        label="Peso unitario"
-        labelAlign="left"
+        label='Peso unitario'
+        labelAlign='left'
         labelCol={{ span: 4 }}
         wrapperCol={{ span: 12 }}
       >
         {getFieldDecorator('peso_unitario')(
-          <InputNumber autoComplete="new-" />
+          <InputNumber autoComplete='new-' />
         )}
       </Form.Item>
       <Form.Item
-        label="Quantità"
-        labelAlign="left"
+        label='Quantità'
+        labelAlign='left'
         labelCol={{ span: 4 }}
         wrapperCol={{ span: 12 }}
       >
-        {getFieldDecorator('quantita')(<InputNumber autoComplete="new-" />)}
+        {getFieldDecorator('quantita')(<InputNumber autoComplete='new-' />)}
       </Form.Item>
       <Form.Item>
         {getFieldDecorator('tipo')(
-          <Input autoComplete="new-" placeholder="Tipo" />
+          <Input autoComplete='new-' placeholder='Tipo' />
         )}
       </Form.Item>
       <Form.Item>
         {getFieldDecorator('lotto')(
-          <Input autoComplete="new-" placeholder="Lotto" />
+          <Input autoComplete='new-' placeholder='Lotto' />
         )}
       </Form.Item>
       <Form.Item>
         {getFieldDecorator('note')(
-          <TextArea placeholder="note" autoSize={{ minRows: 2, maxRows: 10 }} />
+          <TextArea placeholder='note' autoSize={{ minRows: 2, maxRows: 10 }} />
         )}
       </Form.Item>
       <Form.Item
         labelCol={{ span: 8 }}
         wrapperCol={{ span: 12 }}
-        label="Deposito"
-        labelAlign="left"
+        label='Deposito'
+        labelAlign='left'
       >
         <ModalSelectRow
           childTableName={TABLENAMES.DEPOSITI}
@@ -672,33 +672,33 @@ export const FormLavorazioni = Form.create({
 })(props => {
   const { getFieldDecorator } = props.form;
   return (
-    <Form layout="vertical">
+    <Form layout='vertical'>
       <Form.Item
         labelCol={{ span: 8 }}
         wrapperCol={{ span: 12 }}
-        label="Data"
-        labelAlign="left"
+        label='Data'
+        labelAlign='left'
       >
         {getFieldDecorator('data')(<DatePicker locale={configDatePicker} />)}
       </Form.Item>
       <Form.Item
-        labelAlign="left"
-        label="Tipo"
+        labelAlign='left'
+        label='Tipo'
         labelCol={{ span: 8 }}
         wrapperCol={{ span: 12 }}
       >
         {getFieldDecorator('tipo')(
           <Select>
-            <Option value="mov1">mov1</Option>
-            <Option value="mov2">mov2</Option>
-            <Option value="op1">op1</Option>
-            <Option value="altro">altro</Option>
+            <Option value='mov1'>mov1</Option>
+            <Option value='mov2'>mov2</Option>
+            <Option value='op1'>op1</Option>
+            <Option value='altro'>altro</Option>
           </Select>
         )}
       </Form.Item>
       <Form.Item
-        label="Quantità"
-        labelAlign="left"
+        label='Quantità'
+        labelAlign='left'
         labelCol={{ span: 4 }}
         wrapperCol={{ span: 12 }}
       >
@@ -706,14 +706,14 @@ export const FormLavorazioni = Form.create({
       </Form.Item>
       <Form.Item>
         {getFieldDecorator('note')(
-          <TextArea placeholder="note" autoSize={{ minRows: 2, maxRows: 10 }} />
+          <TextArea placeholder='note' autoSize={{ minRows: 2, maxRows: 10 }} />
         )}
       </Form.Item>
       <Form.Item
         labelCol={{ span: 8 }}
         wrapperCol={{ span: 12 }}
-        label="Deposito prima"
-        labelAlign="left"
+        label='Deposito prima'
+        labelAlign='left'
       >
         <ModalSelectRow
           childTableName={TABLENAMES.DEPOSITI}
@@ -724,8 +724,8 @@ export const FormLavorazioni = Form.create({
       <Form.Item
         labelCol={{ span: 8 }}
         wrapperCol={{ span: 12 }}
-        label="Deposito dopo"
-        labelAlign="left"
+        label='Deposito dopo'
+        labelAlign='left'
       >
         <ModalSelectRow
           childTableName={TABLENAMES.DEPOSITI}
@@ -736,8 +736,8 @@ export const FormLavorazioni = Form.create({
       <Form.Item
         labelCol={{ span: 8 }}
         wrapperCol={{ span: 12 }}
-        label="Merce prima"
-        labelAlign="left"
+        label='Merce prima'
+        labelAlign='left'
       >
         <ModalSelectRow
           childTableName={TABLENAMES.MERCI}
@@ -748,8 +748,8 @@ export const FormLavorazioni = Form.create({
       <Form.Item
         labelCol={{ span: 8 }}
         wrapperCol={{ span: 12 }}
-        label="Merce dopo"
-        labelAlign="left"
+        label='Merce dopo'
+        labelAlign='left'
       >
         <ModalSelectRow
           childTableName={TABLENAMES.MERCI}
@@ -785,12 +785,12 @@ export const FormOrdini = Form.create({
 })(props => {
   const { getFieldDecorator } = props.form;
   return (
-    <Form layout="vertical">
+    <Form layout='vertical'>
       <Form.Item
         labelCol={{ span: 8 }}
         wrapperCol={{ span: 12 }}
-        label="Data Ordine"
-        labelAlign="left"
+        label='Data Ordine'
+        labelAlign='left'
       >
         {getFieldDecorator('data_ordine')(
           <DatePicker locale={configDatePicker} />
@@ -799,33 +799,33 @@ export const FormOrdini = Form.create({
       <Form.Item
         labelCol={{ span: 8 }}
         wrapperCol={{ span: 12 }}
-        label="Data consegna prevista"
-        labelAlign="left"
+        label='Data consegna prevista'
+        labelAlign='left'
       >
         {getFieldDecorator('data_prevista_consegna')(
           <DatePicker locale={configDatePicker} />
         )}
       </Form.Item>
       <Form.Item
-        labelAlign="left"
-        label="Come effettuato"
+        labelAlign='left'
+        label='Come effettuato'
         labelCol={{ span: 8 }}
         wrapperCol={{ span: 12 }}
       >
         {getFieldDecorator('come_effettuato')(
           <Select>
-            <Option value="telefono">telefono</Option>
-            <Option value="whatsapp">whatsapp</Option>
-            <Option value="email">email</Option>
-            <Option value="persona">persona</Option>
+            <Option value='telefono'>telefono</Option>
+            <Option value='whatsapp'>whatsapp</Option>
+            <Option value='email'>email</Option>
+            <Option value='persona'>persona</Option>
           </Select>
         )}
       </Form.Item>
       <Form.Item
         labelCol={{ span: 8 }}
         wrapperCol={{ span: 12 }}
-        label="Data consegna ultima"
-        labelAlign="left"
+        label='Data consegna ultima'
+        labelAlign='left'
       >
         {getFieldDecorator('data_ultima')(
           <DatePicker locale={configDatePicker} />
@@ -833,14 +833,14 @@ export const FormOrdini = Form.create({
       </Form.Item>
       <Form.Item>
         {getFieldDecorator('note')(
-          <TextArea placeholder="note" autoSize={{ minRows: 2, maxRows: 10 }} />
+          <TextArea placeholder='note' autoSize={{ minRows: 2, maxRows: 10 }} />
         )}
       </Form.Item>
       <Form.Item
         labelCol={{ span: 8 }}
         wrapperCol={{ span: 12 }}
-        label="Responsabile"
-        labelAlign="left"
+        label='Responsabile'
+        labelAlign='left'
       >
         <ModalSelectRow
           childTableName={TABLENAMES.PERSONE}
@@ -851,8 +851,8 @@ export const FormOrdini = Form.create({
       <Form.Item
         labelCol={{ span: 8 }}
         wrapperCol={{ span: 12 }}
-        label="Cliente"
-        labelAlign="left"
+        label='Cliente'
+        labelAlign='left'
       >
         <ModalSelectRow
           childTableName={TABLENAMES.CLIENTI}
@@ -888,41 +888,41 @@ export const FormSpedizioni = Form.create({
 })(props => {
   const { getFieldDecorator } = props.form;
   return (
-    <Form layout="vertical">
+    <Form layout='vertical'>
       <Form.Item
         labelCol={{ span: 8 }}
         wrapperCol={{ span: 12 }}
-        label="Data Ritiro"
-        labelAlign="left"
+        label='Data Ritiro'
+        labelAlign='left'
       >
         {getFieldDecorator('data_ritiro')(
           <DatePicker locale={configDatePicker} />
         )}
       </Form.Item>
       <Form.Item
-        labelAlign="left"
-        label="Servizio"
+        labelAlign='left'
+        label='Servizio'
         labelCol={{ span: 8 }}
         wrapperCol={{ span: 12 }}
       >
         {getFieldDecorator('servizio')(
           <Select>
-            <Option value="gls">gls</Option>
-            <Option value="brt">brt</Option>
-            <Option value="altro">altro</Option>
+            <Option value='gls'>gls</Option>
+            <Option value='brt'>brt</Option>
+            <Option value='altro'>altro</Option>
           </Select>
         )}
       </Form.Item>
       <Form.Item>
         {getFieldDecorator('note')(
-          <TextArea placeholder="note" autoSize={{ minRows: 2, maxRows: 10 }} />
+          <TextArea placeholder='note' autoSize={{ minRows: 2, maxRows: 10 }} />
         )}
       </Form.Item>
       <Form.Item
         labelCol={{ span: 8 }}
         wrapperCol={{ span: 12 }}
-        label="Responsabile"
-        labelAlign="left"
+        label='Responsabile'
+        labelAlign='left'
       >
         <ModalSelectRow
           childTableName={TABLENAMES.PERSONE}
@@ -958,45 +958,45 @@ export const FormSettimane = Form.create({
 })(props => {
   const { getFieldDecorator } = props.form;
   return (
-    <Form layout="vertical">
+    <Form layout='vertical'>
       <Form.Item>
         {getFieldDecorator('lunedi')(
-          <Input autoComplete="new-" placeholder="Lunedì" />
+          <Input autoComplete='new-' placeholder='Lunedì' />
         )}
       </Form.Item>
       <Form.Item>
         {getFieldDecorator('martedi')(
-          <Input autoComplete="new-" placeholder="Martedì" />
+          <Input autoComplete='new-' placeholder='Martedì' />
         )}
       </Form.Item>
       <Form.Item>
         {getFieldDecorator('mercoledi')(
-          <Input autoComplete="new-" placeholder="Mercoledì" />
+          <Input autoComplete='new-' placeholder='Mercoledì' />
         )}
       </Form.Item>
       <Form.Item>
         {getFieldDecorator('giovedi')(
-          <Input autoComplete="new-" placeholder="Giovedì" />
+          <Input autoComplete='new-' placeholder='Giovedì' />
         )}
       </Form.Item>
       <Form.Item>
         {getFieldDecorator('venerdi')(
-          <Input autoComplete="new-" placeholder="Venerdì" />
+          <Input autoComplete='new-' placeholder='Venerdì' />
         )}
       </Form.Item>
       <Form.Item>
         {getFieldDecorator('sabato')(
-          <Input autoComplete="new-" placeholder="Sabato" />
+          <Input autoComplete='new-' placeholder='Sabato' />
         )}
       </Form.Item>
       <Form.Item>
         {getFieldDecorator('domenica')(
-          <Input autoComplete="new-" placeholder="Domenica" />
+          <Input autoComplete='new-' placeholder='Domenica' />
         )}
       </Form.Item>
       <Form.Item>
         {getFieldDecorator('note')(
-          <TextArea placeholder="note" autoSize={{ minRows: 2, maxRows: 10 }} />
+          <TextArea placeholder='note' autoSize={{ minRows: 2, maxRows: 10 }} />
         )}
       </Form.Item>
     </Form>
