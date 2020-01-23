@@ -45,7 +45,6 @@ export default Form.create({
 })(props => {
   const { getFieldDecorator, getFieldError, isFieldTouched } = props.form;
   const usernameError = isFieldTouched('titolo') && getFieldError('titolo');
-  console.log(props);
   return (
     <Form layout='vertical'>
       <Form.Item validateStatus={''} help={''}>

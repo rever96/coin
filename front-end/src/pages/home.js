@@ -170,7 +170,7 @@ const parseEvents = props => {
       props.ordini.map(e => {
         return {
           id: e.id,
-          title: 'Ordine di ' + e.fk_cliente,
+          title: 'Ordine',
           start: moment(e.data_prevista_consegna).toDate(),
           end: moment(e.data_prevista_consegna).toDate(),
           color: 'green',

@@ -23,6 +23,7 @@ class MyLayout extends React.Component {
   componentDidMount() {
     fetchTable(TABLENAMES.EVENTI, this.props.dispatch);
     fetchTable(TABLENAMES.ORDINI, this.props.dispatch);
+    // fetchTable(TABLENAMES.CLIENTI, this.props.dispatch);
   }
 
   onCollapse = collapsed => {

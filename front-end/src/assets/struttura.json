@@ -67,7 +67,8 @@
         "editable": false,
         "render": "fk"
       }
-    ]
+    ],
+    "primaColonna": "intestazione_legale"
   },
   {
     "nome": "persone",
@@ -105,7 +106,8 @@
       {
         "nome": "fk_cliente"
       }
-    ]
+    ],
+    "primaColonna": "nome"
   },
   {
     "nome": "veicoli",
@@ -122,7 +124,8 @@
         "nome": "note",
         "editable": true
       }
-    ]
+    ],
+    "primaColonna": "targa"
   },
   {
     "nome": "ddv",
@@ -154,7 +157,8 @@
       {
         "nome": "fk_assistente"
       }
-    ]
+    ],
+    "primaColonna": "note"
   },
   {
     "nome": "depositi",
@@ -168,7 +172,8 @@
       {
         "nome": "note"
       }
-    ]
+    ],
+    "primaColonna": "luogo"
   },
   {
     "nome": "merci",
@@ -194,7 +199,8 @@
       {
         "nome": "peso_unitario"
       }
-    ]
+    ],
+    "primaColonna": "nome"
   },
   {
     "nome": "prodotti",
@@ -235,7 +241,8 @@
       {
         "nome": "fk_deposito"
       }
-    ]
+    ],
+    "primaColonna": "nome"
   },
   {
     "nome": "lavorazioni",
@@ -267,7 +274,8 @@
       {
         "nome": "fk_merce_dopo"
       }
-    ]
+    ],
+    "primaColonna": "note"
   },
   {
     "nome": "ordini",
@@ -302,7 +310,8 @@
       {
         "nome": "fk_cliente"
       }
-    ]
+    ],
+    "primaColonna": "note"
   },
   {
     "nome": "spedizioni",
@@ -322,7 +331,8 @@
       {
         "nome": "fk_responsabile"
       }
-    ]
+    ],
+    "primaColonna": "note"
   },
   {
     "nome": "settimane",
@@ -359,7 +369,8 @@
         "nome": "note",
         "editable": true
       }
-    ]
+    ],
+    "primaColonna": "note"
   },
   {
     "nome": "eventi",
@@ -379,6 +390,7 @@
       {
         "nome": "tipo"
       }
-    ]
+    ],
+    "primaColonna": "titolo"
   }
 ]

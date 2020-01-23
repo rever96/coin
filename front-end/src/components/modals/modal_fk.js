@@ -3,6 +3,7 @@ import { Modal, Button, Icon } from 'antd';
 import SelectRowTable from '../edi_table/sel_table';
 import { fetchTableIfMissing } from '../../data/tables';
 import { connect } from 'react-redux';
+import struttura from '../../assets/struttura';
 
 class ModalSelectRow extends React.Component {
   constructor(props) {
@@ -57,12 +58,17 @@ class ModalSelectRow extends React.Component {
 
   render() {
     const { visible } = this.state;
-    const { childTableName, fk, dispatch } = this.props;
+    const { childTableName, fk, dispatch, tableData } = this.props;
     return (
       <div>
         <Button type='primary' onClick={this.showModal}>
-          {this.state.fk && <Icon type='check' />}
-          {!this.state.fk && 'Inserire ' + childTableName}
+          {fk &&
+            tableData[childTableName] &&
+            tableData[childTableName].find(row => row.id === fk.value)[
+              struttura.find(tab => tab.nome === childTableName).primaColonna
+            ]}
+          {fk && !tableData[childTableName] && <Icon type='check' />}
+          {!fk && 'Inserire ' + childTableName}
         </Button>
         <Modal
           title={'Seleziona riferimento a ' + childTableName}
@@ -70,8 +76,6 @@ class ModalSelectRow extends React.Component {
           onOk={this.handleOk}
           onCancel={this.handleCancel}
           confirmLoading={this.state.confirmLoading}
-          // okText="Annulla"
-          // cancelText="Mantieni modifiche"
           width='90%'
         >
           <SelectRowTable
@@ -91,7 +95,8 @@ const mapStateToProps = (state, ownProps) => {
   const { fk } = ownProps;
   return {
     fetchedTables: state.fetchedTables,
-    fk
+    fk,
+    tableData: state.tableData
   };
 };
 
