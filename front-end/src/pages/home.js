@@ -28,19 +28,20 @@ class MyCalendar extends React.Component {
     this.modalCRUDEvents = React.createRef();
   }
 
-  // TODO funziona solo per gli eventi di tipo evento
   onEventResize = ({ event, start, end }) => {
     this.onEventDrop({ event, start, end });
   };
 
-  // TODO funziona solo per gli eventi di tipo evento
   onEventDrop = ({ event, start, end }) => {
+    if (event.table !== TABLENAMES.EVENTI) {
+      return;
+    }
     const evento = {
       data_inizio: start,
       data_fine: end,
       titolo: event.title,
       contenuto: event.content,
-      colore: event.color
+      tipo: event.color
     };
     updateTableRow(this.props.dispatch, TABLENAMES.EVENTI, event.id, evento)
       .then(() => {})
