@@ -360,5 +360,25 @@
         "editable": true
       }
     ]
+  },
+  {
+    "nome": "eventi",
+    "colonne": [
+      {
+        "nome": "data_inizio"
+      },
+      {
+        "nome": "data_fine"
+      },
+      {
+        "nome": "titolo"
+      },
+      {
+        "nome": "contenuto"
+      },
+      {
+        "nome": "tipo"
+      }
+    ]
   }
 ]

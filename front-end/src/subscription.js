@@ -24,7 +24,7 @@ function urlBase64ToUint8Array(base64String) {
 }
 
 function sendSubscription(subscription) {
-  console.log(subscription);
+  // console.log(subscription);
   return fetch(serverPath + 'notifications/subscribe', {
     method: 'POST',
     body: JSON.stringify(subscription),

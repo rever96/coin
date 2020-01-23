@@ -60,9 +60,10 @@ class MyCalendar extends React.Component {
     });
     switch (evento.table) {
       case TABLENAMES.EVENTI:
-        this.modalCRUDEvents.current.modificaEvento(evento);
+        this.modalCRUDEvents.modificaEvento(evento);
         break;
       case TABLENAMES.ORDINI:
+        this.modalCRUDEvents.modificaOrdine(evento);
         break;
       default:
         break;
@@ -89,8 +90,7 @@ class MyCalendar extends React.Component {
     return (
       <>
         <ModalCRUDEvents
-          ref={this.modalCRUDEvents}
-          dispatch={this.props.dispatch}
+          ref={ref => (this.modalCRUDEvents = ref)}
         ></ModalCRUDEvents>
         <Swipeable
           onSwipedLeft={() => this.changeWeek(SWIPE.RIGHT)}
@@ -117,9 +117,7 @@ class MyCalendar extends React.Component {
             onEventResize={this.onEventResize.bind(this)}
             onSelectEvent={e => this.onSelectEvent(e)}
             onView={view => (this.currentView = view)}
-            onSelectSlot={values =>
-              this.modalCRUDEvents.current.creaEvento(values)
-            }
+            onSelectSlot={values => this.modalCRUDEvents.creaEvento(values)}
             dayLayoutAlgorithm='no-overlap'
             style={{ height: 'calc(100vh - 64px - 90px - 16px)' }}
             resizable

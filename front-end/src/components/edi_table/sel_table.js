@@ -9,53 +9,47 @@ import { setRows } from '../../data/tables';
 class SelectRowTable extends React.Component {
   constructor(props) {
     super(props);
+    const colonne = struttura
+      .find(tabella => tabella.nome === this.props.tableName)
+      .colonne.map((c, key) => {
+        let colonna = {
+          ...c,
+          ...this.getColumnSearchProps(c.nome)
+        };
+        colonna.title = c.nome;
+        colonna.dataIndex = c.nome;
+        colonna.key = c.nome;
+
+        return colonna;
+      });
     this.state = {
       searchText: '',
       searchedColumn: '',
       righe: [],
-      colonne: [],
+      colonne,
       selectedRowKey: 0
     };
-    this.stillWaitingForData = true;
   }
 
-  componentDidMount() {
-    this.componentDidUpdate();
-  }
-
-  componentDidUpdate() {
-    if (this.stillWaitingForData && this.props.tableData) {
-      this.stillWaitingForData = false;
-      console.log('set selected key');
-      const righe = setRows(this.props.tableData);
-      let selectedRowKey = undefined;
-      if (this.props.id !== undefined) {
-        const previuosIndex = righe.findIndex(r => r.id === this.props.id);
-        const selectedRow = righe.splice(previuosIndex, 1)[0];
-        righe.splice(0, 0, selectedRow);
-        selectedRowKey = righe[0].key;
-      }
-      this.setState({
-        righe,
-        selectedRowKey
-      });
-      const colonne = struttura
-        .find(tabella => tabella.nome === this.props.tableName)
-        .colonne.map((c, key) => {
-          let colonna = {
-            ...c,
-            ...this.getColumnSearchProps(c.nome)
-          };
-          colonna.title = c.nome;
-          colonna.dataIndex = c.nome;
-          colonna.key = c.nome;
-
-          return colonna;
-        });
-      this.setState({
-        colonne
-      });
+  componentWillReceiveProps(nextProps) {
+    if (
+      !nextProps.tableData ||
+      (nextProps.id === this.props.id && this.props.tableData)
+    ) {
+      return;
     }
+    const righe = setRows(nextProps.tableData);
+    let selectedRowKey = undefined;
+    if (nextProps.id !== undefined) {
+      const previuosIndex = righe.findIndex(r => r.id === nextProps.id);
+      const selectedRow = righe.splice(previuosIndex, 1)[0];
+      righe.splice(0, 0, selectedRow);
+      selectedRowKey = righe[0].key;
+    }
+    this.setState({
+      righe,
+      selectedRowKey
+    });
   }
 
   onSelectChange = selectedRowKeys => {
@@ -104,17 +98,17 @@ class SelectRowTable extends React.Component {
           style={{ width: 188, marginBottom: 8, display: 'block' }}
         />
         <Button
-          type="primary"
+          type='primary'
           onClick={() => this.handleSearch(selectedKeys, confirm, dataIndex)}
-          icon="search"
-          size="small"
+          icon='search'
+          size='small'
           style={{ width: 90, marginRight: 8 }}
         >
           Search
         </Button>
         <Button
           onClick={() => this.handleReset(clearFilters)}
-          size="small"
+          size='small'
           style={{ width: 90 }}
         >
           Reset
@@ -122,7 +116,7 @@ class SelectRowTable extends React.Component {
       </div>
     ),
     filterIcon: filtered => (
-      <Icon type="search" style={{ color: filtered ? '#1890ff' : undefined }} />
+      <Icon type='search' style={{ color: filtered ? '#1890ff' : undefined }} />
     ),
     onFilter: (value, record) =>
       record[dataIndex]
@@ -161,28 +155,26 @@ class SelectRowTable extends React.Component {
   };
 
   render() {
-    if (this.stillWaitingForData) {
-      return <> spinner super figherrimo</>;
-    }
+    const { righe, colonne } = this.state;
     this.addSelectableFeature();
     return (
       <Table
         rowSelection={this.rowSelection}
-        columns={this.state.colonne}
-        dataSource={this.state.righe}
+        columns={colonne}
+        dataSource={righe}
       />
     );
   }
 }
 
 const mapStateToProps = (state, ownProps) => {
-  const { tableName } = ownProps;
+  const { tableName, id } = ownProps;
   if (
     !state.pending &&
     state.tableData[tableName] &&
     state.tableData[tableName].length > 0
   ) {
-    return { tableData: state.tableData[tableName] };
+    return { tableData: state.tableData[tableName], id };
   }
   return {};
 };

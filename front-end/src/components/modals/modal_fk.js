@@ -57,11 +57,11 @@ class ModalSelectRow extends React.Component {
 
   render() {
     const { visible } = this.state;
-    const { childTableName } = this.props;
+    const { childTableName, fk, dispatch } = this.props;
     return (
       <div>
-        <Button type="primary" onClick={this.showModal}>
-          {this.state.fk && <Icon type="check" />}
+        <Button type='primary' onClick={this.showModal}>
+          {this.state.fk && <Icon type='check' />}
           {!this.state.fk && 'Inserire ' + childTableName}
         </Button>
         <Modal
@@ -72,13 +72,13 @@ class ModalSelectRow extends React.Component {
           confirmLoading={this.state.confirmLoading}
           // okText="Annulla"
           // cancelText="Mantieni modifiche"
-          width="90%"
+          width='90%'
         >
           <SelectRowTable
             tableName={childTableName}
-            id={this.props.fk.value}
+            id={fk.value}
             visible={visible}
-            dispatch={this.props.dispatch}
+            dispatch={dispatch}
             changeForeignKey={this.changeForeignKey.bind(this)}
           ></SelectRowTable>
         </Modal>
@@ -88,10 +88,10 @@ class ModalSelectRow extends React.Component {
 }
 
 const mapStateToProps = (state, ownProps) => {
-  const { parentTableName } = ownProps;
+  const { fk } = ownProps;
   return {
     fetchedTables: state.fetchedTables,
-    tableData: state.tableData[parentTableName]
+    fk
   };
 };
 

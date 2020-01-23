@@ -10,6 +10,7 @@ import {
   deleteTableRow
 } from '../../data/tables';
 import struttura from '../../assets/struttura';
+import { connect } from 'react-redux';
 
 const { Option } = Select;
 
@@ -32,6 +33,8 @@ class ModalCRUDEvents extends React.Component {
       visible: true,
       formState: FORMSTATE.CREA,
       formTable: TABLENAMES.EVENTI,
+      start,
+      end,
       fields: {
         data: { value: moment(start) },
         ora_inizio: { value: moment(start) },
@@ -57,6 +60,27 @@ class ModalCRUDEvents extends React.Component {
         contenuto: { value: evento.content },
         colore: { value: evento.color }
       }
+    });
+  };
+
+  modificaOrdine = evento => {
+    let fields = {};
+    const row = this.props.tableData[evento.table].find(
+      row => row.id === evento.id
+    );
+    for (const col in row) {
+      if (col.startsWith('data')) {
+        fields[col] = { value: moment(row[col]) };
+        continue;
+      }
+      fields[col] = { value: row[col] };
+    }
+    fields.id = evento.id;
+    this.setState({
+      visible: true,
+      formState: FORMSTATE.MODIFICA,
+      formTable: evento.table,
+      fields
     });
   };
 
@@ -123,8 +147,14 @@ class ModalCRUDEvents extends React.Component {
   };
 
   creaOrdineSubmit = () => {
+    const { fields, formTable } = this.state;
     let evento = {};
-    createTableRow(this.props.dispatch, TABLENAMES.ORDINI, evento)
+    struttura
+      .find(tabella => tabella.nome === formTable)
+      .colonne.forEach(colonna => {
+        evento[colonna.nome] = fields[colonna.nome].value;
+      });
+    createTableRow(this.props.dispatch, formTable, evento)
       .then(id => {
         this.setState({
           visible: false,
@@ -139,6 +169,19 @@ class ModalCRUDEvents extends React.Component {
           duration: 0
         });
       });
+  };
+
+  modificaSubmit = () => {
+    switch (this.state.formTable) {
+      case TABLENAMES.EVENTI:
+        this.modificaEventoSubmit();
+        break;
+      case TABLENAMES.ORDINI:
+        this.modificaOrdineSubmit();
+        break;
+      default:
+        break;
+    }
   };
 
   modificaEventoSubmit = () => {
@@ -175,6 +218,34 @@ class ModalCRUDEvents extends React.Component {
       tipo: colore.value
     };
     updateTableRow(this.props.dispatch, TABLENAMES.EVENTI, id, evento)
+      .then(() => {
+        this.setState({
+          visible: false,
+          confirmLoading: false
+        });
+      })
+      .catch(error => {
+        notification.error({
+          message: `Operazione fallita`,
+          description: error.toString(),
+          placement: 'bottomRight',
+          duration: 0
+        });
+      });
+  };
+
+  modificaOrdineSubmit = () => {
+    this.setState({
+      confirmLoading: true
+    });
+    const { fields, formTable } = this.state;
+    let evento = {};
+    struttura
+      .find(tabella => tabella.nome === formTable)
+      .colonne.forEach(colonna => {
+        evento[colonna.nome] = fields[colonna.nome].value;
+      });
+    updateTableRow(this.props.dispatch, formTable, fields.id, evento)
       .then(() => {
         this.setState({
           visible: false,
@@ -232,7 +303,7 @@ class ModalCRUDEvents extends React.Component {
   };
 
   modificaFormFields = formTable => {
-    const { data } = this.state.fields;
+    const { start, end } = this.state;
     let fields = {};
     switch (formTable) {
       case TABLENAMES.ORDINI:
@@ -244,11 +315,21 @@ class ModalCRUDEvents extends React.Component {
               return;
             }
             if (colonna.nome === 'data_prevista_consegna') {
-              fields[colonna.nome] = { value: data.value };
+              fields[colonna.nome] = { value: moment(start) };
               return;
             }
             fields[colonna.nome] = { value: undefined };
           });
+        break;
+      case TABLENAMES.EVENTI:
+        fields = {
+          data: { value: moment(start) },
+          ora_inizio: { value: moment(start) },
+          ora_fine: { value: moment(end) },
+          titolo: { value: '' },
+          contenuto: { value: '' },
+          colore: { value: 'gray' }
+        };
         break;
       default:
         break;
@@ -273,10 +354,7 @@ class ModalCRUDEvents extends React.Component {
             </Col>
             <Col span={12}>
               <Select
-                disabled={
-                  formState === FORMSTATE.MODIFICA ||
-                  formTable !== TABLENAMES.EVENTI
-                }
+                disabled={formState === FORMSTATE.MODIFICA}
                 value={formTable}
                 onChange={value => this.modificaFormFields(value)}
               >
@@ -305,7 +383,7 @@ class ModalCRUDEvents extends React.Component {
                   key={2}
                   type='primary'
                   loading={this.state.confirmLoading}
-                  onClick={this.modificaEventoSubmit}
+                  onClick={this.modificaSubmit}
                 >
                   Salva
                 </Button>
@@ -342,4 +420,10 @@ class ModalCRUDEvents extends React.Component {
   }
 }
 
-export default ModalCRUDEvents;
+const mapStateToProps = (state, ownProps) => {
+  return { tableData: state.tableData };
+};
+
+export default connect(mapStateToProps, null, null, { forwardRef: true })(
+  ModalCRUDEvents
+);
