@@ -1,6 +1,7 @@
 import React from 'react';
 import { Form, Input, TimePicker, DatePicker, Select } from 'antd';
 import configDatePicker from '../../assets/Lang/it-IT/datepicker.json';
+import './eventoForm.css';
 
 const { TextArea } = Input;
 const { Option } = Select;
@@ -44,6 +45,7 @@ export default Form.create({
 })(props => {
   const { getFieldDecorator, getFieldError, isFieldTouched } = props.form;
   const usernameError = isFieldTouched('titolo') && getFieldError('titolo');
+  console.log(props);
   return (
     <Form layout='vertical'>
       <Form.Item validateStatus={''} help={''}>
@@ -76,12 +78,26 @@ export default Form.create({
         wrapperCol={{ span: 12 }}
       >
         {getFieldDecorator('colore')(
-          <Select>
-            <Option value='blue'>blue</Option>
-            <Option value='yellow'>yellow</Option>
-            <Option value='green'>green</Option>
-            <Option value='red'>red</Option>
-            <Option value='gray'>gray</Option>
+          <Select
+            className='selectColor'
+            style={{ backgroundColor: props.colore.value }}
+          >
+            <Option
+              style={{ backgroundColor: 'cornflowerblue', height: '30px' }}
+              value='cornflowerblue'
+            ></Option>
+            <Option
+              style={{ backgroundColor: 'blueviolet', height: '30px' }}
+              value='blueviolet'
+            ></Option>
+            <Option
+              style={{ backgroundColor: 'red', height: '30px' }}
+              value='red'
+            ></Option>
+            <Option
+              style={{ backgroundColor: 'gray', height: '30px' }}
+              value='gray'
+            ></Option>
           </Select>
         )}
       </Form.Item>
