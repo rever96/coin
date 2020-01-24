@@ -58,17 +58,18 @@ class ModalSelectRow extends React.Component {
 
   render() {
     const { visible } = this.state;
-    const { childTableName, fk, dispatch, tableData } = this.props;
+    const { childTableName, fk, tableData } = this.props;
     return (
       <div>
         <Button type='primary' onClick={this.showModal}>
-          {fk &&
+          {fk.value &&
             tableData[childTableName] &&
+            // tableData[childTableName].find(row => row.id === fk.value) &&
             tableData[childTableName].find(row => row.id === fk.value)[
               struttura.find(tab => tab.nome === childTableName).primaColonna
             ]}
-          {fk && !tableData[childTableName] && <Icon type='check' />}
-          {!fk && 'Inserire ' + childTableName}
+          {fk.value && !tableData[childTableName] && <Icon type='check' />}
+          {!fk.value && 'Inserire ' + childTableName}
         </Button>
         <Modal
           title={'Seleziona riferimento a ' + childTableName}
@@ -81,8 +82,6 @@ class ModalSelectRow extends React.Component {
           <SelectRowTable
             tableName={childTableName}
             id={fk.value}
-            visible={visible}
-            dispatch={dispatch}
             changeForeignKey={this.changeForeignKey.bind(this)}
           ></SelectRowTable>
         </Modal>

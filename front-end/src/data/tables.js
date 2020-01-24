@@ -7,6 +7,7 @@ import {
   actionDeleteTableRow
 } from './actions';
 import { serverPath } from '../environment';
+// import moment from 'moment';
 
 export const TABLENAMES = {
   CLIENTI: 'clienti',
@@ -147,40 +148,63 @@ export function setTable(tableName, dispatch, data) {
 }
 
 // TODO separare logica dal tipo dei dati utilizzando un file di configurazione
+// export function setRows(tableData) {
+//   console.log('set local rows (codice pericolante)');
+//   if (!tableData || tableData.lenght <= 0) {
+//     return [];
+//   }
+//   const rows = tableData.map((r, key) => {
+//     let cr = { ...r };
+//     cr.key = key;
+//     if (cr.indirizzo || cr.indirizzo === '') {
+//       cr.indirizzo = {
+//         id: r.id,
+//         name: r.indirizzo,
+//         value: r.gmap,
+//         columnLink: 'gmap',
+//         columnAddress: 'indirizzo'
+//       };
+//     }
+//     if (cr.fk_orario || cr.fk_orario === '') {
+//       cr.fk_orario = {
+//         id: r.id,
+//         value: r.fk_orario,
+//         rifTable: 'settimane',
+//         rifColumn: 'fk_orario'
+//       };
+//     }
+//     if (cr.fk_proprietario || cr.fk_proprietario === '') {
+//       cr.fk_proprietario = {
+//         id: r.id,
+//         value: r.fk_proprietario,
+//         rifTable: 'persone',
+//         rifColumn: 'fk_proprietario'
+//       };
+//     }
+//     if (cr.fk_proprietario || cr.fk_proprietario === '') {
+//       cr.fk_proprietario = {
+//         id: r.id,
+//         value: r.fk_proprietario,
+//         rifTable: 'persone',
+//         rifColumn: 'fk_proprietario'
+//       };
+//     }
+//     return cr;
+//   });
+//   return [...rows];
+// }
 export function setRows(tableData) {
-  console.log('set local rows (codice pericolante)');
+  console.log('set local rows');
   if (!tableData || tableData.lenght <= 0) {
     return [];
   }
-  const rows = tableData.map((r, key) => {
-    let cr = { ...r };
-    cr.key = key;
-    if (cr.indirizzo || cr.indirizzo === '') {
-      cr.indirizzo = {
-        id: r.id,
-        name: r.indirizzo,
-        value: r.gmap,
-        columnLink: 'gmap',
-        columnAddress: 'indirizzo'
-      };
-    }
-    if (cr.fk_orario || cr.fk_orario === '') {
-      cr.fk_orario = {
-        id: r.id,
-        value: r.fk_orario,
-        rifTable: 'settimane',
-        rifColumn: 'fk_orario'
-      };
-    }
-    if (cr.fk_proprietario || cr.fk_proprietario === '') {
-      cr.fk_proprietario = {
-        id: r.id,
-        value: r.fk_proprietario,
-        rifTable: 'persone',
-        rifColumn: 'fk_proprietario'
-      };
-    }
-    return cr;
+  return tableData.map((row, key) => {
+    // for (const col in row) {
+    //   if (col.startsWith('data')) {
+    //     row[col] = moment(row[col]).toISOString();
+    //   }
+    // }
+    row['key'] = key;
+    return row;
   });
-  return [...rows];
 }

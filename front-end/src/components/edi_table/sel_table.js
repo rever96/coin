@@ -1,16 +1,42 @@
 import React from 'react';
-import { Table, Input, Button, Icon } from 'antd';
+import { Table, Input, Button, Icon, DatePicker } from 'antd';
 import Highlighter from 'react-highlight-words';
 import { connect } from 'react-redux';
 import struttura from '../../assets/struttura.json';
 import { setRows } from '../../data/tables';
-// import { setTable } from '../../data/tables';
+import moment from 'moment';
+import configDatePicker from '../../assets/Lang/it-IT/datepicker.json';
 
 class SelectRowTable extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {
+      searchText: '',
+      searchedColumn: '',
+      righe: [],
+      colonne: [],
+      selectedRowKey: 0
+    };
+  }
+
+  componentDidMount() {
+    if (this.props.tableData) {
+      this.updateMe();
+    }
+  }
+  componentDidUpdate() {
+    if (this.props.tableData && this.state.colonne.length === 0) {
+      this.updateMe();
+    }
+  }
+
+  updateMe() {
+    const { tableData, tableName, id } = this.props;
+    if (!tableData) {
+      return;
+    }
     const colonne = struttura
-      .find(tabella => tabella.nome === this.props.tableName)
+      .find(tabella => tabella.nome === tableName)
       .colonne.map((c, key) => {
         let colonna = {
           ...c,
@@ -19,35 +45,28 @@ class SelectRowTable extends React.Component {
         colonna.title = c.nome;
         colonna.dataIndex = c.nome;
         colonna.key = c.nome;
-
+        if (c.nome.startsWith('data')) {
+          colonna.render = v => (
+            <DatePicker
+              defaultValue={v ? moment(v) : null}
+              locale={configDatePicker}
+              disabled
+            ></DatePicker>
+          );
+        }
         return colonna;
       });
-    this.state = {
-      searchText: '',
-      searchedColumn: '',
-      righe: [],
-      colonne,
-      selectedRowKey: 0
-    };
-  }
-
-  componentWillReceiveProps(nextProps) {
-    if (
-      !nextProps.tableData ||
-      (nextProps.id === this.props.id && this.props.tableData)
-    ) {
-      return;
-    }
-    const righe = setRows(nextProps.tableData);
+    const righe = setRows(tableData);
     let selectedRowKey = undefined;
-    if (nextProps.id !== undefined) {
-      const previuosIndex = righe.findIndex(r => r.id === nextProps.id);
+    if (id !== undefined) {
+      const previuosIndex = righe.findIndex(r => r.id === id);
       const selectedRow = righe.splice(previuosIndex, 1)[0];
       righe.splice(0, 0, selectedRow);
       selectedRowKey = righe[0].key;
     }
     this.setState({
       righe,
+      colonne,
       selectedRowKey
     });
   }
@@ -120,16 +139,18 @@ class SelectRowTable extends React.Component {
     ),
     onFilter: (value, record) =>
       record[dataIndex]
-        .toString()
-        .toLowerCase()
-        .includes(value.toLowerCase()),
+        ? record[dataIndex]
+            .toString()
+            .toLowerCase()
+            .includes(value.toLowerCase())
+        : false,
     onFilterDropdownVisibleChange: visible => {
       if (visible) {
         setTimeout(() => this.searchInput.select());
       }
     },
     render: text =>
-      this.state.searchedColumn === dataIndex ? (
+      this.state.searchedColumn === dataIndex && text ? (
         <Highlighter
           highlightStyle={{ backgroundColor: '#ffc069', padding: 0 }}
           searchWords={[this.state.searchText]}
