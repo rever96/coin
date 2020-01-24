@@ -7,7 +7,7 @@ const webpush = require('web-push');
 
 const Struttura = require('./controllers/Struttura');
 const Dati = require('./controllers/Dati');
-
+const Functions = require('./functions');
 const vapidDetails = {
   subject: 'mailto:rever22411@gmail.com',
   publicKey:
@@ -23,6 +23,8 @@ webpush.setVapidDetails(
 );
 
 let listOfSubcriptions = [];
+
+Functions.startPushNotifications();
 
 const app = express();
 app.use((req, res, next) => {
@@ -60,8 +62,8 @@ app.post('/notifications/subscribe', (req, res) => {
 });
 app.post('/api/notify', (req, res) => {
   const payload = JSON.stringify({
-    title: 'Hello!',
-    body: 'It works.'
+    title: req.body.title,
+    body: req.body.content
   });
   listOfSubcriptions.forEach(subscription => {
     webpush

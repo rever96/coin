@@ -19,6 +19,7 @@
     "moment": "2.22.2",
     "node-pushnotifications": "^1.2.0",
     "pg": "^7.12.1",
+    "request": "^2.88.0",
     "save": "^2.4.0",
     "stripe": "^7.10.0",
     "web-push": "^3.4.3"
