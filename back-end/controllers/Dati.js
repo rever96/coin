@@ -1,8 +1,16 @@
 const db = require('./db');
 const uuidv4 = require('uuid/v4');
 
+// {table: 'eventi', filters: [{col: 'id', data: '00'}]}
 exports.select = async function(req, res) {
-  const query = `SELECT * FROM ` + req.body.table;
+  let query = `SELECT * FROM ` + req.body.table;
+  if (req.body.filters) {
+    query = req.body.filters.reduce(
+      (acc, v) => acc + v.col + ` = '` + v.data + `' AND `,
+      query + ` WHERE `
+    );
+    query = query.substring(0, query.length - 4);
+  }
   try {
     await db.query(query).then(result => {
       return res.status(201).json(result.rows);
