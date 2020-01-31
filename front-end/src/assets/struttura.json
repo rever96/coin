@@ -75,11 +75,13 @@
     "colonne": [
       {
         "nome": "nome",
-        "editable": true
+        "editable": true,
+        "width": 150
       },
       {
         "nome": "cognome",
-        "editable": true
+        "editable": true,
+        "width": 150
       },
       {
         "nome": "data_nascita",
@@ -89,22 +91,27 @@
       },
       {
         "nome": "telefono",
-        "editable": true
+        "editable": true,
+        "width": 150
       },
       {
         "nome": "email",
-        "editable": true
+        "editable": true,
+        "width": 150
       },
       {
         "nome": "note",
-        "editable": true
+        "editable": true,
+        "width": 150
       },
       {
         "nome": "ruolo",
-        "editable": true
+        "editable": true,
+        "width": 150
       },
       {
-        "nome": "fk_cliente"
+        "nome": "fk_cliente",
+        "width": 150
       }
     ],
     "primaColonna": "nome"
